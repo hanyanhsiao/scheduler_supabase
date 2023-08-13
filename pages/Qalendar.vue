@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="flex">
+    <sideBar />
     <Qalendar :events="events" :config="config" />
   </div>
 </template>

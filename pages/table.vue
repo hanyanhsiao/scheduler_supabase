@@ -1,5 +1,8 @@
 <template>
-  <EasyDataTable :headers="headers" :items="items" />
+  <div class="flex">
+    <sideBar />
+    <EasyDataTable :headers="headers" :items="items" />
+  </div>
 </template>
 
 <script lang="ts" setup>
