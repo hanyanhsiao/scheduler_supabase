@@ -1,6 +1,7 @@
 <script setup>
 const showDetails = ref(false)
-const colSpan = ref(6)
+
+const addClass = ref(false)
 </script>
 
 <template>
@@ -9,17 +10,19 @@ const colSpan = ref(6)
       <!-- 側邊欄 -->
       <sideBar />
       <!-- 右側表格 -->
-      <div class="w-full border bg-neutral-200 p-4">
+      <div class="relative w-full border bg-neutral-200 p-4">
         <!-- 上方按鈕 -->
-        <div class="addClass">
+        <div class="">
           <button
             class="inline-flex place-items-center rounded bg-primary px-4 py-2 font-bold hover:bg-secondary"
+            @click="addClass = !addClass"
           >
-            <span>新增課程</span><Icon name="clarity:add-line" cursor-pointer />
+            <span>新增課程</span>
+            <Icon name="clarity:add-line" cursor-pointer />
           </button>
         </div>
         <!-- 下方列表 -->
-        <div class="flex w-full items-center justify-start rounded">
+        <div class="relative flex w-full items-center justify-start rounded">
           <div class="my-6 bg-white shadow-md">
             <table class="mx-auto w-full min-w-max table-auto">
               <!-- 表格標題 -->
@@ -62,7 +65,7 @@ const colSpan = ref(6)
                 </tr>
                 <!-- 詳細內容 -->
                 <tr class="items-center justify-between border-b-2 font-bold" v-show="showDetails">
-                  <td class="px-6 py-3 text-left" colspan="3">詳細內容: 生僻字教學、破音字教學</td>
+                  <td class="px-6 py-3 text-left" colspan="3">生僻字教學、破音字教學</td>
                   <td class="px-6 py-3 text-right" colspan="3">更新日期: 2023/11/07</td>
                 </tr>
                 <tr
@@ -92,6 +95,7 @@ const colSpan = ref(6)
               </tbody>
             </table>
           </div>
+          <addNewClass class="absolute left-1/2 top-1/2 -translate-x-1/2" v-if="addClass" />
         </div>
       </div>
     </div>
