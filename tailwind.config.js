@@ -13,7 +13,7 @@ module.exports = {
         colors: {
             primary: '#fffbeb',
             secondary: '#fed7aa',
-            third:'#d97706',
+            third:'#fb923c',
             fourth:'#92400e'
         }
       }

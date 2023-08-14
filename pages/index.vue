@@ -2,23 +2,26 @@
 const showDetails = ref(false)
 
 const addClass = ref(false)
+const close = () => {
+  addClass.value = false
+}
 </script>
 
 <template>
   <div class="">
-    <div class="flex">
+    <div class="flex w-full">
       <!-- 側邊欄 -->
       <sideBar />
       <!-- 右側表格 -->
-      <div class="relative w-full border bg-neutral-200 p-4">
+      <div class="relative w-screen border bg-neutral-200 p-4">
         <!-- 上方按鈕 -->
         <div class="">
           <button
-            class="inline-flex place-items-center rounded bg-primary px-4 py-2 font-bold hover:bg-secondary"
+            class="flex w-32 items-center justify-center rounded-lg bg-primary px-4 py-2 font-bold transition-all hover:bg-secondary active:scale-90"
             @click="addClass = !addClass"
           >
-            <span>新增課程</span>
-            <Icon name="clarity:add-line" cursor-pointer />
+            <span>新增課程 </span>
+            <Icon name="clarity:add-line" />
           </button>
         </div>
         <!-- 下方列表 -->
@@ -55,10 +58,16 @@ const addClass = ref(false)
                   </td>
                   <td class="px-6 py-3 text-center">台北市中山區中山捷運站</td>
                   <td class="item-center flex justify-center px-6 py-3 text-center">
-                    <div class="mr-2 w-4 transform hover:scale-110 hover:text-third">
+                    <!-- 修改 -->
+                    <div
+                      class="mr-2 flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:scale-110 hover:bg-secondary active:scale-90"
+                    >
                       <Icon name="zondicons:edit-pencil" />
                     </div>
-                    <div class="mr-2 w-4 transform hover:scale-110 hover:text-third">
+                    <!-- 刪除 -->
+                    <div
+                      class="mr-2 flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:scale-110 hover:bg-secondary active:scale-90"
+                    >
                       <Icon name="bi:trash3-fill" />
                     </div>
                   </td>
@@ -68,10 +77,7 @@ const addClass = ref(false)
                   <td class="px-6 py-3 text-left" colspan="3">生僻字教學、破音字教學</td>
                   <td class="px-6 py-3 text-right" colspan="3">更新日期: 2023/11/07</td>
                 </tr>
-                <tr
-                  class="cursor-pointer border-b border-gray-200 hover:bg-primary"
-                  @click="showDetails = !showDetails"
-                >
+                <tr class="cursor-pointer border-b border-gray-200 hover:bg-primary">
                   <td class="col-span-4 whitespace-nowrap px-6 py-3 text-left">
                     小一國文：探索生僻字與破音字
                   </td>
@@ -84,10 +90,16 @@ const addClass = ref(false)
                   </td>
                   <td class="px-6 py-3 text-center">台北市中山區中山捷運站</td>
                   <td class="item-center flex justify-center px-6 py-3 text-center">
-                    <div class="mr-2 w-4 transform hover:scale-110 hover:text-third">
+                    <!-- 修改 -->
+                    <div
+                      class="mr-2 flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:scale-110 hover:bg-secondary active:scale-90"
+                    >
                       <Icon name="zondicons:edit-pencil" />
                     </div>
-                    <div class="mr-2 w-4 transform hover:scale-110 hover:text-third">
+                    <!-- 刪除 -->
+                    <div
+                      class="mr-2 flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:scale-110 hover:bg-secondary active:scale-90"
+                    >
                       <Icon name="bi:trash3-fill" />
                     </div>
                   </td>
@@ -95,7 +107,20 @@ const addClass = ref(false)
               </tbody>
             </table>
           </div>
-          <addNewClass class="absolute left-1/2 top-1/2 -translate-x-1/2" v-if="addClass" />
+        </div>
+        <!-- 遮罩 -->
+        <div
+          class="absolute left-0 top-0 h-full w-full bg-black/30"
+          v-if="addClass"
+          @click.self="close()"
+        >
+          <!-- 彈窗 -->
+          <div class="z-50 w-full max-w-sm overflow-hidden rounded-md bg-white">
+            <AddNewClass
+              class="absolute left-1/2 top-5 -translate-x-1/2 transition-all duration-300"
+              @closePopup="close"
+            />
+          </div>
         </div>
       </div>
     </div>
