@@ -3,6 +3,17 @@ const emit = defineEmits()
 const close = () => {
   emit('closePopup')
 }
+
+const props = defineProps({
+  currentClass: {
+    className: String,
+    teacherName: String,
+    subject: String,
+    grade: String,
+    address: String,
+    content: String
+  }
+})
 </script>
 
 <template>
@@ -49,9 +60,9 @@ const close = () => {
             id="subject"
             class="block w-full rounded-lg border bg-gray-50 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
           >
-            <option selected value="first">語言</option>
-            <option value="second">科技</option>
-            <option value="third">才藝</option>
+            <option selected value="language">語言</option>
+            <option value="technology">科技</option>
+            <option value="talent">才藝</option>
           </select>
         </div>
         <div class="w-full">
@@ -88,7 +99,7 @@ const close = () => {
           id="content"
           rows="3"
           class="block w-full rounded-lg border bg-gray-50 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
-          placeholder="課程內容"
+          required
         ></textarea>
       </div>
 
@@ -96,13 +107,13 @@ const close = () => {
       <div class="flex">
         <button
           type="submit"
-          class="relative mx-auto mb-2 block w-32 rounded-lg bg-secondary bg-gradient-to-r py-2 text-black transition-all hover:bg-third active:scale-90"
+          class="mx-auto block w-32 rounded-lg bg-secondary py-2 transition-all hover:bg-third active:scale-90"
         >
           儲存
         </button>
         <button
           type="reset"
-          class="relative mx-auto mb-2 block w-32 rounded-lg bg-secondary bg-gradient-to-r py-2 text-black transition-all hover:bg-third active:scale-90"
+          class="mx-auto block w-32 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
         >
           清除
         </button>

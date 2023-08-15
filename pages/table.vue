@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <sideBar />
-    <EasyDataTable :headers="headers" :items="items" />
+    <EasyDataTable :headers="headers" :items="items" class="w-screen bg-neutral-200 p-6" />
   </div>
 </template>
 

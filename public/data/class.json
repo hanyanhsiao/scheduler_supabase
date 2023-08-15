@@ -1,0 +1,53 @@
+{
+  "class":[
+    {
+      "uuid":"123",
+      "className":"小一國文：探索生僻字與破音字小一國文：探索生僻字與破音字",
+      "teacherName":"王1明",
+      "subject":"語言",
+      "grade":"小一",
+      "address":"台北市中山區中山捷運站",
+      "content":"生僻字教學、破音字教學1" ,
+      "updateDate":"2023/11/07"
+    },
+    {
+      "uuid":"1234",
+      "className":"小二國文：探索生僻字與破音字",
+      "teacherName":"王2明",
+      "subject":"語言",
+      "grade":"小二",
+      "address":"台北市中山區中山捷運站",
+      "content":"生僻字教學、破音字教學2" ,
+      "updateDate":"2023/11/08"
+    },
+    {
+      "uuid":"12345",
+      "className":"小三國文：探索生僻字與破音字",
+      "teacherName":"王3明",
+      "subject":"語言",
+      "grade":"小三",
+      "address":"台北市中山區中山捷運站",
+      "content":"生僻字教學、破音字教學3" ,
+      "updateDate":"2023/11/09"
+    },
+    {
+      "uuid":"123456",
+      "className":"小四國文：探索生僻字與破音字",
+      "teacherName":"王4明",
+      "subject":"語言",
+      "grade":"小四",
+      "address":"台北市中山區中山捷運站",
+      "content":"生僻字教學、破音字教學4" ,
+      "updateDate":"2023/11/10"
+    },
+    {
+      "className":"小五國文：探索生僻字與破音字",
+      "teacherName":"王5明",
+      "subject":"語言",
+      "grade":"小五",
+      "address":"台北市中山區中山捷運站",
+      "content":"生僻字教學、破音字教學5" ,
+      "updateDate":"2023/11/11"
+    }
+  ]
+}

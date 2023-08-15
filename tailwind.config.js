@@ -14,7 +14,7 @@ module.exports = {
             primary: '#fffbeb',
             secondary: '#fed7aa',
             third:'#fb923c',
-            fourth:'#92400e'
+            fourth:'#fae8ff'
         }
       }
     },
