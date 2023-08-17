@@ -51,7 +51,7 @@
 
         <button
           type="submit"
-          class="h-10 w-48 self-end rounded-lg bg-secondary bg-gradient-to-r px-2 text-black transition-all hover:bg-third active:scale-90"
+          class="h-10 w-48 self-end rounded-lg bg-secondary px-2 text-black transition-all hover:bg-third active:scale-90"
         >
           篩選
         </button>
@@ -59,6 +59,27 @@
 
       <!-- 下方日曆 -->
       <Qalendar :events="events" :config="config" class="rounded-lg bg-white" />
+      <!-- <Qalendar :events="events">
+        <template #weekDayEvent="eventProps">
+          <div
+            :style="{
+              backgroundColor: '#fffbeb',
+              color: '#fffbeb',
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden'
+            }"
+          >
+            <span>{{ timeFormattingFunction(eventProps.eventData.time) }}</span>
+
+            <span>{{ eventProps.eventData.title }}</span>
+          </div>
+        </template>
+
+        <template #monthEvent="monthEventProps">
+          <span>{{ monthEventProps.eventData.title }}</span>
+        </template>
+      </Qalendar> -->
     </div>
   </div>
 </template>
@@ -74,6 +95,13 @@ export default {
   data() {
     return {
       events: [
+        {
+          title: '新事件標題',
+          time: new Date('2023-08-18T15:30:00'),
+          id: '1',
+          time: { start: '2022-08-16 12:00', end: '2022-08-16 13:00' },
+          isCustom: true
+        },
         // ...
         {
           title: '英文課',
@@ -90,12 +118,24 @@ export default {
           time: { start: '2023-08-15 10:05', end: '2023-08-15 13:35' },
           color: 'green',
           isEditable: true,
-          id: '5602b6f589fc'
+          id: '5602b6f589fc',
+          colorScheme: 'meetings'
         }
         // ...
       ],
       config: {
-        // see configuration section
+        style: {
+          colorSchemes: {
+            meetings: {
+              color: '#fff',
+              backgroundColor: '#131313'
+            },
+            sports: {
+              color: '#fff',
+              backgroundColor: '#ff4081'
+            }
+          }
+        }
       }
     }
   }

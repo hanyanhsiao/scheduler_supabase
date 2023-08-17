@@ -26,7 +26,7 @@
           'text-sm',
           'flex items-center justify-center',
           year === today.getFullYear() && month - 1 === today.getMonth() && d === today.getDate()
-            ? 'bg-blue-600 font-bold text-white'
+            ? 'bg--600 font-bold text-white'
             : 'hover:bg-gray-200',
           'rounded-full transition-all'
         ]"
