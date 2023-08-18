@@ -16,8 +16,11 @@ export const storeData = defineStore('storeData', {
         }
         
       },
-      set(input){
+      modifyClass(input){
         this.classData[input.indexx] = input
+      },
+      addClass(input){
+        this.classData.push(input)
       }
   },
   // 可以先將資料處理好用傳出

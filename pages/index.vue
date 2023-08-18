@@ -1,19 +1,18 @@
 <script setup>
 // ---------pinia---------
-import { storeData } from '@/stores/storeData'
-const counterStore = storeData()
+import { storeData } from '../stores/storeData'
+const classStore = storeData()
 // console.log(counterStore)
 
 // ---------撈資料---------
 
 // ref([])
+// const classData = computed(() => {
+//   console.log('Computed')
+//   return classStore.classData
+// })
 
-const classData = computed(() => {
-  console.log('Computed', classData)
-  // counterStore.classData
-  return counterStore.classData
-})
-// const classData = useState('classData', () => [])
+const classData = useState('classData', () => classStore.classData)
 
 // const fetchData = () => {
 // const response = await fetch('/data/class.json')
@@ -22,9 +21,9 @@ const classData = computed(() => {
 //   classData.value = jsonResponse.class
 // }
 
-onBeforeMount(() => {
-  counterStore.getClassData()
-  classData.value = counterStore.classData
+onMounted(() => {
+  classStore.getClassData()
+  classData.value = classStore.classData
   // console.log(classData.value)
 })
 
@@ -69,24 +68,27 @@ const close = () => {
   togglePopup.value = false
 }
 
+// input.className.length == 0 ||
+//       input.teacherName.length == 0 ||
+//       input.subject == undefined ||
+//       input.grade == undefined ||
+//       input.address.length == 0 ||
+//       input.address.content == 0
+// -------------------------------
+
 //存入修改的內容
 const save = (input) => {
   togglePopup.value = !togglePopup.value
 
-  if (
-    input.className.length == 0 ||
-    input.teacherName.length == 0 ||
-    input.subject == undefined ||
-    input.grade == undefined ||
-    input.address.length == 0 ||
-    input.address.content == 0
-  ) {
-    alert('欄位不得為空')
+  if (classStore.classData[input.indexx]) {
+    // console.log('修改')
+    // console.log('改前', classStore.classData[input.indexx])
+    classStore.modifyClass(input)
+    // console.log('改後', classStore.classData[input.indexx])
   } else {
-    console.log(counterStore.classData[input.indexx])
-    counterStore.set(input)
-    // counterStore.classData[input.index] = input
-    console.log(counterStore.classData[input.indexx])
+    // console.log('新增')
+    classStore.addClass(input)
+    // console.log('新增', classStore.classData)
   }
 }
 
@@ -94,7 +96,7 @@ const save = (input) => {
 const deleteClass = (index) => {
   const yes = confirm('確定刪除?')
   if (yes) {
-    counterStore.classData.splice(index, 1)
+    classStore.classData.splice(index, 1)
   }
 }
 </script>
@@ -113,24 +115,27 @@ const deleteClass = (index) => {
           @click="handleClass(false)"
         >
           <span>新增課程 </span>
-          <Icon name="clarity:add-line" />
+          <ClientOnly>
+            <Icon name="clarity:add-line" />
+          </ClientOnly>
         </button>
       </div>
 
       <!-- 下方列表 -->
-      <div class="flex w-full items-center justify-center rounded-lg">
-        <div class="my-6 bg-white shadow-md">
+      <div class="flex w-full items-center rounded-lg">
+        <div class="my-6 bg-white shadow-md" v-if="classData[0]">
           <!-- 標題 -->
           <div>
             <div
-              class="grid grid-cols-8 items-center justify-items-center bg-secondary text-center font-bold leading-normal"
+              class="grid grid-cols-9 items-center justify-items-center gap-3 bg-secondary p-3 text-center font-bold leading-normal"
             >
-              <div class="col-span-2 px-6 py-3">課程名稱</div>
-              <div class="px-6 py-3">老師名稱</div>
-              <div class="px-6 py-3">領域</div>
-              <div class="px-6 py-3">年級</div>
-              <div class="r col-span-2 px-6 py-3">上課地點</div>
-              <div class="px-6 py-3">修改 / 刪除</div>
+              <div class="col-span-1">編號</div>
+              <div class="col-span-2">課程名稱</div>
+              <div class="col-span-1">老師名稱</div>
+              <div class="col-span-1">領域</div>
+              <div class="col-span-1">年級</div>
+              <div class="col-span-2">上課地點</div>
+              <div class="col-span-1">修改 / 刪除</div>
             </div>
           </div>
 
@@ -138,34 +143,41 @@ const deleteClass = (index) => {
           <div class="" v-for="(item, index) in classData" :key="item.uuid">
             <!-- 課程清單 -->
             <div
-              class="grid cursor-pointer grid-cols-8 items-center border-b border-gray-300 hover:bg-primary"
+              class="grid cursor-pointer grid-cols-9 items-center gap-3 border-b border-gray-300 p-3 hover:bg-primary"
               @click="toggleDetails(item)"
             >
-              <div class="col-span-2 px-6 py-3 text-left">
+              <div class="col-span-1 text-center">{{ index + 1 }}</div>
+              <div class="col-span-2 text-left">
                 {{ item.className }}
               </div>
-              <div class="px-6 py-3 text-center">{{ item.teacherName }}</div>
-              <div class="px-6 py-3 text-center">{{ item.subject }}</div>
-              <div class="px-6 py-3 text-center">
-                <span class="rounded-full bg-purple-200 px-3 py-1 text-purple-800">
+              <div class="text-center">{{ item.teacherName }}</div>
+              <div class="text-center">{{ item.subject }}</div>
+              <div class="py-3 text-center">
+                <span
+                  class="whitespace-nowrap rounded-full bg-purple-200 px-3 py-1 text-purple-800 sm:px-1 sm:py-3 sm:[writing-mode:vertical-lr]"
+                >
                   {{ item.grade }}
                 </span>
               </div>
-              <div class="col-span-2 px-6 py-3 text-center">{{ item.address }}</div>
-              <div class="item-center flex justify-center gap-2 px-6 py-3">
+              <div class="col-span-2 text-center">{{ item.address }}</div>
+              <div class="flex justify-center gap-3 sm:flex-wrap">
                 <!-- 修改 -->
                 <div
-                  class="flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:scale-110 hover:bg-secondary active:scale-90"
+                  class="flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:bg-secondary active:scale-90"
                   @click.stop="handleClass(item, index)"
                 >
-                  <Icon name="zondicons:edit-pencil" />
+                  <ClientOnly>
+                    <Icon name="zondicons:edit-pencil" />
+                  </ClientOnly>
                 </div>
                 <!-- 刪除 -->
                 <div
-                  class="flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:scale-110 hover:bg-secondary active:scale-90"
+                  class="flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:bg-secondary active:scale-90"
                   @click.stop="deleteClass(index)"
                 >
-                  <Icon name="bi:trash3-fill" />
+                  <ClientOnly>
+                    <Icon name="bi:trash3-fill" />
+                  </ClientOnly>
                 </div>
               </div>
             </div>
@@ -186,9 +198,9 @@ const deleteClass = (index) => {
       <!-- 遮罩 -->
       <div class="absolute left-0 top-0 h-full w-full bg-black/30" v-if="togglePopup">
         <!-- 彈窗 -->
-        <div class="z-50 w-full max-w-sm overflow-hidden rounded-md bg-white">
+        <div class="z-50 rounded-md bg-white">
           <ClassPopup
-            class="absolute left-1/2 top-5 -translate-x-1/2 transition-all duration-300"
+            class="absolute left-1/2 top-5 -translate-x-1/2"
             @closePopup="close"
             @save="save"
             :currentClass="currentClass"
@@ -199,4 +211,3 @@ const deleteClass = (index) => {
     </section>
   </div>
 </template>
-../node-local ../plugins/nodeLocal.js

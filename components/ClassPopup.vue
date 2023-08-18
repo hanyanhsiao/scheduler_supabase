@@ -22,7 +22,7 @@ const props = defineProps({
 
 // 修改內容存檔
 const save = () => {
-  console.log(props.currentClass)
+  // console.log(props.currentClass)
   emits('save', props.currentClass)
 }
 
@@ -50,7 +50,9 @@ const subjectOptions = ['語言', '科技', '才藝']
         class="mb-4 flex h-7 w-7 cursor-pointer self-start rounded-md p-1 text-xl transition-all hover:bg-secondary active:scale-90"
         @click="close"
       >
-        <Icon name="material-symbols:close" />
+        <ClientOnly>
+          <Icon name="material-symbols:close" />
+        </ClientOnly>
       </div>
     </div>
 
@@ -88,6 +90,7 @@ const subjectOptions = ['語言', '科技', '才藝']
             id="subject"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="props.currentClass.subject"
+            required
           >
             <option
               v-for="(subject, index) in subjectOptions"
@@ -107,6 +110,7 @@ const subjectOptions = ['語言', '科技', '才藝']
             id="grade"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="props.currentClass.grade"
+            required
           >
             <option
               v-for="(gradeValue, index) in gradeOptions"
@@ -153,8 +157,9 @@ const subjectOptions = ['語言', '科技', '才藝']
           儲存
         </button>
         <button
-          type="reset"
+          type="button"
           class="mx-auto block w-32 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
+          @click="clearForm"
         >
           清除
         </button>

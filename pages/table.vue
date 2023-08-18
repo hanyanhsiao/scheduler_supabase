@@ -2,14 +2,14 @@
   <div class="flex w-full">
     <sideBar />
     <div class="flex w-screen flex-col border bg-neutral-200 p-6">
-      <!-- 篩選 -->
+      <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6">
         <!-- 選擇老師 -->
         <div class="w-full">
           <label for="grade" class="mb-2 block text-sm">選擇老師</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
           >
             <option value="first">王小明</option>
             <option value="second">王2明</option>
@@ -25,7 +25,7 @@
           <label for="grade" class="mb-2 block text-sm">選擇領域</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
           >
             <option selected value="language">語言</option>
             <option value="technology">科技</option>
@@ -38,7 +38,7 @@
           <label for="grade" class="mb-2 block text-sm">選擇年級</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
           >
             <option value="first">小一</option>
             <option value="second">小二</option>
@@ -56,13 +56,13 @@
           篩選
         </button>
       </div>
-      <!-- 搜尋 -->
+      <!-- 上方搜尋 -->
       <form class="mb-6 flex items-center gap-6">
         <div class="w-full">
           <input
             type="text"
             id="voice-search"
-            class="block w-full rounded-lg border border-gray-300 p-2.5 focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             placeholder="請輸入關鍵字"
           />
         </div>
@@ -74,7 +74,7 @@
           <span>搜尋</span>
         </button>
       </form>
-      <!-- 表格 -->
+      <!-- 下方表格 -->
       <EasyDataTable :headers="headers" :items="items" class="rounded-lg bg-neutral-200" />
     </div>
   </div>

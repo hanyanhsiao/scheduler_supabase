@@ -15,7 +15,13 @@ module.exports = {
             secondary: '#fed7aa',
             third:'#fb923c',
             fourth:'#fae8ff'
-        }
+        },
+        screens:{
+          'sm':{'max':'768px'}
+        },
+        gridColumn: {
+          'span-0.5': 'span 0.5 / span 0.5',
+         }
       }
     },
     plugins: []
