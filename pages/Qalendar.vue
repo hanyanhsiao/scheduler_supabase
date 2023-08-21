@@ -1,3 +1,96 @@
+<script setup>
+import { Qalendar } from 'qalendar'
+// ---------pinia---------
+import { useQalendarData } from '../stores/qalendarData'
+const EventStore = useQalendarData()
+
+// 抓取事件
+const ShowEvent = ref([])
+
+// 日曆上事件
+const events = ref([])
+
+// 事件顏色(依年級)
+function getColorScheme(grade) {
+  switch (grade) {
+    case '小一':
+      return 'first'
+    case '小二':
+      return 'second'
+    case '小三':
+      return 'third'
+    case '小四':
+      return 'fourth'
+    case '小五':
+      return 'fifth'
+    case '小六':
+      return 'sixth'
+    default:
+      return 'first'
+  }
+}
+onMounted(() => {
+  EventStore.getEventData()
+  ShowEvent.value = EventStore.eventData
+
+  ShowEvent.value.forEach((eachEvent) => {
+    const colorScheme = getColorScheme(eachEvent.grade)
+
+    events.value.push({
+      id: eachEvent.uuid,
+      title: eachEvent.className,
+      with: eachEvent.teacherName,
+      location: eachEvent.address,
+      description: eachEvent.content,
+      topic: eachEvent.subject,
+      time: { start: eachEvent.startTime, end: eachEvent.endTime },
+      // color: 'yellow',
+      colorScheme: colorScheme,
+      isEditable: true
+    })
+  })
+})
+
+const config = {
+  style: {
+    colorSchemes: {
+      first: {
+        color: '#000000',
+        backgroundColor: '#fed7aa'
+      },
+      second: {
+        color: '#fff',
+        backgroundColor: '#805ad5'
+      },
+      third: {
+        color: '#fff',
+        backgroundColor: '#38a169'
+      },
+      fourth: {
+        color: '#fff',
+        backgroundColor: '#d69e2e'
+      },
+      fifth: {
+        color: '#fff',
+        backgroundColor: '#e53e3e'
+      },
+      sixth: {
+        color: '#fff',
+        backgroundColor: '#3182ce'
+      }
+    }
+  },
+  defaultMode: 'month',
+  locale: 'de-DE'
+}
+
+function updateEventTime($event) {
+  console.log($event)
+
+  EventStore.updateTime($event)
+}
+</script>
+
 <template>
   <div class="flex w-full">
     <sideBar />
@@ -56,30 +149,31 @@
           篩選
         </button>
       </div>
-
       <!-- 下方日曆 -->
       <Qalendar
         :events="events"
         :config="config"
         class="rounded-lg bg-white"
-        @event-was-clicked="drag"
+        @event-was-dragged="updateEventTime"
+        @edit-event="console.log('edit')"
+        @delete-event="console.log('delete')"
       >
-        <!-- <template #customCurrentTime>
-          <div :style="{ height: '3px', backgroundColor: 'cornflowerblue', position: 'relative' }">
-            <div
-              :style="{
-                position: 'absolute',
-                left: '-7px',
-                top: '-6px',
-                height: '15px',
-                width: '15px',
-                backgroundColor: 'cornflowerblue',
-                borderRadius: '50%'
-              }"
-            ></div>
+        <template #weekDayEvent="eventProps">
+          <div
+            :style="{
+              backgroundColor: 'cornflowerblue',
+              color: '#fff',
+              width: '100%',
+              height: '100%',
+              overflow: 'hidden'
+            }"
+          >
+            <span>{{ timeFormattingFunction(eventProps.eventData.time) }}</span>
+
+            <span>{{ eventProps.eventData.title }}</span>
           </div>
-        </template> -->
-        <template #eventDialog="props">
+        </template>
+        <!-- <template #eventDialog="props">
           <div v-if="props.eventDialogData && props.eventDialogData.title">
             <div :style="{ marginBottom: '8px' }">Edit event</div>
 
@@ -91,97 +185,13 @@
 
             <button class="close-flyout" @click="props.closeEventDialog">Finished!</button>
           </div>
-        </template>
+        </template> -->
       </Qalendar>
-      <!-- <Qalendar :events="events">
-        <template #weekDayEvent="eventProps">
-          <div
-            :style="{
-              backgroundColor: '#fffbeb',
-              color: '#fffbeb',
-              width: '100%',
-              height: '100%',
-              overflow: 'hidden'
-            }"
-          >
-            <span>{{ timeFormattingFunction(eventProps.eventData.time) }}</span>
-
-            <span>{{ eventProps.eventData.title }}</span>
-          </div>
-        </template>
-
-        <template #monthEvent="monthEventProps">
-          <span>{{ monthEventProps.eventData.title }}</span>
-        </template>
-      </Qalendar> -->
     </div>
   </div>
 </template>
 
-<script>
-import { Qalendar } from 'qalendar'
-
-export default {
-  components: {
-    Qalendar
-  },
-
-  data() {
-    return {
-      events: [
-        {
-          title: '新事件標題',
-          // time: new Date('2023-08-18T15:30:00'),
-          id: '1',
-          time: { start: '2023-08-16 12:00', end: '2023-08-16 13:00' },
-          isCustom: true
-        },
-        // ...
-        {
-          title: '英文課',
-          with: 'Chandler Bing',
-          time: { start: '2023-08-17 12:05', end: '2023-08-17 13:35' },
-          color: 'yellow',
-          isEditable: true,
-          // isCustom: true,
-          id: '753944708f0f',
-          description: '英文歌教學'
-        },
-        {
-          title: '國文課',
-          with: 'Rachel Greene',
-          time: { start: '2023-08-15 10:05', end: '2023-08-15 13:35' },
-          color: 'green',
-          isEditable: true,
-          id: '5602b6f589fc',
-          colorScheme: 'meetings'
-        }
-        // ...
-      ],
-      config: {
-        style: {
-          colorSchemes: {
-            meetings: {
-              color: '#fff',
-              backgroundColor: '#131313'
-            },
-            sports: {
-              color: '#fff',
-              backgroundColor: '#ff4081'
-            }
-          }
-        }
-      }
-    }
-  },
-  method: {
-    drag() {
-      console.log('Dragged!')
-    }
-  }
-}
-</script>
-
 <style>
 @import 'qalendar/dist/style.css';
 </style>
+../stores/qalendarData

@@ -1,18 +1,24 @@
 <script setup>
 // ---------pinia---------
-import { storeData } from '../stores/storeData'
-const classStore = storeData()
-// console.log(counterStore)
+import { useStoreData } from '../stores/storeData'
+const classStore = useStoreData()
+// console.log(classStore.classData)
 
 // ---------撈資料---------
+const classData = ref([])
 
-// ref([])
+onMounted(() => {
+  classStore.getClassData()
+  classData.value = classStore.classData
+  console.log(classData.value)
+})
+
 // const classData = computed(() => {
 //   console.log('Computed')
 //   return classStore.classData
 // })
 
-const classData = useState('classData', () => classStore.classData)
+// const classData = useState('classData', () => classStore.classData)
 
 // const fetchData = () => {
 // const response = await fetch('/data/class.json')
@@ -21,13 +27,7 @@ const classData = useState('classData', () => classStore.classData)
 //   classData.value = jsonResponse.class
 // }
 
-onMounted(() => {
-  classStore.getClassData()
-  classData.value = classStore.classData
-  // console.log(classData.value)
-})
-
-// ---------顯示課程詳細資訊--------
+// ---------顯示課程詳細資訊toggle--------
 
 const toggleDetails = (item) => {
   item.showDetails = !item.showDetails

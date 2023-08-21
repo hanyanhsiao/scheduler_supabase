@@ -70,7 +70,9 @@
           type="submit"
           class="flex h-10 w-20 items-center justify-around rounded-lg bg-secondary px-2 transition-all hover:bg-third active:scale-90"
         >
-          <Icon name="material-symbols:search-rounded" />
+          <ClientOnly>
+            <Icon name="material-symbols:search-rounded" />
+          </ClientOnly>
           <span>搜尋</span>
         </button>
       </form>
