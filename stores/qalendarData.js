@@ -13,10 +13,11 @@ export const useQalendarData = defineStore('qalendarData', {
       if (this.eventData.length === 0) {
         const response = await fetch('/data/Qalendar.json')
         const jsonResponse = await response.json()
-        console.log(jsonResponse.event)
+        // console.log(jsonResponse.event)
         this.eventData = jsonResponse.event
       }
     },
+    // 更新時間
     updateTime($event) {
       // console.log($event)
       // findIndex() 方法將依據提供的測試函式，尋找陣列中符合的元素，
@@ -26,8 +27,14 @@ export const useQalendarData = defineStore('qalendarData', {
         this.eventData[index].startTime = $event.time.start
         this.eventData[index].endTime = $event.time.end
       }
+    },
+    deleteTimeClass(uuid) {
+      // console.log('刪前', this.eventData)
+      this.eventData = this.eventData.filter((event) => event.uuid !== uuid)
+      // console.log('刪後', this.eventData)
     }
   },
+
   // 對狀態加工的 getters，如同 computed
   getters: {},
 

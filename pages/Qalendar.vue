@@ -2,13 +2,49 @@
 import { Qalendar } from 'qalendar'
 // ---------pinia---------
 import { useQalendarData } from '../stores/qalendarData'
+import { storeToRefs } from 'pinia'
+
 const EventStore = useQalendarData()
+const { eventData } = storeToRefs(EventStore)
 
-// 抓取事件
-const ShowEvent = ref([])
+// 首次撈取
+onMounted(() => {
+  EventStore.getEventData()
+})
 
-// 日曆上事件
-const events = ref([])
+// 日曆上事件，定義 computed，同時更新 events
+const events = computed(() => {
+  const updatedEvents = []
+  eventData.value.forEach((eachEvent) => {
+    const colorScheme = getColorScheme(eachEvent.grade)
+
+    updatedEvents.push({
+      id: eachEvent.uuid,
+      title: eachEvent.className,
+      with: eachEvent.teacherName,
+      location: eachEvent.address,
+      description: eachEvent.content,
+      topic: eachEvent.subject,
+      time: { start: eachEvent.startTime, end: eachEvent.endTime },
+      colorScheme: colorScheme,
+      isEditable: true
+    })
+  })
+  return updatedEvents
+})
+
+// 拖曳更新日期
+function updateEventTime($event) {
+  console.log($event)
+  EventStore.updateTime($event)
+}
+
+// 刪除該時段的課程
+// delete-event回傳uuid
+function deleteTimeClass(uuid) {
+  EventStore.deleteTimeClass(uuid)
+  // console.log('刪除後剩', events.value)
+}
 
 // 事件顏色(依年級)
 function getColorScheme(grade) {
@@ -29,28 +65,8 @@ function getColorScheme(grade) {
       return 'first'
   }
 }
-onMounted(() => {
-  EventStore.getEventData()
-  ShowEvent.value = EventStore.eventData
 
-  ShowEvent.value.forEach((eachEvent) => {
-    const colorScheme = getColorScheme(eachEvent.grade)
-
-    events.value.push({
-      id: eachEvent.uuid,
-      title: eachEvent.className,
-      with: eachEvent.teacherName,
-      location: eachEvent.address,
-      description: eachEvent.content,
-      topic: eachEvent.subject,
-      time: { start: eachEvent.startTime, end: eachEvent.endTime },
-      // color: 'yellow',
-      colorScheme: colorScheme,
-      isEditable: true
-    })
-  })
-})
-
+// Qalendar配置檔
 const config = {
   style: {
     colorSchemes: {
@@ -82,12 +98,6 @@ const config = {
   },
   defaultMode: 'month',
   locale: 'de-DE'
-}
-
-function updateEventTime($event) {
-  console.log($event)
-
-  EventStore.updateTime($event)
 }
 </script>
 
@@ -156,7 +166,7 @@ function updateEventTime($event) {
         class="rounded-lg bg-white"
         @event-was-dragged="updateEventTime"
         @edit-event="console.log('edit')"
-        @delete-event="console.log('delete')"
+        @delete-event="deleteTimeClass"
       >
         <template #weekDayEvent="eventProps">
           <div

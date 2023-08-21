@@ -1,16 +1,18 @@
 <script setup>
 // ---------pinia---------
 import { useStoreData } from '../stores/storeData'
+import { storeToRefs } from 'pinia'
+
 const classStore = useStoreData()
-// console.log(classStore.classData)
+const { classData } = storeToRefs(classStore)
 
 // ---------撈資料---------
-const classData = ref([])
+// const classData = ref([])
 
 onMounted(() => {
   classStore.getClassData()
-  classData.value = classStore.classData
-  console.log(classData.value)
+  // classData.value = classStore.classData
+  // console.log(classData.value)
 })
 
 // const classData = computed(() => {
@@ -47,15 +49,6 @@ const handleClass = (item, indexx) => {
   togglePopup.value = !togglePopup.value
   classTitle.value = item ? '修改課程' : '新增課程'
 
-  // console.log('coby', applyClass)
-  // currentClass.value.uuid = item.uuid
-  // currentClass.value.className = item.className
-  // currentClass.value.teacherName = item.teacherName
-  // currentClass.value.subject = item.subject
-  // currentClass.value.grade = item.grade
-  // currentClass.value.address = item.address
-  // currentClass.value.content = item.content
-
   // 複製一份點擊的內容顯示在彈窗上
   const applyClass = { ...item }
   currentClass.value = applyClass
@@ -68,15 +61,7 @@ const close = () => {
   togglePopup.value = false
 }
 
-// input.className.length == 0 ||
-//       input.teacherName.length == 0 ||
-//       input.subject == undefined ||
-//       input.grade == undefined ||
-//       input.address.length == 0 ||
-//       input.address.content == 0
-// -------------------------------
-
-//存入修改的內容
+//--------存入修改的內容--------
 const save = (input) => {
   togglePopup.value = !togglePopup.value
 
@@ -92,7 +77,7 @@ const save = (input) => {
   }
 }
 
-// 刪除課程
+// --------刪除課程--------
 const deleteClass = (index) => {
   const yes = confirm('確定刪除?')
   if (yes) {

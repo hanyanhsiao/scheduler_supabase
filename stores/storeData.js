@@ -14,7 +14,7 @@ export const useStoreData = defineStore('storeData', {
         const response = await fetch('/data/class.json')
         const jsonResponse = await response.json()
         this.classData = jsonResponse.class
-        console.log('onGetClassData')
+        // console.log('onGetClassData')
       }
     },
     modifyClass(input) {
