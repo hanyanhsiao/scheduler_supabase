@@ -1,13 +1,37 @@
 <script setup>
-const date = ref(new Date())
-
 const emits = defineEmits(['closePopup', 'save'])
+
+// 定義屬性
+const props = defineProps({
+  currentTime: {
+    startTime: String,
+    endTime: String,
+    uuid: String
+  }
+})
+// 關閉彈窗
 const close = () => {
   emits('closePopup')
 }
+
+// 修改內容存檔
+const save = () => {
+  props.currentTime.startTime = range.value.start
+  props.currentTime.endTime = range.value.end
+  // console.log(props.currentTime)
+  emits('save', props.currentTime)
+}
+
+// VDatePicker設定檔
+const timezone = ref('Asia/Hong_Kong')
+const range = ref({
+  start: props.currentTime.startTime,
+  end: props.currentTime.endTime
+})
 </script>
+
 <template>
-  <div class="w-full max-w-xl rounded-lg bg-white p-6 shadow-lg">
+  <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
     <div class="flex items-center justify-between">
       <h1 class="mb-6 text-2xl font-semibold text-third">修改時間</h1>
       <!-- 關閉 -->
@@ -21,37 +45,33 @@ const close = () => {
       </div>
     </div>
 
-    <!-- 時間設定 -->
-    <div class="flex items-center justify-between">
-      <div>
-        <label for="appt">起始時間 </label>
-        <input
-          type="time"
-          id="appt"
-          name="appt"
-          min="09:00"
-          max="18:00"
-          required
-          style="border-color: #fed7aa; border-width: 3px"
-        />
-        <!-- primary: '#fffbeb', -->
+    <form>
+      <!-- 時間設定 -->
+      <div class="mb-6 flex flex-col items-center justify-around py-3">
+        <div class="mb-3 flex justify-between gap-11">
+          <label for="appt" class="">起始時間：</label>
+          <label for="appt" class="">結束時間：</label>
+        </div>
+        <VDatePicker v-model.range="range" mode="time" :timezone="timezone" />
       </div>
-      <div>
-        <label for="appt">結束時間 </label>
-        <input
-          type="time"
-          id="appt"
-          name="appt"
-          min="09:00"
-          max="18:00"
-          required
-          style="border-color: #fed7aa; border-width: 3px"
-        />
-      </div>
-    </div>
 
-    <!-- <VDatePicker v-model="date" mode="time" :timezone="timezone" /> -->
+      <!-- 儲存/取消 -->
+      <div class="flex">
+        <button
+          type="submit"
+          class="mx-auto block w-32 rounded-lg bg-secondary py-2 transition-all hover:bg-third active:scale-90"
+          @click="save"
+        >
+          儲存
+        </button>
+        <button
+          type="button"
+          class="mx-auto block w-32 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
+          @click="clearForm"
+        >
+          清除
+        </button>
+      </div>
+    </form>
   </div>
 </template>
-
-<style></style>

@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import { defineStore } from 'pinia'
 
 export const useQalendarData = defineStore('qalendarData', {
@@ -20,8 +21,6 @@ export const useQalendarData = defineStore('qalendarData', {
     // 拖曳更新日期
     dragEvent($event) {
       // console.log($event)
-      // findIndex() 方法將依據提供的測試函式，尋找陣列中符合的元素，
-      // 並返回其 index（索引）。如果沒有符合的對象，將返回 -1 。
       const index = this.eventData.findIndex((event) => event.uuid === $event.id)
       if (index !== -1) {
         this.eventData[index].startTime = $event.time.start
@@ -35,6 +34,20 @@ export const useQalendarData = defineStore('qalendarData', {
         // console.log('刪前', this.eventData)
         this.eventData = this.eventData.filter((event) => event.uuid !== uuid)
         console.log('刪後', this.eventData)
+      }
+    },
+    // 課程改時間
+    motifyTime(timeObject) {
+      // 使用dayjs更改日期格式
+      const changeStartTimeFormat = dayjs(timeObject.startTime).format('YYYY-MM-DD HH:mm')
+      const changeEndTimeFormat = dayjs(timeObject.endTime).format('YYYY-MM-DD HH:mm')
+
+      const index = this.eventData.findIndex((event) => event.uuid === timeObject.uuid)
+      if (index !== -1) {
+        // console.log('改前時間', this.eventData[index].startTime, this.eventData[index].endTime)
+        this.eventData[index].startTime = changeStartTimeFormat
+        this.eventData[index].endTime = changeEndTimeFormat
+        console.log('改後時間', this.eventData[index].startTime, this.eventData[index].endTime)
       }
     }
   },

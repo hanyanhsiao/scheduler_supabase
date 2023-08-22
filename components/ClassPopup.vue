@@ -22,7 +22,6 @@ const props = defineProps({
 
 // 修改內容存檔
 const save = () => {
-  // console.log(props.currentClass)
   emits('save', props.currentClass)
 }
 
@@ -123,7 +122,6 @@ const subjectOptions = ['語言', '科技', '才藝']
           </select>
         </div>
       </div>
-
       <!-- 上課地點 -->
       <div class="mb-6">
         <label for="content" class="mb-2 block">上課地點</label>

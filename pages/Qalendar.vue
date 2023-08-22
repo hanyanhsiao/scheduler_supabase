@@ -7,12 +7,12 @@ import { storeToRefs } from 'pinia'
 const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
 
-// 首次撈取
+// ---------首次撈取事件---------
 onMounted(() => {
   EventStore.getEventData()
 })
 
-// 日曆上事件，定義 computed，同時更新 events
+// ---------日曆上事件，定義 computed，同時更新 events---------
 const events = computed(() => {
   const updatedEvents = []
   eventData.value.forEach((eachEvent) => {
@@ -33,30 +33,50 @@ const events = computed(() => {
   return updatedEvents
 })
 
-// 拖曳更新日期
+//--------- 拖曳更新日期---------
 function dragEvent($event) {
-  console.log($event)
   EventStore.dragEvent($event)
 }
 
-// 刪除該時段的課程
+// ---------刪除該時段的課程---------
 // delete-event回傳uuid
 function deleteTimeClass(uuid) {
   EventStore.deleteTimeClass(uuid)
   // console.log('刪除後剩', events.value)
 }
 
-// 編輯課程時間
+// ---------編輯課程時間---------
+// @edit-event回傳uuidw
+
+// 彈窗
 const togglePopup = ref(false)
 const close = () => {
   togglePopup.value = false
 }
-function updateTime($event) {
-  // console.log($event)
+
+// 點擊的課程的時間
+const currentTime = ref({})
+
+// 帶入彈窗顯示原本時間
+function updateTime(uuid) {
   togglePopup.value = !togglePopup.value
+  const index = eventData.value.findIndex((event) => event.uuid === uuid)
+  if (index !== -1) {
+    currentTime.value.startTime = eventData.value[index].startTime
+    currentTime.value.endTime = eventData.value[index].endTime
+    currentTime.value.uuid = uuid
+    // console.log('跟子元件說我的uuid', currentTime.value.uuid)
+  }
 }
 
-// 事件顏色(依年級)
+//存入修改的內容
+const save = (timeObject) => {
+  togglePopup.value = !togglePopup.value
+  console.log('改後時間', timeObject)
+  EventStore.motifyTime(timeObject)
+}
+
+// ---------事件顏色(依年級)---------
 function getColorScheme(grade) {
   switch (grade) {
     case '小一':
@@ -76,7 +96,7 @@ function getColorScheme(grade) {
   }
 }
 
-// Qalendar配置檔
+// ---------Qalendar配置檔---------
 const config = {
   style: {
     colorSchemes: {
@@ -109,8 +129,6 @@ const config = {
   defaultMode: 'month',
   locale: 'zh-TW'
 }
-
-const open = ref(false)
 </script>
 
 <template>
@@ -181,7 +199,7 @@ const open = ref(false)
         @edit-event="updateTime"
         @delete-event="deleteTimeClass"
       >
-        <template #weekDayEvent="eventProps">
+        <!-- <template #weekDayEvent="eventProps">
           <div
             :style="{
               backgroundColor: 'cornflowerblue',
@@ -195,7 +213,7 @@ const open = ref(false)
 
             <span>{{ eventProps.eventData.title }}</span>
           </div>
-        </template>
+        </template> -->
         <!-- <template #eventDialog="props">
           <div v-if="props.eventDialogData && props.eventDialogData.title">
             <div :style="{ marginBottom: '8px' }">Edit event</div>
@@ -216,9 +234,10 @@ const open = ref(false)
         <!-- 彈窗 -->
         <div class="z-50 rounded-md bg-white">
           <motifyTime
-            class="absolute left-1/2 top-5 -translate-x-1/2"
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             @closePopup="close"
             @save="save"
+            :currentTime="currentTime"
           />
         </div>
       </div>
