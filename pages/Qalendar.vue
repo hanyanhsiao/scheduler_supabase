@@ -34,9 +34,9 @@ const events = computed(() => {
 })
 
 // 拖曳更新日期
-function updateEventTime($event) {
+function dragEvent($event) {
   console.log($event)
-  EventStore.updateTime($event)
+  EventStore.dragEvent($event)
 }
 
 // 刪除該時段的課程
@@ -44,6 +44,16 @@ function updateEventTime($event) {
 function deleteTimeClass(uuid) {
   EventStore.deleteTimeClass(uuid)
   // console.log('刪除後剩', events.value)
+}
+
+// 編輯課程時間
+const togglePopup = ref(false)
+const close = () => {
+  togglePopup.value = false
+}
+function updateTime($event) {
+  // console.log($event)
+  togglePopup.value = !togglePopup.value
 }
 
 // 事件顏色(依年級)
@@ -97,14 +107,16 @@ const config = {
     }
   },
   defaultMode: 'month',
-  locale: 'de-DE'
+  locale: 'zh-TW'
 }
+
+const open = ref(false)
 </script>
 
 <template>
   <div class="flex w-full">
     <sideBar />
-    <div class="calendar flex w-screen flex-col border bg-neutral-200 p-6">
+    <div class="calendar relative flex w-screen flex-col border bg-neutral-200 p-6">
       <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6">
         <!-- 選擇老師 -->
@@ -159,13 +171,14 @@ const config = {
           篩選
         </button>
       </div>
+
       <!-- 下方日曆 -->
       <Qalendar
         :events="events"
         :config="config"
         class="rounded-lg bg-white"
-        @event-was-dragged="updateEventTime"
-        @edit-event="console.log('edit')"
+        @event-was-dragged="dragEvent"
+        @edit-event="updateTime"
         @delete-event="deleteTimeClass"
       >
         <template #weekDayEvent="eventProps">
@@ -197,6 +210,18 @@ const config = {
           </div>
         </template> -->
       </Qalendar>
+
+      <!-- 遮罩 -->
+      <div class="absolute left-0 top-0 h-full w-full bg-black/30" v-if="togglePopup">
+        <!-- 彈窗 -->
+        <div class="z-50 rounded-md bg-white">
+          <motifyTime
+            class="absolute left-1/2 top-5 -translate-x-1/2"
+            @closePopup="close"
+            @save="save"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -204,4 +229,3 @@ const config = {
 <style>
 @import 'qalendar/dist/style.css';
 </style>
-../stores/qalendarData

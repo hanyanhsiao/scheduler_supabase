@@ -17,8 +17,8 @@ export const useQalendarData = defineStore('qalendarData', {
         this.eventData = jsonResponse.event
       }
     },
-    // 更新時間
-    updateTime($event) {
+    // 拖曳更新日期
+    dragEvent($event) {
       // console.log($event)
       // findIndex() 方法將依據提供的測試函式，尋找陣列中符合的元素，
       // 並返回其 index（索引）。如果沒有符合的對象，將返回 -1 。
@@ -28,10 +28,14 @@ export const useQalendarData = defineStore('qalendarData', {
         this.eventData[index].endTime = $event.time.end
       }
     },
+    // 刪除該時段的課程
     deleteTimeClass(uuid) {
-      // console.log('刪前', this.eventData)
-      this.eventData = this.eventData.filter((event) => event.uuid !== uuid)
-      // console.log('刪後', this.eventData)
+      const yes = confirm('確定刪除嗎?')
+      if (yes) {
+        // console.log('刪前', this.eventData)
+        this.eventData = this.eventData.filter((event) => event.uuid !== uuid)
+        console.log('刪後', this.eventData)
+      }
     }
   },
 

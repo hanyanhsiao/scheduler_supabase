@@ -79,11 +79,32 @@ const save = (input) => {
 
 // --------刪除課程--------
 const deleteClass = (index) => {
-  const yes = confirm('確定刪除?')
+  const yes = confirm('確定刪除嗎?')
   if (yes) {
     classStore.classData.splice(index, 1)
   }
 }
+
+// 年級顏色
+const GradeColor = (grade) => {
+  switch (grade) {
+    case '小一':
+      return 'bg-secondary text-orange-800'
+    case '小二':
+      return 'bg-purple-200 text-purple-800'
+    case '小三':
+      return 'bg-green-200 text-green-600'
+    case '小四':
+      return 'bg-yellow-200 text-yellow-600'
+    case '小五':
+      return 'bg-red-200 text-red-600'
+    case '小六':
+      return 'bg-indigo-200 text-indigo-800'
+    default:
+      return 'bg-black text-white'
+  }
+}
+// 'bg-purple-200 text-purple-800'
 </script>
 
 <template>
@@ -139,7 +160,8 @@ const deleteClass = (index) => {
               <div class="text-center">{{ item.subject }}</div>
               <div class="py-3 text-center">
                 <span
-                  class="whitespace-nowrap rounded-full bg-purple-200 px-3 py-1 text-purple-800 sm:px-1 sm:py-3 sm:[writing-mode:vertical-lr]"
+                  class="'whitespace-nowrap sm:[writing-mode:vertical-lr]' rounded-full px-3 py-1 sm:px-1 sm:py-3"
+                  :class="GradeColor(item.grade)"
                 >
                   {{ item.grade }}
                 </span>

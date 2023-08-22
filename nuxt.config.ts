@@ -1,6 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  modules: ['@nuxtjs/tailwindcss','nuxt-icon','@pinia/nuxt'],
+  modules: ['@nuxtjs/tailwindcss','nuxt-icon','@pinia/nuxt','@samk-dev/nuxt-vcalendar'],
   
   typescript: {
     typeCheck: true
@@ -21,5 +21,5 @@ export default defineNuxtConfig({
         '@fortawesome/pro-light-svg-icons',
         '@fortawesome/free-brands-svg-icons'
     ]
-  }
+}
 })
