@@ -1,4 +1,6 @@
 <script setup>
+import dayjs from 'dayjs'
+
 // ---------pinia---------
 import { useStoreData } from '../stores/storeData'
 import { storeToRefs } from 'pinia'
@@ -45,15 +47,20 @@ const currentClass = ref({})
 // 彈窗標題
 const classTitle = ref('新增課程')
 
-const handleClass = (item, indexx) => {
-  togglePopup.value = !togglePopup.value
-  classTitle.value = item ? '修改課程' : '新增課程'
+// 新增課程
+const addNewClass = () => {
+  togglePopup.value = true
+  classTitle.value = '新增課程'
+  // classTitle.subject.id = ''
+}
 
-  // 複製一份點擊的內容顯示在彈窗上
+// 修改課程
+const editClass = (item, indexx) => {
+  togglePopup.value = true
+  classTitle.value = '修改課程'
   const applyClass = { ...item }
   currentClass.value = applyClass
   currentClass.value.indexx = indexx
-  // console.log(item.className.length)
 }
 
 // 關閉
@@ -61,20 +68,9 @@ const close = () => {
   togglePopup.value = false
 }
 
-//--------存入修改的內容--------
-const save = (input) => {
-  togglePopup.value = !togglePopup.value
-
-  if (classStore.classData[input.indexx]) {
-    // console.log('修改')
-    // console.log('改前', classStore.classData[input.indexx])
-    classStore.modifyClass(input)
-    // console.log('改後', classStore.classData[input.indexx])
-  } else {
-    // console.log('新增')
-    classStore.addClass(input)
-    // console.log('新增', classStore.classData)
-  }
+// 存檔關閉彈窗
+const save = () => {
+  togglePopup.value = false
 }
 
 // --------刪除課程--------
@@ -86,7 +82,7 @@ const deleteClass = (index) => {
 }
 
 // 年級顏色
-const GradeColor = (grade) => {
+const gradeColor = (grade) => {
   switch (grade) {
     case '小一':
       return 'bg-secondary text-orange-800'
@@ -117,8 +113,8 @@ const GradeColor = (grade) => {
       <!-- 上方按鈕 -->
       <div class="">
         <button
-          class="flex w-32 items-center justify-center rounded-lg bg-primary px-4 py-2 font-bold transition-all hover:bg-secondary active:scale-90"
-          @click="handleClass(false)"
+          class="flex w-32 items-center justify-center rounded-lg bg-primary px-4 py-2 font-bold transition-all hover:bg-third active:scale-90"
+          @click="addNewClass"
         >
           <span>新增課程 </span>
           <ClientOnly>
@@ -156,12 +152,12 @@ const GradeColor = (grade) => {
               <div class="col-span-2 text-left">
                 {{ item.className }}
               </div>
-              <div class="text-center">{{ item.teacherName }}</div>
-              <div class="text-center">{{ item.subject }}</div>
+              <div class="text-center">{{ item.teacher }}</div>
+              <div class="text-center">{{ item.subject.name }}</div>
               <div class="py-3 text-center">
                 <span
-                  class="'whitespace-nowrap sm:[writing-mode:vertical-lr]' rounded-full px-3 py-1 sm:px-1 sm:py-3"
-                  :class="GradeColor(item.grade)"
+                  class="whitespace-nowrap rounded-full px-3 py-1 sm:px-1 sm:py-3 sm:[writing-mode:vertical-lr]"
+                  :class="gradeColor(item.grade)"
                 >
                   {{ item.grade }}
                 </span>
@@ -171,7 +167,7 @@ const GradeColor = (grade) => {
                 <!-- 修改 -->
                 <div
                   class="flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:bg-secondary active:scale-90"
-                  @click.stop="handleClass(item, index)"
+                  @click.stop="editClass(item, index)"
                 >
                   <ClientOnly>
                     <Icon name="zondicons:edit-pencil" />
@@ -192,7 +188,9 @@ const GradeColor = (grade) => {
             <div v-if="item.showDetails">
               <div class="flex items-center justify-between border-b-2 px-6 py-3 font-bold">
                 <div class="text-left">課程內容：{{ item.content }}</div>
-                <div class="text-right">更新日期：{{ item.updateDate }}</div>
+                <div class="text-right">
+                  建立日期：{{ dayjs(item.create_time).format('YYYY-MM-DD') }}
+                </div>
               </div>
             </div>
           </div>

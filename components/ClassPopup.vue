@@ -1,6 +1,17 @@
 <script setup>
+// ---------pinia---------
+import { useStoreData } from '../stores/storeData'
+import { storeToRefs } from 'pinia'
+
+const classStore = useStoreData()
+const { subjectOptions } = storeToRefs(classStore)
+// console.log('pinia裡的全部領域', subjectOptions)
+
+// ---------pinia---------
+
 const emits = defineEmits(['closePopup', 'save'])
 const close = () => {
+  clearForm()
   emits('closePopup')
 }
 
@@ -9,26 +20,49 @@ const props = defineProps({
   currentClass: {
     uuid: String,
     className: String,
-    teacherName: String,
-    subject: String,
+    teacher: String,
     grade: String,
     address: String,
     content: String,
     indexx: Number,
-    updateDate: String
+    updateDate: String,
+    subject: {
+      id: String,
+      name: String
+    }
   },
   classTitle: String
+})
+// console.log('點擊的課程傳入popup', props.currentClass)
+// console.log('點擊ㄉ', props.currentClass.subject)
+// console.log('撈的', subjectOptions)
+
+onMounted(() => {
+  classStore.getSubject()
 })
 
 // 修改內容存檔
 const save = () => {
-  emits('save', props.currentClass)
+  emits('save')
+  // console.log(props.currentClass.indexx)
+  // 修改
+  if (classStore.classData[props.currentClass.indexx]) {
+    // console.log('改前', classStore.classData[props.currentClass.indexx])
+    classStore.modifyClass(props.currentClass)
+    // console.log('改後', classStore.classData[props.currentClass.indexx])
+  }
+  // 新增
+  else {
+    console.log('新增')
+    classStore.addClass(props.currentClass)
+    console.log('新增', classStore.classData)
+  }
 }
 
 // 清除表單
 const clearForm = () => {
   props.currentClass.className = ''
-  props.currentClass.teacherName = ''
+  props.currentClass.teacher = ''
   props.currentClass.subject = ''
   props.currentClass.grade = ''
   props.currentClass.address = ''
@@ -37,7 +71,23 @@ const clearForm = () => {
 
 // 年級
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
-const subjectOptions = ['語言', '科技', '才藝']
+// const subjectOptions = [
+//   {
+//     id: 2,
+//     name: '科技',
+//     delete_time: null
+//   },
+//   {
+//     id: 3,
+//     name: '語言',
+//     delete_time: null
+//   },
+//   {
+//     id: 4,
+//     name: '才藝',
+//     delete_time: null
+//   }
+// ]
 </script>
 
 <template>
@@ -77,7 +127,7 @@ const subjectOptions = ['語言', '科技', '才藝']
           name="teacher"
           class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
           required
-          v-model="props.currentClass.teacherName"
+          v-model="props.currentClass.teacher"
         />
       </div>
       <!-- 領域&年級 -->
@@ -92,12 +142,12 @@ const subjectOptions = ['語言', '科技', '才藝']
             required
           >
             <option
-              v-for="(subject, index) in subjectOptions"
-              :key="index"
+              v-for="subject in subjectOptions"
+              :key="subject.id"
               :value="subject"
-              :selected="props.currentClass.subject == subject"
+              :selected="props.currentClass.subjec == subject"
             >
-              {{ subject }}
+              {{ subject.name }}
             </option>
           </select>
         </div>

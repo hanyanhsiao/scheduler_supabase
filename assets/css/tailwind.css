@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* 
+@layer utilities{
+  .vc-time-picker{
+    padding: 8px 40px ;
+  }
+} */

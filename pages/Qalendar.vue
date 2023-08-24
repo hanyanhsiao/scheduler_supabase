@@ -18,6 +18,7 @@ const events = computed(() => {
   eventData.value.forEach((eachEvent) => {
     const colorScheme = getColorScheme(eachEvent.grade)
 
+    // 賦值給Qalendar屬性
     updatedEvents.push({
       id: eachEvent.uuid,
       title: eachEvent.className,
@@ -38,15 +39,13 @@ function dragEvent($event) {
   EventStore.dragEvent($event)
 }
 
-// ---------刪除該時段的課程---------
-// delete-event回傳uuid
-function deleteTimeClass(uuid) {
+// ---------刪除該時段的課程(@delete-event回傳uuid)---------
+function deleteEvent(uuid) {
   EventStore.deleteTimeClass(uuid)
   // console.log('刪除後剩', events.value)
 }
 
-// ---------編輯課程時間---------
-// @edit-event回傳uuidw
+// ---------編輯課程時間(@edit-event回傳uuid)---------
 
 // 彈窗
 const togglePopup = ref(false)
@@ -59,7 +58,10 @@ const currentTime = ref({})
 
 // 帶入彈窗顯示原本時間
 function updateTime(uuid) {
-  togglePopup.value = !togglePopup.value
+  // setTimeout(() => {
+  // }, 100)
+  togglePopup.value = true
+
   const index = eventData.value.findIndex((event) => event.uuid === uuid)
   if (index !== -1) {
     currentTime.value.startTime = eventData.value[index].startTime
@@ -71,9 +73,42 @@ function updateTime(uuid) {
 
 //存入修改的內容
 const save = (timeObject) => {
-  togglePopup.value = !togglePopup.value
+  togglePopup.value = false
   console.log('改後時間', timeObject)
   EventStore.motifyTime(timeObject)
+}
+
+// ---------新增課程至日曆---------
+const lastClicked = ref(null)
+const NewClass = ref({})
+// console.log(NewClass)
+
+//1 判斷是新增還點擊事件
+function eventClicked() {
+  // console.log('點擊事件')
+  lastClicked.value = 'event'
+}
+function dateClicked(date) {
+  if (lastClicked.value !== 'event') {
+    // console.log('新增', date)
+    toggleAddClassPopup.value = true
+    //3 顯示點擊的日期至彈窗
+    NewClass.value.date = date
+  }
+  lastClicked.value = null // 重置標誌
+}
+
+//2 彈窗開關
+const toggleAddClassPopup = ref(false)
+const closeAddClassPopup = () => {
+  toggleAddClassPopup.value = false
+}
+
+// 3 儲存新增的課程
+const saveNewClass = (saveClass) => {
+  toggleAddClassPopup.value = false
+  console.log('我是要pushㄉ', saveClass)
+  EventStore.addNewClass(saveClass)
 }
 
 // ---------事件顏色(依年級)---------
@@ -96,7 +131,7 @@ function getColorScheme(grade) {
   }
 }
 
-// ---------Qalendar配置檔---------
+// ---------Qalendar配置---------
 const config = {
   style: {
     colorSchemes: {
@@ -135,6 +170,19 @@ const config = {
   <div class="flex w-full">
     <sideBar />
     <div class="calendar relative flex w-screen flex-col border bg-neutral-200 p-6">
+      <!-- 上方按鈕 -->
+      <!-- <div class="mb-6">
+        <button
+          class="flex w-40 items-center justify-center rounded-lg bg-primary px-4 py-2 font-bold transition-all hover:bg-third active:scale-90"
+          @click="addClassToQalendar"
+        >
+          <span>新增課程至日曆 </span>
+          <ClientOnly>
+            <Icon name="clarity:add-line" />
+          </ClientOnly>
+        </button>
+      </div> -->
+
       <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6">
         <!-- 選擇老師 -->
@@ -197,7 +245,9 @@ const config = {
         class="rounded-lg bg-white"
         @event-was-dragged="dragEvent"
         @edit-event="updateTime"
-        @delete-event="deleteTimeClass"
+        @delete-event="deleteEvent"
+        @date-was-clicked="dateClicked"
+        @event-was-clicked="eventClicked"
       >
         <!-- <template #weekDayEvent="eventProps">
           <div
@@ -230,14 +280,27 @@ const config = {
       </Qalendar>
 
       <!-- 遮罩 -->
-      <div class="absolute left-0 top-0 h-full w-full bg-black/30" v-if="togglePopup">
-        <!-- 彈窗 -->
-        <div class="z-50 rounded-md bg-white">
+      <div
+        class="absolute left-0 top-0 h-full w-full bg-black/30"
+        v-if="togglePopup || toggleAddClassPopup"
+      >
+        <!-- 修改時間彈窗 -->
+        <div class="z-50 rounded-md bg-white" v-if="togglePopup">
           <motifyTime
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             @closePopup="close"
             @save="save"
             :currentTime="currentTime"
+          />
+        </div>
+
+        <!-- 新增課程至日曆彈窗 -->
+        <div class="z-50 rounded-md bg-white" v-if="toggleAddClassPopup">
+          <addToQalendar
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            @closePopup="closeAddClassPopup"
+            @saveNewClass="saveNewClass"
+            :NewClass="NewClass"
           />
         </div>
       </div>

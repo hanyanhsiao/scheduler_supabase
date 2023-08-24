@@ -3,18 +3,32 @@ import { defineStore } from 'pinia'
 export const useStoreData = defineStore('storeData', {
   // 初始狀態，使用箭頭函式
   state: () => ({
-    classData: []
+    classData: [],
+    subjectOptions: []
   }),
 
   // 定義使用到的函式，可以為同步和非同步，如同 method
   actions: {
-    // API
+    // API 獲取所有課程資料
     async getClassData() {
       if (this.classData.length === 0) {
-        const response = await fetch('/data/class.json')
+        const response = await fetch('http://172.18.48.29:3000/course')
         const jsonResponse = await response.json()
-        this.classData = jsonResponse.class
-        // console.log('onGetClassData')
+        this.classData = jsonResponse
+
+        // const response = await fetch('/data/class.json')
+        // const jsonResponse = await response.json()
+        // this.classData = jsonResponse.class
+        // console.log(this.classData)
+      }
+    },
+    // API 獲取領域
+    async getSubject() {
+      if (this.subjectOptions.length === 0) {
+        const subjectResponse = await fetch('http://172.18.48.29:3000/subject')
+        const subjectjson = await subjectResponse.json()
+        this.subjectOptions = subjectjson
+        // console.log('pinia', this.subjectOptions)
       }
     },
     modifyClass(input) {

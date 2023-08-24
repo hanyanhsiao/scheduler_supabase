@@ -32,6 +32,7 @@ const range = ref({
 
 <template>
   <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+    <!-- 標題及關閉 -->
     <div class="flex items-center justify-between">
       <h1 class="mb-6 text-2xl font-semibold text-third">修改時間</h1>
       <!-- 關閉 -->
@@ -52,7 +53,13 @@ const range = ref({
           <label for="appt" class="">起始時間：</label>
           <label for="appt" class="">結束時間：</label>
         </div>
-        <VDatePicker v-model.range="range" mode="time" :timezone="timezone" />
+        <VDatePicker
+          borderless
+          transparent
+          v-model.range="range"
+          mode="time"
+          :timezone="timezone"
+        />
       </div>
 
       <!-- 儲存/取消 -->
@@ -64,14 +71,24 @@ const range = ref({
         >
           儲存
         </button>
-        <button
+        <!-- <button
           type="button"
           class="mx-auto block w-32 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
           @click="clearForm"
         >
           清除
-        </button>
+        </button> -->
       </div>
     </form>
   </div>
 </template>
+
+<style scoped>
+.vc-bordered {
+  border: 0px solid grey;
+  /* background-color: #fffbeb; */
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+}
+</style>

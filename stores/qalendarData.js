@@ -49,6 +49,13 @@ export const useQalendarData = defineStore('qalendarData', {
         this.eventData[index].endTime = changeEndTimeFormat
         console.log('改後時間', this.eventData[index].startTime, this.eventData[index].endTime)
       }
+    },
+    // 點擊日期新增課程
+    addNewClass(saveClass) {
+      // this.eventData.filter((event) => event.uuid == uuid)
+
+      console.log(saveClass.uuid)
+      this.eventData.push(saveClass)
     }
   },
 
