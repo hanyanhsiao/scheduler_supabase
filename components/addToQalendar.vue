@@ -3,14 +3,17 @@ import dayjs from 'dayjs'
 
 // ---------pinia---------
 import { useStoreData } from '../stores/storeData'
+import { useQalendarData } from '../stores/qalendarData'
 import { storeToRefs } from 'pinia'
 
 const classStore = useStoreData()
 const { classData } = storeToRefs(classStore)
-// console.log(classData.value)
+
+const EventStore = useQalendarData()
+// const { eventData } = storeToRefs(EventStore)
 
 // ---------定義子元件事件及屬性---------
-const emits = defineEmits(['closePopup', 'saveNewClass'])
+const emits = defineEmits(['closePopup'])
 // 定義屬性
 const props = defineProps({
   NewClass: {
@@ -19,20 +22,18 @@ const props = defineProps({
   }
 })
 
-// console.log('取得點擊的日期', props.NewClass.date)
-
 // 關閉彈窗
 const close = () => {
   emits('closePopup')
 }
-
 // 修改內容存檔
 const saveNewClass = () => {
   const saveClass = { ...props.NewClass.course }
   saveClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
   saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
-  // console.log('完整的課程', saveClass)
-  emits('saveNewClass', saveClass)
+  console.log('我是要pushㄉ', saveClass)
+  EventStore.addNewClass(saveClass)
+  emits('closePopup')
 }
 
 // 清除表單
@@ -40,6 +41,8 @@ const clearForm = () => {
   // props.NewClass.startTime = new Date()
   // props.NewClass.endTime = new Date()
   props.NewClass.course = ''
+  range.value.start = props.NewClass.date
+  range.value.end = props.NewClass.date
 }
 
 // VDatePicker設定檔
@@ -84,7 +87,7 @@ const range = ref({
 
       <!-- 時間設定 -->
       <div class="mb-6 flex w-full flex-col justify-center py-3">
-        <div class="mb-2 flex justify-start gap-16">
+        <div class="mb-2 flex justify-start gap-14">
           <label for="appt" class="ml-6">選擇起始時間：</label>
           <label for="appt" class="">選擇結束時間：</label>
         </div>

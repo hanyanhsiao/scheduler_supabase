@@ -20,19 +20,19 @@ export const useQalendarData = defineStore('qalendarData', {
     },
     // 拖曳更新日期
     dragEvent($event) {
-      // console.log($event)
-      const index = this.eventData.findIndex((event) => event.uuid === $event.id)
+      console.log($event)
+      const index = this.eventData.findIndex((event) => event.id === $event.id)
       if (index !== -1) {
         this.eventData[index].startTime = $event.time.start
         this.eventData[index].endTime = $event.time.end
       }
     },
     // 刪除該時段的課程
-    deleteTimeClass(uuid) {
+    deleteTimeClass(id) {
       const yes = confirm('確定刪除嗎?')
       if (yes) {
         // console.log('刪前', this.eventData)
-        this.eventData = this.eventData.filter((event) => event.uuid !== uuid)
+        this.eventData = this.eventData.filter((event) => event.id !== id)
         console.log('刪後', this.eventData)
       }
     },
@@ -42,7 +42,7 @@ export const useQalendarData = defineStore('qalendarData', {
       const changeStartTimeFormat = dayjs(timeObject.startTime).format('YYYY-MM-DD HH:mm')
       const changeEndTimeFormat = dayjs(timeObject.endTime).format('YYYY-MM-DD HH:mm')
 
-      const index = this.eventData.findIndex((event) => event.uuid === timeObject.uuid)
+      const index = this.eventData.findIndex((event) => event.id === timeObject.id)
       if (index !== -1) {
         // console.log('改前時間', this.eventData[index].startTime, this.eventData[index].endTime)
         this.eventData[index].startTime = changeStartTimeFormat
@@ -54,7 +54,7 @@ export const useQalendarData = defineStore('qalendarData', {
     addNewClass(saveClass) {
       // this.eventData.filter((event) => event.uuid == uuid)
 
-      console.log(saveClass.uuid)
+      console.log(saveClass.id)
       this.eventData.push(saveClass)
     }
   },

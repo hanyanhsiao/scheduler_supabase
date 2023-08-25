@@ -20,12 +20,12 @@ const events = computed(() => {
 
     // 賦值給Qalendar屬性
     updatedEvents.push({
-      id: eachEvent.uuid,
+      id: eachEvent.id,
       title: eachEvent.className,
-      with: eachEvent.teacherName,
+      with: eachEvent.teacher,
       location: eachEvent.address,
       description: eachEvent.content,
-      topic: eachEvent.subject,
+      topic: eachEvent.subject.name,
       time: { start: eachEvent.startTime, end: eachEvent.endTime },
       colorScheme: colorScheme,
       isEditable: true
@@ -39,43 +39,45 @@ function dragEvent($event) {
   EventStore.dragEvent($event)
 }
 
-// ---------刪除該時段的課程(@delete-event回傳uuid)---------
-function deleteEvent(uuid) {
-  EventStore.deleteTimeClass(uuid)
-  // console.log('刪除後剩', events.value)
+// ---------刪除該時段的課程(@delete-event回傳id)---------
+function deleteEvent(id) {
+  EventStore.deleteTimeClass(id)
 }
 
-// ---------編輯課程時間(@edit-event回傳uuid)---------
+// ---------編輯課程時間(@edit-event回傳id)---------
 
 // 彈窗
 const togglePopup = ref(false)
+const toggleAddClassPopup = ref(false)
+
 const close = () => {
   togglePopup.value = false
+  toggleAddClassPopup.value = false
 }
 
 // 點擊的課程的時間
 const currentTime = ref({})
 
 // 帶入彈窗顯示原本時間
-function updateTime(uuid) {
+function updateTime(id) {
+  console.log(id)
+
   // setTimeout(() => {
   // }, 100)
   togglePopup.value = true
 
-  const index = eventData.value.findIndex((event) => event.uuid === uuid)
+  const index = eventData.value.findIndex((event) => event.id === id)
   if (index !== -1) {
     currentTime.value.startTime = eventData.value[index].startTime
     currentTime.value.endTime = eventData.value[index].endTime
-    currentTime.value.uuid = uuid
-    // console.log('跟子元件說我的uuid', currentTime.value.uuid)
+    currentTime.value.id = id
+    console.log('跟子元件說我的id', currentTime.value.id)
   }
 }
 
-//存入修改的內容
-const save = (timeObject) => {
+//儲存彈窗
+const save = () => {
   togglePopup.value = false
-  console.log('改後時間', timeObject)
-  EventStore.motifyTime(timeObject)
 }
 
 // ---------新增課程至日曆---------
@@ -83,7 +85,7 @@ const lastClicked = ref(null)
 const NewClass = ref({})
 // console.log(NewClass)
 
-//1 判斷是新增還點擊事件
+//判斷是新增還點擊事件
 function eventClicked() {
   // console.log('點擊事件')
   lastClicked.value = 'event'
@@ -96,19 +98,6 @@ function dateClicked(date) {
     NewClass.value.date = date
   }
   lastClicked.value = null // 重置標誌
-}
-
-//2 彈窗開關
-const toggleAddClassPopup = ref(false)
-const closeAddClassPopup = () => {
-  toggleAddClassPopup.value = false
-}
-
-// 3 儲存新增的課程
-const saveNewClass = (saveClass) => {
-  toggleAddClassPopup.value = false
-  console.log('我是要pushㄉ', saveClass)
-  EventStore.addNewClass(saveClass)
 }
 
 // ---------事件顏色(依年級)---------
@@ -249,34 +238,6 @@ const config = {
         @date-was-clicked="dateClicked"
         @event-was-clicked="eventClicked"
       >
-        <!-- <template #weekDayEvent="eventProps">
-          <div
-            :style="{
-              backgroundColor: 'cornflowerblue',
-              color: '#fff',
-              width: '100%',
-              height: '100%',
-              overflow: 'hidden'
-            }"
-          >
-            <span>{{ timeFormattingFunction(eventProps.eventData.time) }}</span>
-
-            <span>{{ eventProps.eventData.title }}</span>
-          </div>
-        </template> -->
-        <!-- <template #eventDialog="props">
-          <div v-if="props.eventDialogData && props.eventDialogData.title">
-            <div :style="{ marginBottom: '8px' }">Edit event</div>
-
-            <input
-              class="flyout-input"
-              type="text"
-              :style="{ width: '90%', padding: '8px', marginBottom: '8px' }"
-            />
-
-            <button class="close-flyout" @click="props.closeEventDialog">Finished!</button>
-          </div>
-        </template> -->
       </Qalendar>
 
       <!-- 遮罩 -->
@@ -289,7 +250,6 @@ const config = {
           <motifyTime
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             @closePopup="close"
-            @save="save"
             :currentTime="currentTime"
           />
         </div>
@@ -298,8 +258,7 @@ const config = {
         <div class="z-50 rounded-md bg-white" v-if="toggleAddClassPopup">
           <addToQalendar
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            @closePopup="closeAddClassPopup"
-            @saveNewClass="saveNewClass"
+            @closePopup="close"
             :NewClass="NewClass"
           />
         </div>

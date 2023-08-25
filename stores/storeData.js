@@ -9,7 +9,7 @@ export const useStoreData = defineStore('storeData', {
 
   // 定義使用到的函式，可以為同步和非同步，如同 method
   actions: {
-    // API 獲取所有課程資料
+    // API 獲取所有課程
     async getClassData() {
       if (this.classData.length === 0) {
         const response = await fetch('http://172.18.48.29:3000/course')
@@ -22,7 +22,7 @@ export const useStoreData = defineStore('storeData', {
         // console.log(this.classData)
       }
     },
-    // API 獲取領域
+    // 獲取領域
     async getSubject() {
       if (this.subjectOptions.length === 0) {
         const subjectResponse = await fetch('http://172.18.48.29:3000/subject')
@@ -31,11 +31,52 @@ export const useStoreData = defineStore('storeData', {
         // console.log('pinia', this.subjectOptions)
       }
     },
-    modifyClass(input) {
+    // 修改課程
+    async modifyClass(input) {
       this.classData[input.indexx] = input
+
+      await fetch(`http://172.18.48.29:3000/course/${input.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(input)
+      }).then((res) => {
+        return res.json()
+      })
     },
-    addClass(input) {
+    // 新增課程
+    async addClass(input) {
       this.classData.push(input)
+
+      console.log('新增的課', input)
+      // 要新增的資料
+      const apiData = {
+        className: input.className,
+        teacher: input.teacher,
+        subject_id: input.subject.id,
+        grade: input.grade,
+        address: input.address,
+        content: input.content
+      }
+
+      await fetch(`http://172.18.48.29:3000/course`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(apiData)
+      }).then((res) => {
+        return res.json()
+      })
+    },
+    // 刪除課程
+    async deleteClass(input, index) {
+      const yes = confirm('確定刪除嗎?')
+      if (yes) {
+        this.classData.splice(index, 1)
+        await fetch(`http://172.18.48.29:3000/course/${input.id}`, {
+          method: 'DELETE'
+        }).then((res) => {
+          return res.json()
+        })
+      }
     }
   },
 

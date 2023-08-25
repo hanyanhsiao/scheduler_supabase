@@ -1,12 +1,20 @@
 <script setup>
-const emits = defineEmits(['closePopup', 'save'])
+// ---------pinia---------
+import { useQalendarData } from '../stores/qalendarData'
+import { storeToRefs } from 'pinia'
+
+const EventStore = useQalendarData()
+const { eventData } = storeToRefs(EventStore)
+
+// 定義事件
+const emits = defineEmits(['closePopup'])
 
 // 定義屬性
 const props = defineProps({
   currentTime: {
     startTime: String,
     endTime: String,
-    uuid: String
+    id: String
   }
 })
 // 關閉彈窗
@@ -19,7 +27,8 @@ const save = () => {
   props.currentTime.startTime = range.value.start
   props.currentTime.endTime = range.value.end
   // console.log(props.currentTime)
-  emits('save', props.currentTime)
+  EventStore.motifyTime(props.currentTime)
+  emits('closePopup')
 }
 
 // VDatePicker設定檔

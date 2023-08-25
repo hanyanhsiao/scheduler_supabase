@@ -7,8 +7,12 @@ const classStore = useStoreData()
 const { subjectOptions } = storeToRefs(classStore)
 // console.log('pinia裡的全部領域', subjectOptions)
 
-// ---------pinia---------
+// ---------撈領域資料---------
+onMounted(() => {
+  classStore.getSubject()
+})
 
+// 定義事件
 const emits = defineEmits(['closePopup', 'save'])
 const close = () => {
   clearForm()
@@ -18,14 +22,14 @@ const close = () => {
 // 定義currentClass屬性
 const props = defineProps({
   currentClass: {
-    uuid: String,
+    id: String,
     className: String,
     teacher: String,
     grade: String,
     address: String,
     content: String,
     indexx: Number,
-    updateDate: String,
+    create_time: String,
     subject: {
       id: String,
       name: String
@@ -33,29 +37,21 @@ const props = defineProps({
   },
   classTitle: String
 })
-// console.log('點擊的課程傳入popup', props.currentClass)
-// console.log('點擊ㄉ', props.currentClass.subject)
-// console.log('撈的', subjectOptions)
-
-onMounted(() => {
-  classStore.getSubject()
-})
 
 // 修改內容存檔
 const save = () => {
   emits('save')
   // console.log(props.currentClass.indexx)
+
   // 修改
   if (classStore.classData[props.currentClass.indexx]) {
-    // console.log('改前', classStore.classData[props.currentClass.indexx])
     classStore.modifyClass(props.currentClass)
     // console.log('改後', classStore.classData[props.currentClass.indexx])
   }
   // 新增
   else {
-    console.log('新增')
     classStore.addClass(props.currentClass)
-    console.log('新增', classStore.classData)
+    // console.log('新增', classStore.classData)
   }
 }
 

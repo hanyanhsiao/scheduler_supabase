@@ -9,27 +9,11 @@ const classStore = useStoreData()
 const { classData } = storeToRefs(classStore)
 
 // ---------撈資料---------
-// const classData = ref([])
-
 onMounted(() => {
   classStore.getClassData()
   // classData.value = classStore.classData
   // console.log(classData.value)
 })
-
-// const classData = computed(() => {
-//   console.log('Computed')
-//   return classStore.classData
-// })
-
-// const classData = useState('classData', () => classStore.classData)
-
-// const fetchData = () => {
-// const response = await fetch('/data/class.json')
-// const jsonResponse = await response.json()
-//   const jsonResponse = counterStore.getClassData()
-//   classData.value = jsonResponse.class
-// }
 
 // ---------顯示課程詳細資訊toggle--------
 
@@ -47,11 +31,15 @@ const currentClass = ref({})
 // 彈窗標題
 const classTitle = ref('新增課程')
 
+// 關閉彈窗
+const close = () => {
+  togglePopup.value = false
+}
+
 // 新增課程
 const addNewClass = () => {
   togglePopup.value = true
   classTitle.value = '新增課程'
-  // classTitle.subject.id = ''
 }
 
 // 修改課程
@@ -63,22 +51,14 @@ const editClass = (item, indexx) => {
   currentClass.value.indexx = indexx
 }
 
-// 關閉
-const close = () => {
-  togglePopup.value = false
-}
-
-// 存檔關閉彈窗
+// 儲存關閉彈窗
 const save = () => {
   togglePopup.value = false
 }
 
-// --------刪除課程--------
-const deleteClass = (index) => {
-  const yes = confirm('確定刪除嗎?')
-  if (yes) {
-    classStore.classData.splice(index, 1)
-  }
+// 刪除課程
+const deleteClass = (input, index) => {
+  classStore.deleteClass(input, index)
 }
 
 // 年級顏色
@@ -100,7 +80,6 @@ const gradeColor = (grade) => {
       return 'bg-black text-white'
   }
 }
-// 'bg-purple-200 text-purple-800'
 </script>
 
 <template>
@@ -176,7 +155,7 @@ const gradeColor = (grade) => {
                 <!-- 刪除 -->
                 <div
                   class="flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:bg-secondary active:scale-90"
-                  @click.stop="deleteClass(index)"
+                  @click.stop="deleteClass(item, index)"
                 >
                   <ClientOnly>
                     <Icon name="bi:trash3-fill" />
