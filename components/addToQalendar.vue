@@ -10,15 +10,15 @@ const classStore = useStoreData()
 const { classData } = storeToRefs(classStore)
 
 const EventStore = useQalendarData()
-// const { eventData } = storeToRefs(EventStore)
+const { eventData } = storeToRefs(EventStore)
 
 // ---------定義子元件事件及屬性---------
 const emits = defineEmits(['closePopup'])
 // 定義屬性
 const props = defineProps({
   NewClass: {
-    startTime: String,
-    endTime: String
+    startTime: new Date(),
+    endTime: new Date()
   }
 })
 
@@ -36,21 +36,21 @@ const saveNewClass = () => {
   emits('closePopup')
 }
 
+//
+
 // 清除表單
 const clearForm = () => {
-  // props.NewClass.startTime = new Date()
-  // props.NewClass.endTime = new Date()
   props.NewClass.course = ''
-  range.value.start = props.NewClass.date
-  range.value.end = props.NewClass.date
 }
 
 // VDatePicker設定檔
 const timezone = ref('Asia/Hong_Kong')
 const range = ref({
-  start: props.NewClass.date,
-  end: props.NewClass.date
+  start: new Date(props.NewClass.date),
+  end: new Date(props.NewClass.date)
 })
+// console.log('點擊的回傳', props.NewClass.date)
+// console.log('轉換後', new Date(props.NewClass.date))
 </script>
 
 <template>

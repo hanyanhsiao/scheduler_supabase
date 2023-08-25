@@ -1,20 +1,28 @@
 <script setup>
 import { Qalendar } from 'qalendar'
 // ---------pinia---------
+import { useStoreData } from '../stores/storeData'
 import { useQalendarData } from '../stores/qalendarData'
 import { storeToRefs } from 'pinia'
 
 const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
 
-// ---------首次撈取事件---------
+const classStore = useStoreData()
+const { classData } = storeToRefs(classStore)
+console.log('改前沒時間', classData)
+console.log('改後有時間', eventData)
+
+// ---------首次撈取已安排的課表---------
 onMounted(() => {
   EventStore.getEventData()
 })
 
 // ---------日曆上事件，定義 computed，同時更新 events---------
 const events = computed(() => {
+  // 日曆上陣列
   const updatedEvents = []
+  // eventData = classData
   eventData.value.forEach((eachEvent) => {
     const colorScheme = getColorScheme(eachEvent.grade)
 
@@ -83,7 +91,7 @@ const save = () => {
 // ---------新增課程至日曆---------
 const lastClicked = ref(null)
 const NewClass = ref({})
-// console.log(NewClass)
+console.log(NewClass)
 
 //判斷是新增還點擊事件
 function eventClicked() {
@@ -158,7 +166,9 @@ const config = {
 <template>
   <div class="flex w-full">
     <sideBar />
-    <div class="calendar relative flex w-screen flex-col border bg-neutral-200 p-6">
+
+    <!-- 右側日曆 -->
+    <section class="relative flex w-screen flex-col border bg-neutral-200 p-6">
       <!-- 上方按鈕 -->
       <!-- <div class="mb-6">
         <button
@@ -263,7 +273,7 @@ const config = {
           />
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </template>
 
