@@ -53,8 +53,7 @@ export const useQalendarData = defineStore('qalendarData', {
     // 點擊日期新增課程
     addNewClass(saveClass) {
       // this.eventData.filter((event) => event.uuid == uuid)
-
-      console.log(saveClass.id)
+      // console.log(saveClass.id)
       this.eventData.push(saveClass)
     }
   },

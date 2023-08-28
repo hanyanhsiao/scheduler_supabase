@@ -9,13 +9,16 @@ const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
 
 const classStore = useStoreData()
-const { classData } = storeToRefs(classStore)
-console.log('改前沒時間', classData)
-console.log('改後有時間', eventData)
+const { subjectOptions } = storeToRefs(classStore)
+// console.log(subjectOptions)
+
+// console.log('改前沒時間', classData)
+// console.log('改後有時間', eventData)
 
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
   EventStore.getEventData()
+  classStore.getSubject()
 })
 
 // ---------日曆上事件，定義 computed，同時更新 events---------
@@ -58,6 +61,7 @@ function deleteEvent(id) {
 const togglePopup = ref(false)
 const toggleAddClassPopup = ref(false)
 
+// 關閉彈窗
 const close = () => {
   togglePopup.value = false
   toggleAddClassPopup.value = false
@@ -84,9 +88,9 @@ function updateTime(id) {
 }
 
 //儲存彈窗
-const save = () => {
-  togglePopup.value = false
-}
+// const save = () => {
+//   togglePopup.value = false
+// }
 
 // ---------新增課程至日曆---------
 const lastClicked = ref(null)
@@ -191,12 +195,9 @@ const config = {
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
           >
-            <option value="first">王小明</option>
-            <option value="second">王2明</option>
-            <option value="third">王3明</option>
-            <option value="fourth">王4明</option>
-            <option value="fifth">王5明</option>
-            <option value="sixth">王6明</option>
+            <option v-for="course in eventData" :key="course.id" :value="course.teacher">
+              {{ course.teacher }}
+            </option>
           </select>
         </div>
 
@@ -207,9 +208,12 @@ const config = {
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
           >
-            <option selected value="language">語言</option>
+            <!-- <option selected value="language">語言</option>
             <option value="technology">科技</option>
-            <option value="talent">才藝</option>
+            <option value="talent">才藝</option> -->
+            <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
+              {{ subject.name }}
+            </option>
           </select>
         </div>
 
