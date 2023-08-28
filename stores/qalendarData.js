@@ -10,6 +10,7 @@ export const useQalendarData = defineStore('qalendarData', {
   // 定義使用到的函式，可以為同步和非同步，如同 method
   actions: {
     // API
+    // 撈取所有已安排的課表
     async getEventData() {
       if (this.eventData.length === 0) {
         const response = await fetch('/data/Qalendar.json')
@@ -56,6 +57,17 @@ export const useQalendarData = defineStore('qalendarData', {
       // console.log(saveClass.id)
       this.eventData.push(saveClass)
     }
+    // 篩選
+    // search(results) {
+    //   console.log(results)
+    //   this.eventData = results
+
+    //   // const results = eventData.value.filter((eachCourse) => {
+    //   //   return eachCourse.teacher.includes(isSelected.value)
+    //   // })
+    //   // console.log('有此老師的課', results)
+    //   // // updatedEvents = results
+    // }
   },
 
   // 對狀態加工的 getters，如同 computed

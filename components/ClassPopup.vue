@@ -141,7 +141,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
               v-for="subject in subjectOptions"
               :key="subject.id"
               :value="subject"
-              :selected="props.currentClass.subjec == subject"
+              :selected="props.currentClass.subject == subject"
             >
               {{ subject.name }}
             </option>

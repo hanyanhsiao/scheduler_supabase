@@ -32,7 +32,7 @@ const save = () => {
 }
 
 // VDatePicker設定檔
-const timezone = ref('Asia/Hong_Kong')
+const timezone = ref('Asia/Taipei')
 const range = ref({
   start: props.currentTime.startTime,
   end: props.currentTime.endTime

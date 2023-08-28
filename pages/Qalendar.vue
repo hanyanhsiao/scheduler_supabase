@@ -5,15 +5,12 @@ import { useStoreData } from '../stores/storeData'
 import { useQalendarData } from '../stores/qalendarData'
 import { storeToRefs } from 'pinia'
 
+const classStore = useStoreData()
+const { classData } = storeToRefs(classStore)
+const { subjectOptions } = storeToRefs(classStore)
+
 const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
-
-const classStore = useStoreData()
-const { subjectOptions } = storeToRefs(classStore)
-// console.log(subjectOptions)
-
-// console.log('改前沒時間', classData)
-// console.log('改後有時間', eventData)
 
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
@@ -21,28 +18,97 @@ onMounted(() => {
   classStore.getSubject()
 })
 
+// ---------篩選課程---------
+const isSelectedTeacher = ref('0')
+const isSelectedSubject = ref('0')
+const isSelectedGrade = ref('0')
+const results = ref([])
+
+// 若沒有選value='0'就回傳全部
+function search() {
+  const teacher =
+    isSelectedTeacher.value === '0'
+      ? eventData.value
+      : eventData.value.filter((eachCourse) => {
+          return eachCourse.teacher.includes(isSelectedTeacher.value)
+        })
+
+  const subject =
+    isSelectedSubject.value === '0'
+      ? eventData.value
+      : eventData.value.filter((eachCourse) => {
+          return eachCourse.subject.name.includes(isSelectedSubject.value)
+        })
+
+  const grade =
+    isSelectedGrade.value === '0'
+      ? eventData.value
+      : eventData.value.filter((eachCourse) => {
+          return eachCourse.grade.includes(isSelectedGrade.value)
+        })
+
+  // console.log('老師', teacher)
+  // console.log('領域', subject)
+  // console.log('年級', grade)
+
+  // 賦值給results.value顯示在日曆上
+  results.value = teacher.filter((course) => subject.includes(course) && grade.includes(course))
+
+  // 條件沒符合時
+  if (results.value.length === 0) {
+    alert('沒有符合篩選條件的課程')
+    // select回到"請選擇"
+    isSelectedTeacher.value = '0'
+    isSelectedSubject.value = '0'
+    isSelectedGrade.value = '0'
+  }
+
+  // console.log('我選了啥?', results.value)
+}
+
 // ---------日曆上事件，定義 computed，同時更新 events---------
 const events = computed(() => {
   // 日曆上陣列
-  const updatedEvents = []
-  // eventData = classData
-  eventData.value.forEach((eachEvent) => {
-    const colorScheme = getColorScheme(eachEvent.grade)
+  const updatedEvents = ref([])
 
-    // 賦值給Qalendar屬性
-    updatedEvents.push({
-      id: eachEvent.id,
-      title: eachEvent.className,
-      with: eachEvent.teacher,
-      location: eachEvent.address,
-      description: eachEvent.content,
-      topic: eachEvent.subject.name,
-      time: { start: eachEvent.startTime, end: eachEvent.endTime },
-      colorScheme: colorScheme,
-      isEditable: true
+  // 篩選
+  if (results.value.length > 0) {
+    results.value.forEach((eachEvent) => {
+      const colorScheme = getColorScheme(eachEvent.grade)
+      // 賦值給Qalendar屬性
+      updatedEvents.value.push({
+        id: eachEvent.id,
+        title: eachEvent.className,
+        with: eachEvent.teacher,
+        location: eachEvent.address,
+        description: eachEvent.content,
+        topic: eachEvent.subject.name,
+        time: { start: eachEvent.startTime, end: eachEvent.endTime },
+        colorScheme: colorScheme,
+        isEditable: true
+      })
     })
-  })
-  return updatedEvents
+  }
+  // 全部
+  else {
+    eventData.value.forEach((eachEvent) => {
+      const colorScheme = getColorScheme(eachEvent.grade)
+      // 賦值給Qalendar屬性
+      updatedEvents.value.push({
+        id: eachEvent.id,
+        title: eachEvent.className,
+        with: eachEvent.teacher,
+        location: eachEvent.address,
+        description: eachEvent.content,
+        topic: eachEvent.subject.name,
+        time: { start: eachEvent.startTime, end: eachEvent.endTime },
+        colorScheme: colorScheme,
+        isEditable: true
+      })
+    })
+  }
+
+  return updatedEvents.value
 })
 
 //--------- 拖曳更新日期---------
@@ -165,6 +231,13 @@ const config = {
   defaultMode: 'month',
   locale: 'zh-TW'
 }
+// ---------老師/年級---------
+const set = new Set()
+const setTeacher = classData.value.filter((course) =>
+  set.has(course.teacher) ? false : set.add(course.teacher)
+)
+console.log('不重複的所有老師陣列', setTeacher)
+const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
 </script>
 
 <template>
@@ -173,19 +246,6 @@ const config = {
 
     <!-- 右側日曆 -->
     <section class="relative flex w-screen flex-col border bg-neutral-200 p-6">
-      <!-- 上方按鈕 -->
-      <!-- <div class="mb-6">
-        <button
-          class="flex w-40 items-center justify-center rounded-lg bg-primary px-4 py-2 font-bold transition-all hover:bg-third active:scale-90"
-          @click="addClassToQalendar"
-        >
-          <span>新增課程至日曆 </span>
-          <ClientOnly>
-            <Icon name="clarity:add-line" />
-          </ClientOnly>
-        </button>
-      </div> -->
-
       <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6">
         <!-- 選擇老師 -->
@@ -194,8 +254,10 @@ const config = {
           <select
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            v-model="isSelectedTeacher"
           >
-            <option v-for="course in eventData" :key="course.id" :value="course.teacher">
+            <option value="0" selected>--請選擇--</option>
+            <option v-for="course in setTeacher" :key="course.id" :value="course.teacher">
               {{ course.teacher }}
             </option>
           </select>
@@ -207,10 +269,9 @@ const config = {
           <select
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            v-model="isSelectedSubject"
           >
-            <!-- <option selected value="language">語言</option>
-            <option value="technology">科技</option>
-            <option value="talent">才藝</option> -->
+            <option value="0" selected>--請選擇--</option>
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}
             </option>
@@ -223,19 +284,19 @@ const config = {
           <select
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            v-model="isSelectedGrade"
           >
-            <option value="first">小一</option>
-            <option value="second">小二</option>
-            <option value="third">小三</option>
-            <option value="fourth">小四</option>
-            <option value="fifth">小五</option>
-            <option value="sixth">小六</option>
+            <option value="0" selected>--請選擇--</option>
+            <option v-for="(gradeValue, index) in gradeOptions" :key="index" :value="gradeValue">
+              {{ gradeValue }}
+            </option>
           </select>
         </div>
 
         <button
           type="submit"
           class="h-10 w-48 self-end rounded-lg bg-secondary px-2 text-black transition-all hover:bg-third active:scale-90"
+          @click="search"
         >
           篩選
         </button>

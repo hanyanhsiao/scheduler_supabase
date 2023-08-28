@@ -33,6 +33,7 @@ const saveNewClass = () => {
   saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
   console.log('我是要pushㄉ', saveClass)
   EventStore.addNewClass(saveClass)
+  props.NewClass.course = ''
   emits('closePopup')
 }
 
@@ -51,6 +52,14 @@ const range = ref({
 })
 // console.log('點擊的回傳', props.NewClass.date)
 // console.log('轉換後', new Date(props.NewClass.date))
+
+// ---------可以新增的課程選單---------
+// 如果在eventData中找不到相同id的課程物件，
+// 則這個判斷式會返回 true，代表這個課程物件需要保留。
+const optionCourse = classData.value.filter((course) => {
+  return !eventData.value.find((eventCourse) => eventCourse.id === course.id)
+})
+console.log('可以加的課程選項', optionCourse)
 </script>
 
 <template>
@@ -79,7 +88,7 @@ const range = ref({
           required
           v-model="props.NewClass.course"
         >
-          <option v-for="(course, index) in classData" :key="index" :value="course">
+          <option v-for="(course, index) in optionCourse" :key="index" :value="course">
             {{ course.className }}
           </option>
         </select>
