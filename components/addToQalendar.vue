@@ -54,12 +54,14 @@ const range = ref({
 // console.log('轉換後', new Date(props.NewClass.date))
 
 // ---------可以新增的課程選單---------
+
 // 如果在eventData中找不到相同id的課程物件，
-// 則這個判斷式會返回 true，代表這個課程物件需要保留。
+// 則這個判斷式會返回true，代表這個課程物件需要保留。
 const optionCourse = classData.value.filter((course) => {
+  // 找不到符合的課程物件，find會返回undefined，!undefined =true
   return !eventData.value.find((eventCourse) => eventCourse.id === course.id)
 })
-console.log('可以加的課程選項', optionCourse)
+// console.log('可以加的課程選項', optionCourse)
 </script>
 
 <template>

@@ -18,14 +18,25 @@ onMounted(() => {
   classStore.getSubject()
 })
 
-// ---------篩選課程---------
+// -------------篩選課程-------------
 const isSelectedTeacher = ref('0')
 const isSelectedSubject = ref('0')
 const isSelectedGrade = ref('0')
+// 篩選後顯示的陣列
 const results = ref([])
 
-// 若沒有選value='0'就回傳全部
 function search() {
+  // 在三個都是--請選擇--的狀態下是預設全撈，可以做新增刪除修改
+  if (
+    isSelectedTeacher.value == '0' &&
+    isSelectedSubject.value == '0' &&
+    isSelectedGrade.value == '0'
+  ) {
+    results.value = []
+    return
+  }
+
+  // 若沒有選value='0'就回傳全部
   const teacher =
     isSelectedTeacher.value === '0'
       ? eventData.value
@@ -66,7 +77,7 @@ function search() {
   // console.log('我選了啥?', results.value)
 }
 
-// ---------日曆上事件，定義 computed，同時更新 events---------
+// ---------日曆上事件，定義computed，同時更新events(Qalendar的參數)---------
 const events = computed(() => {
   // 日曆上陣列
   const updatedEvents = ref([])
@@ -122,7 +133,6 @@ function deleteEvent(id) {
 }
 
 // ---------編輯課程時間(@edit-event回傳id)---------
-
 // 彈窗
 const togglePopup = ref(false)
 const toggleAddClassPopup = ref(false)
@@ -138,7 +148,7 @@ const currentTime = ref({})
 
 // 帶入彈窗顯示原本時間
 function updateTime(id) {
-  console.log(id)
+  // console.log(id)
 
   // setTimeout(() => {
   // }, 100)
@@ -149,19 +159,14 @@ function updateTime(id) {
     currentTime.value.startTime = eventData.value[index].startTime
     currentTime.value.endTime = eventData.value[index].endTime
     currentTime.value.id = id
-    console.log('跟子元件說我的id', currentTime.value.id)
+    // console.log('跟子元件說我的id', currentTime.value.id)
   }
 }
-
-//儲存彈窗
-// const save = () => {
-//   togglePopup.value = false
-// }
 
 // ---------新增課程至日曆---------
 const lastClicked = ref(null)
 const NewClass = ref({})
-console.log(NewClass)
+// console.log(NewClass)
 
 //判斷是新增還點擊事件
 function eventClicked() {
@@ -231,15 +236,15 @@ const config = {
   defaultMode: 'month',
   locale: 'zh-TW'
 }
-// ---------老師/年級---------
+// ---------老師/年級下拉選單---------
 const set = new Set()
 const setTeacher = classData.value.filter((course) =>
   set.has(course.teacher) ? false : set.add(course.teacher)
 )
-console.log('不重複的所有老師陣列', setTeacher)
+// console.log('不重複的所有老師陣列', setTeacher)
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
 </script>
-
+<!-- ------------------------【template】------------------------ -->
 <template>
   <div class="flex w-full">
     <sideBar />

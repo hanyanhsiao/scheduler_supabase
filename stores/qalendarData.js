@@ -21,7 +21,7 @@ export const useQalendarData = defineStore('qalendarData', {
     },
     // 拖曳更新日期
     dragEvent($event) {
-      console.log($event)
+      // console.log($event)
       const index = this.eventData.findIndex((event) => event.id === $event.id)
       if (index !== -1) {
         this.eventData[index].startTime = $event.time.start
@@ -34,7 +34,7 @@ export const useQalendarData = defineStore('qalendarData', {
       if (yes) {
         // console.log('刪前', this.eventData)
         this.eventData = this.eventData.filter((event) => event.id !== id)
-        console.log('刪後', this.eventData)
+        // console.log('刪後', this.eventData)
       }
     },
     // 課程改時間
@@ -48,7 +48,7 @@ export const useQalendarData = defineStore('qalendarData', {
         // console.log('改前時間', this.eventData[index].startTime, this.eventData[index].endTime)
         this.eventData[index].startTime = changeStartTimeFormat
         this.eventData[index].endTime = changeEndTimeFormat
-        console.log('改後時間', this.eventData[index].startTime, this.eventData[index].endTime)
+        // console.log('改後時間', this.eventData[index].startTime, this.eventData[index].endTime)
       }
     },
     // 點擊日期新增課程

@@ -47,7 +47,7 @@ export const useStoreData = defineStore('storeData', {
     async addClass(input) {
       this.classData.push(input)
 
-      console.log('新增的課', input)
+      // console.log('新增的課', input)
       // 要新增的資料
       const apiData = {
         className: input.className,
