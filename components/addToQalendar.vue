@@ -17,8 +17,7 @@ const emits = defineEmits(['closePopup'])
 // 定義屬性
 const props = defineProps({
   NewClass: {
-    startTime: new Date(),
-    endTime: new Date()
+    date: String
   }
 })
 
@@ -45,22 +44,25 @@ const clearForm = () => {
 }
 
 // VDatePicker設定檔
-const timezone = ref('Asia/Hong_Kong')
+const timezone = ref('Asia/Taipei')
 const range = ref({
-  start: new Date(props.NewClass.date),
-  end: new Date(props.NewClass.date)
+  start: props.NewClass.date + ' 00:00:00', //new Date(props.NewClass.date)
+  end: props.NewClass.date + ' 00:00:00' //new Date(props.NewClass.date)
 })
+console.log(range)
+console.log(props.NewClass)
+
 // console.log('點擊的回傳', props.NewClass.date)
 // console.log('轉換後', new Date(props.NewClass.date))
 
 // ---------可以新增的課程選單---------
-
+const optionCourse = classData.value
 // 如果在eventData中找不到相同id的課程物件，
 // 則這個判斷式會返回true，代表這個課程物件需要保留。
-const optionCourse = classData.value.filter((course) => {
-  // 找不到符合的課程物件，find會返回undefined，!undefined =true
-  return !eventData.value.find((eventCourse) => eventCourse.id === course.id)
-})
+// const optionCourse = classData.value.filter((course) => {
+//   // 找不到符合的課程物件，find會返回undefined，!undefined =true
+//   return !eventData.value.find((eventCourse) => eventCourse.id === course.id)
+// })
 // console.log('可以加的課程選項', optionCourse)
 </script>
 
@@ -103,6 +105,7 @@ const optionCourse = classData.value.filter((course) => {
           <label for="appt" class="">選擇結束時間：</label>
         </div>
         <VDatePicker v-model.range="range" mode="time" :timezone="timezone" />
+        <!-- :is24hr="true" -->
       </div>
 
       <!-- 儲存/取消 -->

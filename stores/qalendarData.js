@@ -39,6 +39,7 @@ export const useQalendarData = defineStore('qalendarData', {
     },
     // 課程改時間
     motifyTime(timeObject) {
+      console.log(timeObject)
       // 使用dayjs更改日期格式
       const changeStartTimeFormat = dayjs(timeObject.startTime).format('YYYY-MM-DD HH:mm')
       const changeEndTimeFormat = dayjs(timeObject.endTime).format('YYYY-MM-DD HH:mm')

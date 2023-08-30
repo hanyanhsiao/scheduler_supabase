@@ -87,8 +87,8 @@ const gradeColor = (grade) => {
     <!-- 側邊欄 -->
     <sideBar />
 
-    <!-- 右側表格 -->
-    <section class="relative w-screen bg-neutral-200 p-6">
+    <!-- 右側 -->
+    <section class="relative w-10/12 bg-neutral-200 p-6">
       <!-- 上方按鈕 -->
       <div class="">
         <button

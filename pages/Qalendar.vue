@@ -175,9 +175,9 @@ function eventClicked() {
 }
 function dateClicked(date) {
   if (lastClicked.value !== 'event') {
-    // console.log('新增', date)
+    console.log('新增', date)
     toggleAddClassPopup.value = true
-    //3 顯示點擊的日期至彈窗
+    //3 顯示點擊的日期至addToQalendar的彈窗
     NewClass.value.date = date
   }
   lastClicked.value = null // 重置標誌
@@ -250,7 +250,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
     <sideBar />
 
     <!-- 右側日曆 -->
-    <section class="relative flex w-screen flex-col border bg-neutral-200 p-6">
+    <section class="relative flex w-10/12 flex-col border bg-neutral-200 p-6">
       <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6">
         <!-- 選擇老師 -->
