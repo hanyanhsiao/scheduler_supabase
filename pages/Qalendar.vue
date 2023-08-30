@@ -129,6 +129,7 @@ function dragEvent($event) {
 
 // ---------刪除該時段的課程(@delete-event回傳id)---------
 function deleteEvent(id) {
+  console.log('刪除回傳啥?', id)
   EventStore.deleteTimeClass(id)
 }
 
@@ -300,7 +301,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
         <button
           type="submit"
-          class="h-10 w-48 self-end rounded-lg bg-secondary px-2 text-black transition-all hover:bg-third active:scale-90"
+          class="h-10 w-48 self-end rounded-lg border-2 border-solid border-third bg-primary px-2 font-bold text-black transition-all hover:bg-third active:scale-90"
           @click="search"
         >
           篩選
@@ -311,7 +312,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
       <Qalendar
         :events="events"
         :config="config"
-        class="rounded-lg bg-white"
+        class="rounded-lg bg-white shadow-md"
         @event-was-dragged="dragEvent"
         @edit-event="updateTime"
         @delete-event="deleteEvent"

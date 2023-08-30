@@ -92,7 +92,7 @@ const gradeColor = (grade) => {
       <!-- 上方按鈕 -->
       <div class="">
         <button
-          class="flex w-32 items-center justify-center rounded-lg bg-primary px-4 py-2 font-bold transition-all hover:bg-third active:scale-90"
+          class="flex w-32 items-center justify-center rounded-lg border-2 border-solid border-third bg-primary px-4 py-2 font-bold transition-all hover:bg-third active:scale-90"
           @click="addNewClass"
         >
           <span>新增課程 </span>

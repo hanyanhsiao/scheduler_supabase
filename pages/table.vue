@@ -76,11 +76,11 @@ const sortType = 'desc'
     <!-- 右側 -->
     <div class="w-10/12 bg-neutral-200 p-6">
       <!-- 上方搜尋 -->
-      <div class="mb-3 flex">
-        <session class="w-full px-2 py-3">
-          <span class="mr-5 text-sm">請選擇搜尋欄位</span>
+      <div class="mb-5 flex">
+        <session class="w-full">
+          <label class="mr-5 text-sm">請選擇搜尋欄位</label>
           <select
-            class="rounded-lg px-10 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="rounded-lg border border-gray-300 px-5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
             v-model="searchField"
           >
             <option value="" selected>--請選擇--</option>
@@ -95,11 +95,11 @@ const sortType = 'desc'
           </select>
         </session>
 
-        <session class="w-full px-2 py-3">
-          <span class="mr-5 text-sm">請輸入搜尋內容</span>
+        <session class="w-full px-2">
+          <label class="mr-5 text-sm">請輸入搜尋內容</label>
           <input
             type="text"
-            class="rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="rounded-lg border border-gray-300 px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
             placeholder="請輸入搜尋內容"
             v-model="searchValue"
           />
@@ -108,7 +108,7 @@ const sortType = 'desc'
 
       <!-- 下方表格 -->
       <EasyDataTable
-        class="rounded-lg"
+        class="rounded-lg shadow-md"
         :headers="headers"
         :items="items"
         alternating

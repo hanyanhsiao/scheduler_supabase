@@ -30,7 +30,9 @@ const saveNewClass = () => {
   const saveClass = { ...props.NewClass.course }
   saveClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
   saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
-  console.log('我是要pushㄉ', saveClass)
+  saveClass.id = new Date() //用新增日期給新id
+  console.log('我是要新增的課程', saveClass)
+
   EventStore.addNewClass(saveClass)
   props.NewClass.course = ''
   emits('closePopup')
@@ -57,6 +59,7 @@ console.log(props.NewClass)
 
 // ---------可以新增的課程選單---------
 const optionCourse = classData.value
+
 // 如果在eventData中找不到相同id的課程物件，
 // 則這個判斷式會返回true，代表這個課程物件需要保留。
 // const optionCourse = classData.value.filter((course) => {
