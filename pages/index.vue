@@ -11,12 +11,9 @@ const { classData } = storeToRefs(classStore)
 // ---------撈資料---------
 onMounted(() => {
   classStore.getClassData()
-  // classData.value = classStore.classData
-  // console.log(classData.value)
 })
 
-// ---------顯示課程詳細資訊toggle--------
-
+// ---------顯示課程內容toggle--------
 const toggleDetails = (item) => {
   item.showDetails = !item.showDetails
 }
@@ -29,26 +26,16 @@ const togglePopup = ref(false)
 const currentClass = ref({})
 
 // 彈窗標題
-const classTitle = ref('新增課程')
-
-// 關閉彈窗
-const close = () => {
-  togglePopup.value = false
-}
+// const classTitle = ref('新增課程')
 
 // 修改課程
 const editClass = (item, indexx) => {
+  // classTitle.value = '修改課程'
   togglePopup.value = true
-  classTitle.value = '修改課程'
   const applyClass = { ...item }
   // console.log('修改原黨', applyClass)
   currentClass.value = applyClass
   currentClass.value.indexx = indexx
-}
-
-// 儲存關閉彈窗
-const save = () => {
-  togglePopup.value = false
 }
 
 // ---------新增課程--------
@@ -57,10 +44,23 @@ const toggleAddPopup = ref(false)
 
 // 新增課程
 const addNewClass = () => {
-  currentClass.value.subject = {}
-  // currentClass.value.indexx = null
-  console.log('新增課程', currentClass.value)
+  // currentClass.value.subject = {}
+  // togglePopup.value = true
+  // classTitle.value = '新增課程'
   toggleAddPopup.value = true
+}
+
+// ---------彈窗共用事件--------
+// 關閉彈窗
+const close = () => {
+  togglePopup.value = false
+  toggleAddPopup.value = false
+}
+
+// 儲存關閉彈窗
+const save = () => {
+  togglePopup.value = false
+  toggleAddPopup.value = false
 }
 
 // ---------刪除課程---------
@@ -97,17 +97,15 @@ const gradeColor = (grade) => {
     <!-- 右側 -->
     <section class="relative w-10/12 bg-neutral-200 p-6">
       <!-- 上方按鈕 -->
-      <div class="">
-        <button
-          class="flex w-32 items-center justify-center rounded-lg border-2 border-solid border-third bg-primary px-4 py-2 font-bold transition-all hover:bg-third active:scale-90"
-          @click="addNewClass"
-        >
-          <span>新增課程 </span>
-          <ClientOnly>
-            <Icon name="clarity:add-line" />
-          </ClientOnly>
-        </button>
-      </div>
+      <button
+        class="flex w-32 items-center justify-center rounded-lg border-2 border-solid border-third bg-primary px-4 py-2 font-bold transition-all hover:bg-third active:scale-90"
+        @click="addNewClass"
+      >
+        <span>新增課程 </span>
+        <ClientOnly>
+          <Icon name="clarity:add-line" />
+        </ClientOnly>
+      </button>
 
       <!-- 下方列表 -->
       <div class="flex w-full items-center rounded-lg">
@@ -172,10 +170,16 @@ const gradeColor = (grade) => {
             </div>
             <!-- 詳細內容 -->
             <div v-if="item.showDetails">
-              <div class="flex items-center justify-between border-b-2 px-6 py-3 font-bold">
-                <div class="text-left">課程內容：{{ item.content }}</div>
-                <div class="text-right">
-                  建立日期：{{ dayjs(item.create_time).format('YYYY-MM-DD') }}
+              <div class="flex flex-col gap-5 border-b-2 bg-zinc-50 px-6 py-3">
+                <div class="text-left">
+                  <p class="font-bold">課程內容：</p>
+                  <p class="text-justify">{{ item.content }}</p>
+                </div>
+                <div class="text-left">
+                  <p class="font-bold">建立日期：</p>
+                  <p class="text-justify text-third">
+                    {{ dayjs(item.create_time).format('YYYY-MM-DD') }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -186,28 +190,27 @@ const gradeColor = (grade) => {
       <!-- 分頁器 -->
       <!-- <paginationVue /> -->
 
-      <!-- 修改遮罩 -->
-      <div class="absolute left-0 top-0 h-full w-full bg-black/30" v-if="togglePopup">
+      <!-- 遮罩 -->
+      <div
+        class="absolute left-0 top-0 h-full w-full bg-black/30"
+        v-if="togglePopup || toggleAddPopup"
+      >
         <!-- 彈窗 -->
         <div class="z-50 rounded-md bg-white">
+          <!-- 修改課程 -->
           <motifyPopup
             class="absolute left-1/2 top-5 -translate-x-1/2"
+            v-if="togglePopup"
             @closePopup="close"
             @save="save"
             :currentClass="currentClass"
-            :classTitle="classTitle"
           />
-        </div>
-      </div>
-      <!-- 新增遮罩 -->
-      <div class="absolute left-0 top-0 h-full w-full bg-black/30" v-if="toggleAddPopup">
-        <!-- 彈窗 -->
-        <div class="z-50 rounded-md bg-white">
+          <!-- 新增課程 -->
           <addPopup
             class="absolute left-1/2 top-5 -translate-x-1/2"
+            v-if="toggleAddPopup"
             @closePopup="close"
             @save="save"
-            :currentClass="currentClass"
           />
         </div>
       </div>

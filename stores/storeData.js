@@ -53,6 +53,8 @@ export const useStoreData = defineStore('storeData', {
     },
     // 4 新增課程
     async addClass(input) {
+      console.log('新增的課', input)
+
       // -----------API-------------
       // 要新增的資料
       const apiData = {
@@ -75,7 +77,6 @@ export const useStoreData = defineStore('storeData', {
 
       // -----------local-------------
       this.classData.push(input)
-      // console.log('新增的課', input)
     },
     // 5 刪除課程
     async deleteClass(input, index) {

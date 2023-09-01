@@ -1,6 +1,4 @@
 <script setup>
-const router = useRouter()
-
 // ---------pinia---------
 import { useStoreData } from '../stores/storeData'
 import { storeToRefs } from 'pinia'
@@ -11,7 +9,7 @@ const { subjectOptions } = storeToRefs(classStore)
 // ---------撈領域資料---------
 onMounted(() => {
   classStore.getSubject()
-  console.log('原課程', props.currentClass)
+  console.log('修改，原課程', props.currentClass)
 })
 
 // 定義事件
@@ -36,46 +34,26 @@ const props = defineProps({
       id: String,
       name: String
     }
-  },
-  classTitle: String
+  }
 })
 
-const togglePopup = ref(false)
-const isMotify = ref(false)
 // 修改內容存檔
 const save = async () => {
   emits('save')
-  // console.log(props.currentClass)
 
-  // 修改
-  if (isMotify) {
-    // 用subject.name找正確的subject
-    const updatedSubject = subjectOptions.value.find(
-      (each) => each.name == props.currentClass.subject.name
-    )
-    console.log('我是正確的領域嗎?拜託是', updatedSubject)
-    props.currentClass.subject = updatedSubject
+  // 用subject.name找正確的subject
+  const updatedSubject = subjectOptions.value.find(
+    (each) => each.name == props.currentClass.subject.name
+  )
+  // console.log('我是正確的領域嗎?拜託是', updatedSubject)
+  props.currentClass.subject = updatedSubject
 
-    await classStore.modifyClass(props.currentClass)
-    console.log('修改', props.currentClass)
-    isMotify.value = false
-    // props.currentClass.indexx = null
-    // console.log(props.currentClass)
+  // 打API修改
+  await classStore.modifyClass(props.currentClass)
+  console.log('修改完的課', props.currentClass)
 
-    // clearForm()
-    // router.go(0)
-  }
-  // 新增
-  else {
-    // 用subject.name找正確的subject
-    const subjectName = props.currentClass.subject.name
-    const updatedSubject = subjectOptions.value.find((each) => each.name === subjectName)
-    // console.log('我是正確的領域嗎?拜託是', updatedSubject)
-    props.currentClass.subject = updatedSubject
-    classStore.addClass(props.currentClass)
-    console.log('新增', props.currentClass)
-    // router.go(0)
-  }
+  // 修改完撈出全部課程
+  classStore.getClassData()
 }
 
 // 清除表單
@@ -113,7 +91,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 <template>
   <div class="w-full max-w-xl rounded-lg bg-white p-6 shadow-lg">
     <div class="flex items-center justify-between">
-      <h1 class="mb-6 text-2xl font-semibold text-third">{{ classTitle }}</h1>
+      <h1 class="mb-6 text-2xl font-semibold text-third">修改課程</h1>
       <!-- 關閉 -->
       <div
         class="mb-4 flex h-7 w-7 cursor-pointer self-start rounded-md p-1 text-xl transition-all hover:bg-secondary active:scale-90"
