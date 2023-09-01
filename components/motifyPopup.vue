@@ -1,15 +1,17 @@
 <script setup>
+const router = useRouter()
+
 // ---------pinia---------
 import { useStoreData } from '../stores/storeData'
 import { storeToRefs } from 'pinia'
-
 const classStore = useStoreData()
+// API
 const { subjectOptions } = storeToRefs(classStore)
-// console.log('pinia裡的全部領域', subjectOptions)
 
 // ---------撈領域資料---------
 onMounted(() => {
   classStore.getSubject()
+  console.log('原課程', props.currentClass)
 })
 
 // 定義事件
@@ -38,20 +40,41 @@ const props = defineProps({
   classTitle: String
 })
 
+const togglePopup = ref(false)
+const isMotify = ref(false)
 // 修改內容存檔
-const save = () => {
+const save = async () => {
   emits('save')
-  // console.log(props.currentClass.indexx)
+  // console.log(props.currentClass)
 
   // 修改
-  if (classStore.classData[props.currentClass.indexx]) {
-    classStore.modifyClass(props.currentClass)
-    // console.log('改後', classStore.classData[props.currentClass.indexx])
+  if (isMotify) {
+    // 用subject.name找正確的subject
+    const updatedSubject = subjectOptions.value.find(
+      (each) => each.name == props.currentClass.subject.name
+    )
+    console.log('我是正確的領域嗎?拜託是', updatedSubject)
+    props.currentClass.subject = updatedSubject
+
+    await classStore.modifyClass(props.currentClass)
+    console.log('修改', props.currentClass)
+    isMotify.value = false
+    // props.currentClass.indexx = null
+    // console.log(props.currentClass)
+
+    // clearForm()
+    // router.go(0)
   }
   // 新增
   else {
+    // 用subject.name找正確的subject
+    const subjectName = props.currentClass.subject.name
+    const updatedSubject = subjectOptions.value.find((each) => each.name === subjectName)
+    // console.log('我是正確的領域嗎?拜託是', updatedSubject)
+    props.currentClass.subject = updatedSubject
     classStore.addClass(props.currentClass)
-    // console.log('新增', classStore.classData)
+    console.log('新增', props.currentClass)
+    // router.go(0)
   }
 }
 
@@ -67,6 +90,7 @@ const clearForm = () => {
 
 // 年級
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
+// API
 // const subjectOptions = [
 //   {
 //     id: 2,
@@ -134,17 +158,13 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
           <select
             id="subject"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
-            v-model="props.currentClass.subject"
+            v-model="props.currentClass.subject.name"
             required
           >
-            <option
-              v-for="subject in subjectOptions"
-              :key="subject.id"
-              :value="subject"
-              :selected="props.currentClass.subject == subject"
-            >
+            <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}
             </option>
+            <!-- :selected="props.currentClass.subject.name == subject.name" -->
           </select>
         </div>
 
@@ -157,14 +177,10 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
             v-model="props.currentClass.grade"
             required
           >
-            <option
-              v-for="(gradeValue, index) in gradeOptions"
-              :key="index"
-              :value="gradeValue"
-              :selected="props.currentClass.grade == gradeValue"
-            >
+            <option v-for="(gradeValue, index) in gradeOptions" :key="index" :value="gradeValue">
               {{ gradeValue }}
             </option>
+            <!-- :selected="props.currentClass.grade == gradeValue" -->
           </select>
         </div>
       </div>

@@ -21,7 +21,7 @@ const toggleDetails = (item) => {
   item.showDetails = !item.showDetails
 }
 
-// ---------新增/修改彈窗--------
+// ---------修改課程--------
 // 彈窗
 const togglePopup = ref(false)
 
@@ -36,17 +36,12 @@ const close = () => {
   togglePopup.value = false
 }
 
-// 新增課程
-const addNewClass = () => {
-  togglePopup.value = true
-  classTitle.value = '新增課程'
-}
-
 // 修改課程
 const editClass = (item, indexx) => {
   togglePopup.value = true
   classTitle.value = '修改課程'
   const applyClass = { ...item }
+  // console.log('修改原黨', applyClass)
   currentClass.value = applyClass
   currentClass.value.indexx = indexx
 }
@@ -56,12 +51,24 @@ const save = () => {
   togglePopup.value = false
 }
 
-// 刪除課程
+// ---------新增課程--------
+// 彈窗
+const toggleAddPopup = ref(false)
+
+// 新增課程
+const addNewClass = () => {
+  currentClass.value.subject = {}
+  // currentClass.value.indexx = null
+  console.log('新增課程', currentClass.value)
+  toggleAddPopup.value = true
+}
+
+// ---------刪除課程---------
 const deleteClass = (input, index) => {
   classStore.deleteClass(input, index)
 }
 
-// 年級顏色
+// ---------年級顏色---------
 const gradeColor = (grade) => {
   switch (grade) {
     case '小一':
@@ -179,16 +186,28 @@ const gradeColor = (grade) => {
       <!-- 分頁器 -->
       <!-- <paginationVue /> -->
 
-      <!-- 遮罩 -->
+      <!-- 修改遮罩 -->
       <div class="absolute left-0 top-0 h-full w-full bg-black/30" v-if="togglePopup">
         <!-- 彈窗 -->
         <div class="z-50 rounded-md bg-white">
-          <ClassPopup
+          <motifyPopup
             class="absolute left-1/2 top-5 -translate-x-1/2"
             @closePopup="close"
             @save="save"
             :currentClass="currentClass"
             :classTitle="classTitle"
+          />
+        </div>
+      </div>
+      <!-- 新增遮罩 -->
+      <div class="absolute left-0 top-0 h-full w-full bg-black/30" v-if="toggleAddPopup">
+        <!-- 彈窗 -->
+        <div class="z-50 rounded-md bg-white">
+          <addPopup
+            class="absolute left-1/2 top-5 -translate-x-1/2"
+            @closePopup="close"
+            @save="save"
+            :currentClass="currentClass"
           />
         </div>
       </div>

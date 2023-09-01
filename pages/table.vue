@@ -11,6 +11,7 @@ const { eventData } = storeToRefs(EventStore)
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
   EventStore.getEventData()
+  console.log(eventData)
 })
 
 // ---------表格標題---------
@@ -32,14 +33,14 @@ eventData.value.forEach((eachEvent) => {
   // 賦值給table屬性
   items.value.push({
     // id: eachEvent.id,
-    className: eachEvent.className,
-    teacher: eachEvent.teacher,
-    grade: eachEvent.grade,
-    subject: eachEvent.subject.name, //{ id: eachEvent.subject.id, name: eachEvent.subject.name },
-    address: eachEvent.address,
+    className: eachEvent.course.className,
+    teacher: eachEvent.course.teacher,
+    grade: eachEvent.course.grade,
+    subject: eachEvent.course.subject.name, //{ id: eachEvent.subject.id, name: eachEvent.subject.name },
+    address: eachEvent.course.address,
     startTime: eachEvent.startTime,
     endTime: eachEvent.endTime,
-    content: eachEvent.content,
+    content: eachEvent.course.content,
     duration: duration()
   })
 
@@ -51,6 +52,7 @@ eventData.value.forEach((eachEvent) => {
     const hours = duration.getUTCHours()
     const minutes = duration.getUTCMinutes()
     return `${hours} 小時 ${minutes} 分`
+    // hours * 60 + minutes
     // console.log(`差：${hours} 小時 ${minutes} 分鐘`)
   }
 })
@@ -64,8 +66,10 @@ const sortBy = ref(['startTime', 'endTime', 'duration'])
 const sortType = 'desc'
 // ASC由小至大排列，DESC由大至小排列
 
-// ---------時長計算---------
-// console.log(items.value[0].startTime)
+// ---------排序---------
+function sortColums(what) {
+  console.log(what)
+}
 </script>
 
 <template>
@@ -74,13 +78,13 @@ const sortType = 'desc'
     <sideBar />
 
     <!-- 右側 -->
-    <div class="w-10/12 bg-neutral-200 p-6">
+    <div class="w-10/12 bg-neutral-200 p-6" v-if="eventData[0]">
       <!-- 上方搜尋 -->
-      <div class="mb-5 flex">
-        <session class="w-full">
-          <label class="mr-5 text-sm">請選擇搜尋欄位</label>
+      <section class="mb-5 flex">
+        <div class="w-full">
+          <label class="mr-5">請選擇搜尋欄位</label>
           <select
-            class="rounded-lg border border-gray-300 px-5 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="searchField"
           >
             <option value="" selected>--請選擇--</option>
@@ -88,23 +92,23 @@ const sortType = 'desc'
               v-for="(header, index) in headers"
               :key="index"
               :value="header.value"
-              class="p-2 text-sm"
+              class="p-2"
             >
               {{ header.text }}
             </option>
           </select>
-        </session>
+        </div>
 
-        <session class="w-full px-2">
-          <label class="mr-5 text-sm">請輸入搜尋內容</label>
+        <div class="w-full px-2">
+          <label class="mr-5">請輸入搜尋內容</label>
           <input
             type="text"
-            class="rounded-lg border border-gray-300 px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="rounded-lg border border-gray-300 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-third"
             placeholder="請輸入搜尋內容"
             v-model="searchValue"
           />
-        </session>
-      </div>
+        </div>
+      </section>
 
       <!-- 下方表格 -->
       <EasyDataTable
@@ -125,10 +129,11 @@ const sortType = 'desc'
         show-index
         fixed-index
         :index-column-width="40"
-        :rows-per-page="5"
-        :rows-items="[10, 20]"
+        :rows-per-page="10"
+        :rows-items="[5, 10, 20]"
         fixed-expand
         :expand-column-width="40"
+        @update-sort="sortColums"
       >
         <!-- 展開內容 -->
         <template #expand="item">
@@ -143,6 +148,8 @@ const sortType = 'desc'
 
 <style scoped>
 .customize-table {
+  --easy-table-header-font-size: 14px;
+  --easy-table-body-row-font-size: 14px;
   --easy-table-header-background-color: #fb923c;
   --easy-table-header-font-color: black;
   --easy-table-header-height: 40px;

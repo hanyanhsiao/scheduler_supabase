@@ -27,10 +27,12 @@ const close = () => {
 }
 // 修改內容存檔
 const saveNewClass = () => {
-  const saveClass = { ...props.NewClass.course }
+  // const saveClass = { ...props.NewClass.course }
+  const saveClass = {}
+  saveClass.course = props.NewClass.course
   saveClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
   saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
-  saveClass.id = new Date() //用新增日期給新id
+  // saveClass.id = new Date() //用新增日期給新id
   console.log('我是要新增的課程', saveClass)
 
   EventStore.addNewClass(saveClass)

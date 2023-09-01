@@ -16,6 +16,7 @@ const { eventData } = storeToRefs(EventStore)
 onMounted(() => {
   EventStore.getEventData()
   classStore.getSubject()
+  // console.log(eventData)
 })
 
 // -------------篩選課程-------------
@@ -41,21 +42,21 @@ function search() {
     isSelectedTeacher.value === '0'
       ? eventData.value
       : eventData.value.filter((eachCourse) => {
-          return eachCourse.teacher.includes(isSelectedTeacher.value)
+          return eachCourse.course.teacher.includes(isSelectedTeacher.value)
         })
 
   const subject =
     isSelectedSubject.value === '0'
       ? eventData.value
       : eventData.value.filter((eachCourse) => {
-          return eachCourse.subject.name.includes(isSelectedSubject.value)
+          return eachCourse.course.subject.name.includes(isSelectedSubject.value)
         })
 
   const grade =
     isSelectedGrade.value === '0'
       ? eventData.value
       : eventData.value.filter((eachCourse) => {
-          return eachCourse.grade.includes(isSelectedGrade.value)
+          return eachCourse.course.grade.includes(isSelectedGrade.value)
         })
 
   // console.log('老師', teacher)
@@ -89,11 +90,11 @@ const events = computed(() => {
       // 賦值給Qalendar屬性
       updatedEvents.value.push({
         id: eachEvent.id,
-        title: eachEvent.className,
-        with: eachEvent.teacher,
-        location: eachEvent.address,
-        description: eachEvent.content,
-        topic: eachEvent.subject.name,
+        title: eachEvent.course.className,
+        with: eachEvent.course.teacher,
+        location: eachEvent.course.address,
+        description: eachEvent.course.content,
+        topic: eachEvent.course.subject.name,
         time: { start: eachEvent.startTime, end: eachEvent.endTime },
         colorScheme: colorScheme,
         isEditable: true
@@ -103,15 +104,15 @@ const events = computed(() => {
   // 全部
   else {
     eventData.value.forEach((eachEvent) => {
-      const colorScheme = getColorScheme(eachEvent.grade)
+      const colorScheme = getColorScheme(eachEvent.course.grade)
       // 賦值給Qalendar屬性
       updatedEvents.value.push({
         id: eachEvent.id,
-        title: eachEvent.className,
-        with: eachEvent.teacher,
-        location: eachEvent.address,
-        description: eachEvent.content,
-        topic: eachEvent.subject.name,
+        title: eachEvent.course.className,
+        with: eachEvent.course.teacher,
+        location: eachEvent.course.address,
+        description: eachEvent.course.content,
+        topic: eachEvent.course.subject.name,
         time: { start: eachEvent.startTime, end: eachEvent.endTime },
         colorScheme: colorScheme,
         isEditable: true
@@ -149,7 +150,7 @@ const currentTime = ref({})
 
 // 帶入彈窗顯示原本時間
 function updateTime(id) {
-  // console.log(id)
+  console.log(id)
 
   // setTimeout(() => {
   // }, 100)
@@ -160,7 +161,7 @@ function updateTime(id) {
     currentTime.value.startTime = eventData.value[index].startTime
     currentTime.value.endTime = eventData.value[index].endTime
     currentTime.value.id = id
-    // console.log('跟子元件說我的id', currentTime.value.id)
+    console.log('跟子元件說我的id', currentTime.value.id)
   }
 }
 
@@ -176,7 +177,7 @@ function eventClicked() {
 }
 function dateClicked(date) {
   if (lastClicked.value !== 'event') {
-    console.log('新增', date)
+    // console.log('新增', date)
     toggleAddClassPopup.value = true
     //3 顯示點擊的日期至addToQalendar的彈窗
     NewClass.value.date = date
@@ -253,7 +254,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
     <!-- 右側日曆 -->
     <section class="relative flex w-10/12 flex-col border bg-neutral-200 p-6">
       <!-- 上方篩選 -->
-      <div class="mb-6 flex gap-6">
+      <div class="mb-6 flex gap-6" v-if="eventData">
         <!-- 選擇老師 -->
         <div class="w-full">
           <label for="grade" class="mb-2 block text-sm">選擇老師</label>
@@ -301,7 +302,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
         <button
           type="submit"
-          class="h-10 w-48 self-end rounded-lg border-2 border-solid border-third bg-primary px-2 font-bold text-black transition-all hover:bg-third active:scale-90"
+          class="h-10 w-48 self-end rounded-lg border-2 border-solid border-third bg-primary px-2 font-bold transition-all hover:bg-third active:scale-90"
           @click="search"
         >
           篩選
