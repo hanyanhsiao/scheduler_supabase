@@ -113,14 +113,14 @@ const gradeColor = (grade) => {
           <!-- 標題 -->
           <div>
             <div
-              class="grid grid-cols-9 items-center justify-items-center gap-3 bg-secondary p-3 text-center font-bold leading-normal"
+              class="grid grid-cols-9 items-center justify-items-center gap-3 bg-secondary p-3 text-center font-bold leading-normal vsm:grid-cols-8"
             >
               <div class="col-span-1">編號</div>
               <div class="col-span-2">課程名稱</div>
               <div class="col-span-1">老師名稱</div>
               <div class="col-span-1">領域</div>
               <div class="col-span-1">年級</div>
-              <div class="col-span-2">上課地點</div>
+              <div class="col-span-2 vsm:col-span-1">上課地點</div>
               <div class="col-span-1">修改 / 刪除</div>
             </div>
           </div>
@@ -129,24 +129,28 @@ const gradeColor = (grade) => {
           <div class="" v-for="(item, index) in classData" :key="item.uuid">
             <!-- 課程清單 -->
             <div
-              class="grid cursor-pointer grid-cols-9 items-center gap-3 border-b border-gray-300 p-3 hover:bg-primary"
+              class="grid cursor-pointer grid-cols-9 place-items-stretch items-center gap-3 break-all border-b border-gray-300 p-3 hover:bg-primary vsm:grid-cols-8 vsm:gap-2"
               @click="toggleDetails(item)"
             >
               <div class="col-span-1 text-center">{{ index + 1 }}</div>
               <div class="col-span-2 text-left">
                 {{ item.className }}
               </div>
-              <div class="text-center">{{ item.teacher }}</div>
+              <div
+                class="text-center vsm:[text-orientation:upright] vsm:[writing-mode:vertical-lr]"
+              >
+                {{ item.teacher }}
+              </div>
               <div class="text-center">{{ item.subject.name }}</div>
               <div class="py-3 text-center">
                 <span
-                  class="whitespace-nowrap rounded-full px-3 py-1 sm:px-1 sm:py-3 sm:[writing-mode:vertical-lr]"
+                  class="whitespace-nowrap rounded-full px-3 py-1 sm:px-0 sm:py-3 sm:[writing-mode:vertical-lr]"
                   :class="gradeColor(item.grade)"
                 >
                   {{ item.grade }}
                 </span>
               </div>
-              <div class="col-span-2 text-center">{{ item.address }}</div>
+              <div class="col-span-2 text-center vsm:col-span-1">{{ item.address }}</div>
               <div class="flex justify-center gap-3 sm:flex-wrap">
                 <!-- 修改 -->
                 <div

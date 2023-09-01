@@ -6,6 +6,7 @@ import { storeToRefs } from 'pinia'
 const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
 
+// ---------定義---------
 // 定義事件
 const emits = defineEmits(['closePopup'])
 
@@ -22,7 +23,7 @@ const close = () => {
   emits('closePopup')
 }
 
-// 修改內容存檔
+//--------- 修改內容存檔---------
 const save = () => {
   props.currentTime.startTime = range.value.start
   props.currentTime.endTime = range.value.end
@@ -31,7 +32,7 @@ const save = () => {
   emits('closePopup')
 }
 
-// VDatePicker設定檔
+// //---------VDatePicker設定檔//---------
 const timezone = ref('Asia/Taipei')
 const range = ref({
   start: props.currentTime.startTime,
@@ -55,7 +56,7 @@ const range = ref({
       </div>
     </div>
 
-    <form>
+    <form @submit.prevent="save">
       <!-- 時間設定 -->
       <div class="mb-6 flex flex-col items-center justify-around py-3">
         <div class="mb-3 flex justify-between gap-11">
@@ -76,7 +77,6 @@ const range = ref({
         <button
           type="submit"
           class="mx-auto block w-32 rounded-lg bg-secondary py-2 transition-all hover:bg-third active:scale-90"
-          @click="save"
         >
           儲存
         </button>

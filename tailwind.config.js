@@ -17,7 +17,8 @@ module.exports = {
         fourth: '#e9d8fd'
       },
       screens: {
-        sm: { max: '768px' }
+        sm: { max: '768px' },
+        vsm: { max: '414px' }
       },
       gridColumn: {
         'span-0.5': 'span 0.5 / span 0.5'

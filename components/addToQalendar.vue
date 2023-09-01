@@ -25,11 +25,12 @@ const props = defineProps({
 const close = () => {
   emits('closePopup')
 }
-// 修改內容存檔
+
+// ---------修改內容存檔---------
 const saveNewClass = () => {
   // const saveClass = { ...props.NewClass.course }
   const saveClass = {}
-  saveClass.course = props.NewClass.course
+  saveClass.course = props.NewClass.course //透過v-model帶進來的整個課程資料
   saveClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
   saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
   // saveClass.id = new Date() //用新增日期給新id
@@ -40,21 +41,19 @@ const saveNewClass = () => {
   emits('closePopup')
 }
 
-//
-
-// 清除表單
+// ---------清除表單---------
 const clearForm = () => {
   props.NewClass.course = ''
 }
 
-// VDatePicker設定檔
+// ---------VDatePicker設定檔---------
 const timezone = ref('Asia/Taipei')
 const range = ref({
   start: props.NewClass.date + ' 00:00:00', //new Date(props.NewClass.date)
   end: props.NewClass.date + ' 00:00:00' //new Date(props.NewClass.date)
 })
-console.log(range)
-console.log(props.NewClass)
+// console.log(range)
+// console.log(props.NewClass)
 
 // console.log('點擊的回傳', props.NewClass.date)
 // console.log('轉換後', new Date(props.NewClass.date))
@@ -89,7 +88,7 @@ const optionCourse = classData.value
 
     <form @submit.prevent="saveNewClass" class="">
       <!-- 選擇課程 -->
-      <div class="mb-6">
+      <div class="mb-6" v-if="optionCourse">
         <label for="course" class="mb-2 block">選擇課程</label>
         <select
           id="course"

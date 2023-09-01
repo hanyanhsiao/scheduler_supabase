@@ -23,7 +23,7 @@ const headers = ref([
   { text: '上課地點', value: 'address', width: 200 },
   { text: '起始時間', value: 'startTime', sortable: true },
   { text: '結束時間', value: 'endTime', sortable: true },
-  { text: '時長', value: 'duration', sortable: true }
+  { text: '時長', value: 'duration' }
 ])
 
 // ---------表格內容---------
@@ -62,7 +62,7 @@ eventData.value.forEach((eachEvent) => {
 // ---------篩選/搜尋---------
 const searchField = ref('')
 const searchValue = ref()
-const sortBy = ref(['startTime', 'endTime', 'duration'])
+const sortBy = ref(['startTime', 'endTime'])
 const sortType = 'desc'
 // ASC由小至大排列，DESC由大至小排列
 
@@ -80,11 +80,11 @@ function sortColums(what) {
     <!-- 右側 -->
     <div class="w-10/12 bg-neutral-200 p-6" v-if="eventData[0]">
       <!-- 上方搜尋 -->
-      <section class="mb-5 flex">
+      <section class="mb-5 flex gap-3 sm:flex-wrap">
         <div class="w-full">
-          <label class="mr-5">請選擇搜尋欄位</label>
+          <label class="mb-3 mr-5">請選擇搜尋欄位</label>
           <select
-            class="rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="searchField"
           >
             <option value="" selected>--請選擇--</option>
@@ -98,12 +98,12 @@ function sortColums(what) {
             </option>
           </select>
         </div>
-
-        <div class="w-full px-2">
+        <!-- border-4 border-indigo-500/100 -->
+        <div class="w-full">
           <label class="mr-5">請輸入搜尋內容</label>
           <input
             type="text"
-            class="rounded-lg border border-gray-300 px-2 py-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             placeholder="請輸入搜尋內容"
             v-model="searchValue"
           />

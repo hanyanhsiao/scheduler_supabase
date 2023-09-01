@@ -21,5 +21,13 @@ export default defineNuxtConfig({
         '@fortawesome/pro-light-svg-icons',
         '@fortawesome/free-brands-svg-icons'
     ]
+// },
+// runtimeConfig: {
+//   // Private keys are only available on the server
+//   apiSecret: '123',
+//   // Public keys that are exposed to the client
+//   public: {
+//     apiBase: 'https://0fc9-123-51-220-96.ngrok-free.app' 
+//   }
 }
 })

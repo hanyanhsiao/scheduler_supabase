@@ -11,7 +11,7 @@ const getNewEventsData = () => {
   // console.log(eventData)
 
   // try {
-  //   const response = await fetch('http://172.18.48.29:3000/calendar')
+  //   const response = await fetch('https://0fc9-123-51-220-96.ngrok-free.app/calendar')
   //   response
   //   if (response.ok) {
   //     const responseData = await response.json()

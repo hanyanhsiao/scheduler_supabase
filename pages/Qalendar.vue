@@ -14,8 +14,9 @@ const { eventData } = storeToRefs(EventStore)
 
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
-  EventStore.getEventData()
+  classStore.getClassData()
   classStore.getSubject()
+  EventStore.getEventData()
   // console.log(eventData)
 })
 
@@ -29,15 +30,15 @@ const results = ref([])
 function search() {
   // 在三個都是--請選擇--的狀態下是預設全撈，可以做新增刪除修改
   if (
-    isSelectedTeacher.value == '0' &&
-    isSelectedSubject.value == '0' &&
-    isSelectedGrade.value == '0'
+    isSelectedTeacher.value === '0' &&
+    isSelectedSubject.value === '0' &&
+    isSelectedGrade.value === '0'
   ) {
     results.value = []
     return
   }
 
-  // 若沒有選value='0'就回傳全部
+  // 若沒有選value==='0'就回傳全部
   const teacher =
     isSelectedTeacher.value === '0'
       ? eventData.value
@@ -86,7 +87,7 @@ const events = computed(() => {
   // 篩選
   if (results.value.length > 0) {
     results.value.forEach((eachEvent) => {
-      const colorScheme = getColorScheme(eachEvent.grade)
+      const colorScheme = getColorScheme(eachEvent.course.grade)
       // 賦值給Qalendar屬性
       updatedEvents.value.push({
         id: eachEvent.id,
@@ -130,7 +131,7 @@ function dragEvent($event) {
 
 // ---------刪除該時段的課程(@delete-event回傳id)---------
 function deleteEvent(id) {
-  console.log('刪除回傳啥?', id)
+  // console.log('刪除回傳啥?', id)
   EventStore.deleteTimeClass(id)
 }
 
@@ -150,7 +151,7 @@ const currentTime = ref({})
 
 // 帶入彈窗顯示原本時間
 function updateTime(id) {
-  console.log(id)
+  // console.log(id)
 
   // setTimeout(() => {
   // }, 100)
@@ -171,15 +172,19 @@ const NewClass = ref({})
 // console.log(NewClass)
 
 //判斷是新增還點擊事件
+// 點擊事件
 function eventClicked() {
   // console.log('點擊事件')
+
   lastClicked.value = 'event'
 }
+
+// 新增事件
 function dateClicked(date) {
   if (lastClicked.value !== 'event') {
     // console.log('新增', date)
     toggleAddClassPopup.value = true
-    //3 顯示點擊的日期至addToQalendar的彈窗
+    //顯示點擊的日期至addToQalendar的彈窗
     NewClass.value.date = date
   }
   lastClicked.value = null // 重置標誌
@@ -243,9 +248,11 @@ const set = new Set()
 const setTeacher = classData.value.filter((course) =>
   set.has(course.teacher) ? false : set.add(course.teacher)
 )
+console.log(setTeacher)
 // console.log('不重複的所有老師陣列', setTeacher)
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
 </script>
+
 <!-- ------------------------【template】------------------------ -->
 <template>
   <div class="flex w-full">
@@ -254,7 +261,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
     <!-- 右側日曆 -->
     <section class="relative flex w-10/12 flex-col border bg-neutral-200 p-6">
       <!-- 上方篩選 -->
-      <div class="mb-6 flex gap-6" v-if="eventData">
+      <div class="mb-6 flex gap-6 vsm:flex-wrap vsm:gap-3" v-if="eventData">
         <!-- 選擇老師 -->
         <div class="w-full">
           <label for="grade" class="mb-2 block text-sm">選擇老師</label>
@@ -302,7 +309,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
         <button
           type="submit"
-          class="h-10 w-48 self-end rounded-lg border-2 border-solid border-third bg-primary px-2 font-bold transition-all hover:bg-third active:scale-90"
+          class="h-10 w-48 self-end rounded-lg border-2 border-solid border-third bg-primary px-2 font-bold transition-all hover:bg-third active:scale-90 vsm:w-full"
           @click="search"
         >
           篩選
@@ -311,9 +318,9 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
       <!-- 下方日曆 -->
       <Qalendar
+        class="rounded-lg bg-white shadow-md"
         :events="events"
         :config="config"
-        class="rounded-lg bg-white shadow-md"
         @event-was-dragged="dragEvent"
         @edit-event="updateTime"
         @delete-event="deleteEvent"
