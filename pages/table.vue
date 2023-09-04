@@ -82,9 +82,9 @@ function sortColums(what) {
       <!-- 上方搜尋 -->
       <section class="mb-5 flex gap-3 sm:flex-wrap">
         <div class="w-full">
-          <label class="mb-3 mr-5">請選擇搜尋欄位</label>
+          <label class="mb-3 mr-5 sm:mb-2">請選擇搜尋欄位</label>
           <select
-            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third sm:w-full"
             v-model="searchField"
           >
             <option value="" selected>--請選擇--</option>
@@ -103,7 +103,7 @@ function sortColums(what) {
           <label class="mr-5">請輸入搜尋內容</label>
           <input
             type="text"
-            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third sm:w-full"
             placeholder="請輸入搜尋內容"
             v-model="searchValue"
           />

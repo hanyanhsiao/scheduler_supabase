@@ -1,4 +1,8 @@
 <script setup>
+// const config2 = useRuntimeConfig()
+// const apiURL = config2.public.apiBase
+// console.log(apiURL)
+
 import { Qalendar } from 'qalendar'
 // ---------pinia---------
 import { useStoreData } from '../stores/storeData'
@@ -261,13 +265,13 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
     <!-- 右側日曆 -->
     <section class="relative flex w-10/12 flex-col border bg-neutral-200 p-6">
       <!-- 上方篩選 -->
-      <div class="mb-6 flex gap-6 vsm:flex-wrap vsm:gap-3" v-if="eventData">
+      <div class="mb-6 flex gap-6 sm:flex-wrap sm:gap-3" v-if="eventData">
         <!-- 選擇老師 -->
         <div class="w-full">
-          <label for="grade" class="mb-2 block text-sm">選擇老師</label>
+          <label for="grade" class="mb-2 block">選擇老師</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="isSelectedTeacher"
           >
             <option value="0" selected>--請選擇--</option>
@@ -279,10 +283,10 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
         <!-- 選擇領域 -->
         <div class="w-full">
-          <label for="grade" class="mb-2 block text-sm">選擇領域</label>
+          <label for="grade" class="mb-2 block">選擇領域</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="isSelectedSubject"
           >
             <option value="0" selected>--請選擇--</option>
@@ -294,10 +298,10 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
         <!-- 選擇年級 -->
         <div class="w-full">
-          <label for="grade" class="mb-2 block text-sm">選擇年級</label>
+          <label for="grade" class="mb-2 block">選擇年級</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border border-gray-300 p-2 text-sm focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="isSelectedGrade"
           >
             <option value="0" selected>--請選擇--</option>
@@ -309,7 +313,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
         <button
           type="submit"
-          class="h-10 w-48 self-end rounded-lg border-2 border-solid border-third bg-primary px-2 font-bold transition-all hover:bg-third active:scale-90 vsm:w-full"
+          class="h-10 w-48 self-end rounded-lg border-2 border-solid border-third bg-primary px-2 font-bold transition-all hover:bg-third active:scale-90 sm:mt-2 sm:w-full"
           @click="search"
         >
           篩選

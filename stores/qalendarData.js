@@ -1,12 +1,13 @@
 import dayjs from 'dayjs'
 import { defineStore } from 'pinia'
 
-// import { useRuntimeConfig } from '../nuxt.config'
-
+// ------------------------------------------------
 // const config = useRuntimeConfig()
 // console.log(config)
 // console.log(config.public.apiBase)
 // const apiURL = config.public.apiBase
+// ------------------------------------------------
+
 export const useQalendarData = defineStore('qalendarData', {
   // 初始狀態，使用箭頭函式
   state: () => ({
@@ -18,17 +19,17 @@ export const useQalendarData = defineStore('qalendarData', {
     // API
     // 1 撈取所有已安排的課表
     async getEventData() {
-      // https://0fc9-123-51-220-96.ngrok-free.app
-      // const response = await fetch('https://0fc9-123-51-220-96.ngrok-free.app/calendar')
-      // const jsonResponse = await response.json()
-      // this.eventData = jsonResponse
+      // https://14b5-60-248-2-19.ngrok-free.app/
+      const response = await fetch('https://14b5-60-248-2-19.ngrok-free.app/calendar')
+      const jsonResponse = await response.json()
+      this.eventData = jsonResponse
 
-      if (this.eventData.length === 0) {
-        const response = await fetch('/data/Qalendar.json')
-        const jsonResponse = await response.json()
-        this.eventData = jsonResponse.event
-        console.log(this.eventData)
-      }
+      // if (this.eventData.length === 0) {
+      //   const response = await fetch('/data/Qalendar.json')
+      //   const jsonResponse = await response.json()
+      //   this.eventData = jsonResponse.event
+      //   console.log(this.eventData)
+      // }
     },
 
     // 2 拖曳更新日期
@@ -41,7 +42,7 @@ export const useQalendarData = defineStore('qalendarData', {
       newTimeObject.endTime = $event.time.end
       console.log('要存入的時間格式', newTimeObject)
 
-      await fetch(`https://0fc9-123-51-220-96.ngrok-free.app/calendar/${$event.id}`, {
+      await fetch(`https://14b5-60-248-2-19.ngrok-free.app/calendar/${$event.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTimeObject)
@@ -64,7 +65,7 @@ export const useQalendarData = defineStore('qalendarData', {
       const yes = confirm('確定刪除嗎?')
       if (yes) {
         // -----------API-------------
-        await fetch(`https://0fc9-123-51-220-96.ngrok-free.app/calendar/${id}`, {
+        await fetch(`https://14b5-60-248-2-19.ngrok-free.app/calendar/${id}`, {
           method: 'DELETE'
         }).then((res) => {
           return res.json()
@@ -89,7 +90,7 @@ export const useQalendarData = defineStore('qalendarData', {
       newTimeObject.endTime = changeEndTimeFormat
       // console.log('要存入的時間格式', newTimeObject)
 
-      await fetch(`https://0fc9-123-51-220-96.ngrok-free.app/calendar/${timeObject.id}`, {
+      await fetch(`https://14b5-60-248-2-19.ngrok-free.app/calendar/${timeObject.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTimeObject)
@@ -116,7 +117,7 @@ export const useQalendarData = defineStore('qalendarData', {
       }
       console.log('要存入的時刻', apiData)
 
-      await fetch(`https://0fc9-123-51-220-96.ngrok-free.app/calendar`, {
+      await fetch(`https://14b5-60-248-2-19.ngrok-free.app/calendar`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(apiData)
@@ -124,7 +125,7 @@ export const useQalendarData = defineStore('qalendarData', {
         return res.json()
       })
       // 取得後端傳來的id
-      const response = await fetch('https://0fc9-123-51-220-96.ngrok-free.app/calendar')
+      const response = await fetch('https://14b5-60-248-2-19.ngrok-free.app/calendar')
       const jsonResponse = await response.json()
       this.eventData = jsonResponse
 
