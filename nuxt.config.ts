@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     apiSecret: '123',
     // Public keys that are exposed to the client
     public: {
-      apiBase: 'https://14b5-60-248-2-19.ngrok-free.app/' 
+      apiBase: 'https://e6f4-60-248-2-19.ngrok-free.app' 
     }
   }
 })

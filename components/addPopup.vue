@@ -73,7 +73,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 </script>
 
 <template>
-  <div class="w-full max-w-xl rounded-lg bg-white p-6 shadow-lg">
+  <div class="w-full max-w-xl rounded-lg bg-white p-6 shadow-lg sm:max-w-sm vsm:max-w-min">
     <div class="flex items-center justify-between">
       <h1 class="mb-6 text-2xl font-semibold text-third">新增課程</h1>
       <!-- 關閉 -->
@@ -113,7 +113,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         />
       </div>
       <!-- 領域&年級 -->
-      <div class="mb-6 flex justify-between gap-6">
+      <div class="mb-6 flex justify-between gap-6 vsm:flex-wrap">
         <!-- 領域 -->
         <div class="w-full">
           <label for="subject" class="mb-2 block">領域</label>

@@ -32,11 +32,20 @@ const save = () => {
   emits('closePopup')
 }
 
-// //---------VDatePicker設定檔//---------
+//---------VDatePicker設定檔---------
 const timezone = ref('Asia/Taipei')
 const range = ref({
   start: props.currentTime.startTime,
   end: props.currentTime.endTime
+})
+
+// ---------時間排列RWD---------
+const vsmLabel = ref(window.innerWidth < 680)
+const checkWindowSize = () => {
+  vsmLabel.value = window.innerWidth < 680
+}
+onMounted(() => {
+  window.addEventListener('resize', checkWindowSize)
 })
 </script>
 
@@ -59,10 +68,13 @@ const range = ref({
     <form @submit.prevent="save">
       <!-- 時間設定 -->
       <div class="mb-6 flex flex-col items-center justify-around py-3">
-        <div class="mb-3 flex justify-between gap-11">
+        <div class="mb-3 flex justify-between gap-11" v-if="!vsmLabel">
           <label for="appt" class="">起始時間：</label>
           <label for="appt" class="">結束時間：</label>
         </div>
+        <label for="appt" class="flex vsm:mb-3 vsm:justify-center" v-else
+          >選擇起始時間與結束時間：</label
+        >
         <VDatePicker
           borderless
           transparent
@@ -99,5 +111,23 @@ const range = ref({
   gap: 2rem;
   justify-content: center;
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.vc-bordered {
+  border: 0px solid grey;
+  /* background-color: #fffbeb; */
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 414px) {
+  .vc-bordered {
+    gap: 1rem;
+  }
 }
 </style>

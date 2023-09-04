@@ -143,11 +143,13 @@ function deleteEvent(id) {
 // 彈窗
 const togglePopup = ref(false)
 const toggleAddClassPopup = ref(false)
+const weekDayPopup = ref(false)
 
 // 關閉彈窗
 const close = () => {
   togglePopup.value = false
   toggleAddClassPopup.value = false
+  weekDayPopup.value = false
 }
 
 // 點擊的課程的時間
@@ -166,11 +168,11 @@ function updateTime(id) {
     currentTime.value.startTime = eventData.value[index].startTime
     currentTime.value.endTime = eventData.value[index].endTime
     currentTime.value.id = id
-    console.log('跟子元件說我的id', currentTime.value.id)
+    // console.log('跟子元件說我的id', currentTime.value.id)
   }
 }
 
-// ---------新增課程至日曆---------
+// ---------新增課程至日曆(月)---------
 const lastClicked = ref(null)
 const NewClass = ref({})
 // console.log(NewClass)
@@ -192,6 +194,15 @@ function dateClicked(date) {
     NewClass.value.date = date
   }
   lastClicked.value = null // 重置標誌
+}
+
+// ---------新增課程至日曆(週 & 日)---------
+const NewWeekClass = ref({})
+
+function datetimeClicked(clickTime) {
+  weekDayPopup.value = true
+  NewWeekClass.value.startTime = clickTime
+  console.log(NewWeekClass.value.startTime)
 }
 
 // ---------事件顏色(依年級)---------
@@ -255,6 +266,12 @@ const setTeacher = classData.value.filter((course) =>
 console.log(setTeacher)
 // console.log('不重複的所有老師陣列', setTeacher)
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
+
+// ---------週 & 日拉大小調整時間---------
+function resizedTime(event) {
+  console.log('拉大小回傳', event)
+  EventStore.dragEvent(event)
+}
 </script>
 
 <!-- ------------------------【template】------------------------ -->
@@ -330,29 +347,40 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         @delete-event="deleteEvent"
         @date-was-clicked="dateClicked"
         @event-was-clicked="eventClicked"
+        @datetime-was-clicked="datetimeClicked"
+        @event-was-resized="resizedTime"
       >
       </Qalendar>
 
       <!-- 遮罩 -->
       <div
         class="absolute left-0 top-0 h-full w-full bg-black/30"
-        v-if="togglePopup || toggleAddClassPopup"
+        v-if="togglePopup || toggleAddClassPopup || weekDayPopup"
       >
         <!-- 修改時間彈窗 -->
         <div class="z-50 rounded-md bg-white" v-if="togglePopup">
           <motifyTime
-            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            class="fixed left-1/2 top-1/2 -translate-x-1/4 -translate-y-1/2 sm:max-w-fit"
             @closePopup="close"
             :currentTime="currentTime"
           />
         </div>
 
-        <!-- 新增課程至日曆彈窗 -->
+        <!-- 新增課程至日曆彈窗(月) -->
         <div class="z-50 rounded-md bg-white" v-if="toggleAddClassPopup">
           <addToQalendar
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             @closePopup="close"
             :NewClass="NewClass"
+          />
+        </div>
+
+        <!-- 新增課程至日曆彈窗(週跟日) -->
+        <div class="z-50 rounded-md" v-if="weekDayPopup">
+          <addOnWeekAndDay
+            class="fixed left-1/2 top-1/2 -translate-x-1/4 -translate-y-1/2 sm:absolute sm:top-1/4 sm:-translate-x-1/2"
+            @closePopup="close"
+            :NewWeekClass="NewWeekClass"
           />
         </div>
       </div>

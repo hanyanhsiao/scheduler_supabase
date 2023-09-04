@@ -10,65 +10,49 @@ const classStore = useStoreData()
 const { classData } = storeToRefs(classStore)
 
 const EventStore = useQalendarData()
-const { eventData } = storeToRefs(EventStore)
+// const { eventData } = storeToRefs(EventStore)
 
 // ---------定義子元件事件及屬性---------
 const emits = defineEmits(['closePopup'])
 // 定義屬性
 const props = defineProps({
-  NewClass: {
-    date: String
+  NewWeekClass: {
+    startTime: String,
+    endTime: String
   }
 })
 
-console.log('帶入啥', props.NewClass)
 // 關閉彈窗
 const close = () => {
   emits('closePopup')
 }
 
 // ---------修改內容存檔---------
-const saveNewClass = () => {
-  // const saveClass = { ...props.NewClass.course }
-  const saveClass = {}
-  saveClass.course = props.NewClass.course //透過v-model帶進來的整個課程資料
-  saveClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
-  saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
-  // saveClass.id = new Date() //用新增日期給新id
-  console.log('我是要新增的課程', saveClass)
+const saveWeekClass = () => {
+  console.log(props.NewWeekClass)
 
-  EventStore.addNewClass(saveClass)
-  props.NewClass.course = ''
+  const saveWeekClass = {}
+  saveWeekClass.course = props.NewWeekClass.course //透過v-model帶進來的整個課程資料
+  saveWeekClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
+  saveWeekClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
+  console.log('我是要新增的課程', saveWeekClass)
+
+  EventStore.addNewClass(saveWeekClass)
+  props.NewWeekClass.course = ''
   emits('closePopup')
 }
 
 // ---------清除表單---------
 const clearForm = () => {
-  props.NewClass.course = ''
+  props.NewWeekClass.course = ''
 }
 
 // ---------VDatePicker設定檔---------
 const timezone = ref('Asia/Taipei')
 const range = ref({
-  start: props.NewClass.date + ' 00:00:00', //new Date(props.NewClass.date)
-  end: props.NewClass.date + ' 00:00:00' //new Date(props.NewClass.date)
+  start: props.NewWeekClass.startTime,
+  end: props.NewWeekClass.startTime
 })
-// console.log(range)
-// console.log(props.NewClass)
-
-// console.log('點擊的回傳', props.NewClass.date)
-// console.log('轉換後', new Date(props.NewClass.date))
-
-// ---------可以新增的課程選單---------
-const optionCourse = classData.value
-
-// 如果在eventData中找不到相同id的課程物件，
-// 則這個判斷式會返回true，代表這個課程物件需要保留。
-// const optionCourse = classData.value.filter((course) => {
-//   // 找不到符合的課程物件，find會返回undefined，!undefined =true
-//   return !eventData.value.find((eventCourse) => eventCourse.id === course.id)
-// })
-// console.log('可以加的課程選項', optionCourse)
 
 // ---------時間排列RWD---------
 const vsmLabel = ref(window.innerWidth < 414)
@@ -96,17 +80,17 @@ onMounted(() => {
       </div>
     </div>
 
-    <form @submit.prevent="saveNewClass" class="">
+    <form @submit.prevent="saveWeekClass" class="">
       <!-- 選擇課程 -->
-      <div class="mb-6" v-if="optionCourse">
+      <div class="mb-6" v-if="classData">
         <label for="course" class="mb-2 block">選擇課程</label>
         <select
           id="course"
           class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
           required
-          v-model="props.NewClass.course"
+          v-model="props.NewWeekClass.course"
         >
-          <option v-for="(course, index) in optionCourse" :key="index" :value="course">
+          <option v-for="(course, index) in classData" :key="index" :value="course">
             {{ course.className }}
           </option>
         </select>

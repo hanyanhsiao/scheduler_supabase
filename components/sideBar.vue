@@ -36,7 +36,7 @@ const getNewEventsData = () => {
     <NuxtLink
       to="/Qalendar"
       :class="{ 'active-link': $route.path === '/Qalendar' }"
-      class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 vsm:text-center"
+      class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
       @click="getNewEventsData"
       >安排課程時間</NuxtLink
     >

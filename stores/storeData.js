@@ -12,9 +12,14 @@ export const useStoreData = defineStore('storeData', {
     // API
     // 1 獲取所有課程
     async getClassData() {
-      const response = await fetch('https://14b5-60-248-2-19.ngrok-free.app/course')
+      // http://172.18.48.29:3000
+      const response = await fetch('https://e6f4-60-248-2-19.ngrok-free.app/course')
       const jsonResponse = await response.json()
       this.classData = jsonResponse
+      console.log(jsonResponse)
+
+      // const { data } = await useFetch('https://e6f4-60-248-2-19.ngrok-free.app/course')
+      // console.log(data.value.results)
 
       // if (this.classData.length === 0) {
       //   const response = await fetch('/data/class.json')
@@ -26,7 +31,7 @@ export const useStoreData = defineStore('storeData', {
     // 2 獲取領域
     async getSubject() {
       if (this.subjectOptions.length === 0) {
-        const subjectResponse = await fetch('https://14b5-60-248-2-19.ngrok-free.app/subject')
+        const subjectResponse = await fetch('https://e6f4-60-248-2-19.ngrok-free.app/subject')
         const subjectjson = await subjectResponse.json()
         this.subjectOptions = subjectjson
         // console.log('pinia', this.subjectOptions)
@@ -35,7 +40,7 @@ export const useStoreData = defineStore('storeData', {
     // 3 修改課程
     async modifyClass(input) {
       // -----------API-------------
-      const res = await fetch(`https://14b5-60-248-2-19.ngrok-free.app/course/${input.id}`, {
+      const res = await fetch(`https://e6f4-60-248-2-19.ngrok-free.app/course/${input.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(input)
@@ -47,7 +52,7 @@ export const useStoreData = defineStore('storeData', {
       if (res) {
         this.classData[input.indexx] = input
       }
-      // const response = await fetch('https://14b5-60-248-2-19.ngrok-free.app/')
+      // const response = await fetch('https://e6f4-60-248-2-19.ngrok-free.app/')
       // const jsonResponse = await response.json()
       // this.classData = jsonResponse
     },
@@ -67,7 +72,7 @@ export const useStoreData = defineStore('storeData', {
         imageUrl: ''
       }
 
-      await fetch(`https://14b5-60-248-2-19.ngrok-free.app/course/`, {
+      await fetch(`https://e6f4-60-248-2-19.ngrok-free.app/course/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(apiData)
@@ -83,7 +88,7 @@ export const useStoreData = defineStore('storeData', {
       const yes = confirm('確定刪除嗎?')
       if (yes) {
         // -----------API-------------
-        await fetch(`https://14b5-60-248-2-19.ngrok-free.app/course/${input.id}`, {
+        await fetch(`https://e6f4-60-248-2-19.ngrok-free.app/course/${input.id}`, {
           method: 'DELETE'
         }).then((res) => {
           return res.json()
