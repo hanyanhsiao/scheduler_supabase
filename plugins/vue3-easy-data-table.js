@@ -1,4 +1,4 @@
-// // plugins/vue3-easy-data-table.js
+// plugins/vue3-easy-data-table.js
 import Vue3EasyDataTable from 'vue3-easy-data-table'
 import 'vue3-easy-data-table/dist/style.css'
 

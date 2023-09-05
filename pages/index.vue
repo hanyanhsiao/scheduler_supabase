@@ -109,11 +109,12 @@ const gradeColor = (grade) => {
 
       <!-- 下方列表 -->
       <div class="flex w-full items-center rounded-lg">
-        <div class="my-6 bg-white shadow-md" v-if="classData[0]">
+        <div id="style1" class="my-6 overflow-x-auto bg-white shadow-md" v-if="classData[0]">
           <!-- 標題 -->
           <div>
+            <!-- vsm:grid-cols-8 -->
             <div
-              class="grid grid-cols-9 items-center justify-items-center gap-3 bg-secondary p-3 text-center font-bold leading-normal vsm:grid-cols-8"
+              class="grid min-w-[700px] grid-cols-9 items-center justify-items-center gap-3 bg-secondary p-3 text-center font-bold leading-normal"
             >
               <div class="col-span-1">編號</div>
               <div class="col-span-2">課程名稱</div>
@@ -126,25 +127,26 @@ const gradeColor = (grade) => {
           </div>
 
           <!-- 內容 -->
-          <div class="" v-for="(item, index) in classData" :key="item.uuid">
+          <div class="min-w-[700px]" v-for="(item, index) in classData" :key="item.uuid">
             <!-- 課程清單 -->
+            <!-- vsm:grid-cols-8 vsm:gap-2 -->
             <div
-              class="grid cursor-pointer grid-cols-9 place-items-stretch items-center gap-3 break-all border-b border-gray-300 p-3 hover:bg-primary vsm:grid-cols-8 vsm:gap-2"
+              class="grid cursor-pointer grid-cols-9 place-items-stretch items-center gap-3 break-all border-b border-gray-300 p-3 hover:bg-primary"
               @click="toggleDetails(item)"
             >
               <div class="col-span-1 text-center">{{ index + 1 }}</div>
               <div class="col-span-2 text-left">
                 {{ item.className }}
               </div>
-              <div
-                class="text-center vsm:[text-orientation:upright] vsm:[writing-mode:vertical-lr]"
-              >
+              <!-- vsm:[text-orientation:upright] vsm:[writing-mode:vertical-lr] -->
+              <div class="text-center">
                 {{ item.teacher }}
               </div>
               <div class="text-center">{{ item.subject.name }}</div>
               <div class="py-3 text-center">
+                <!-- sm:px-0 sm:py-3 sm:[writing-mode:vertical-lr] -->
                 <span
-                  class="whitespace-nowrap rounded-full px-3 py-1 sm:px-0 sm:py-3 sm:[writing-mode:vertical-lr]"
+                  class="whitespace-nowrap rounded-full px-3 py-1"
                   :class="gradeColor(item.grade)"
                 >
                   {{ item.grade }}
@@ -202,7 +204,7 @@ const gradeColor = (grade) => {
         <!-- 彈窗 -->
         <div class="z-50 rounded-md bg-white">
           <!-- 修改課程 -->
-          <motifyPopup
+          <motifyCoursePopup
             class="absolute left-1/2 top-5 -translate-x-1/2"
             v-if="togglePopup"
             @closePopup="close"
@@ -210,7 +212,7 @@ const gradeColor = (grade) => {
             :currentClass="currentClass"
           />
           <!-- 新增課程 -->
-          <addPopup
+          <addCoursePopup
             class="absolute left-1/2 top-5 -translate-x-1/2"
             v-if="toggleAddPopup"
             @closePopup="close"
@@ -221,3 +223,11 @@ const gradeColor = (grade) => {
     </section>
   </div>
 </template>
+
+<style>
+/* 捲軸本體顏色 */
+#style1::-webkit-scrollbar-thumb {
+  background-color: rgb(241, 13, 13);
+  border: 1px solid slategrey;
+}
+</style>

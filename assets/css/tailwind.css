@@ -1,6 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+::-webkit-scrollbar-thumb {
+  background: #fed7aa;
+}
+
+
+
+
 /* 
 @layer utilities{
   .vc-time-picker{

@@ -1,8 +1,4 @@
 <script setup>
-// const config2 = useRuntimeConfig()
-// const apiURL = config2.public.apiBase
-// console.log(apiURL)
-
 import { Qalendar } from 'qalendar'
 // ---------pinia---------
 import { useStoreData } from '../stores/storeData'
@@ -263,7 +259,7 @@ const set = new Set()
 const setTeacher = classData.value.filter((course) =>
   set.has(course.teacher) ? false : set.add(course.teacher)
 )
-console.log(setTeacher)
+// console.log(setTeacher)
 // console.log('不重複的所有老師陣列', setTeacher)
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
 
@@ -368,7 +364,7 @@ function resizedTime(event) {
 
         <!-- 新增課程至日曆彈窗(月) -->
         <div class="z-50 rounded-md bg-white" v-if="toggleAddClassPopup">
-          <addToQalendar
+          <addOnMonth
             class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             @closePopup="close"
             :NewClass="NewClass"

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   css: ['@/assets/css/tailwind.css'],
   postcss: {
     plugins: {
@@ -24,10 +24,11 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     // Private keys are only available on the server
-    apiSecret: '123',
+    // apiSecret: '123',
     // Public keys that are exposed to the client
     public: {
-      apiBase: 'https://e6f4-60-248-2-19.ngrok-free.app' 
+      apiBase: 'http://172.20.10.2:3000' 
     }
-  }
+  },
+  
 })
