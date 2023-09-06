@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     // Private keys are only available on the server
     // apiSecret: '123',
     // Public keys that are exposed to the client
+    // 在伺服器端與客戶端都可以讀取得到
     public: {
       apiBase: 'http://172.20.10.2:3000' 
     }

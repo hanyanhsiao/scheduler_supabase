@@ -9,19 +9,6 @@ const { eventData } = storeToRefs(EventStore)
 const getNewEventsData = () => {
   EventStore.getEventData()
   // console.log(eventData)
-
-  // try {
-  //   const response = await fetch('https://0fc9-123-51-220-96.ngrok-free.app/calendar')
-  //   response
-  //   if (response.ok) {
-  //     const responseData = await response.json()
-  //     console.log(responseData)
-  //   } else {
-  //     console.error('API 請求失敗')
-  //   }
-  // } catch (error) {
-  //   console.error(error)
-  // }
 }
 </script>
 

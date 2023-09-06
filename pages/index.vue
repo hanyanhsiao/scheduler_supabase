@@ -108,30 +108,30 @@ const gradeColor = (grade) => {
       </button>
 
       <!-- 下方列表 -->
-      <div class="flex w-full items-center rounded-lg">
-        <div id="style1" class="my-6 overflow-x-auto bg-white shadow-md" v-if="classData[0]">
+      <div class="flex items-center rounded-lg">
+        <div id="style1" class="my-6 w-full overflow-x-auto bg-white shadow-md" v-if="classData[0]">
           <!-- 標題 -->
           <div>
             <!-- vsm:grid-cols-8 -->
             <div
-              class="grid min-w-[700px] grid-cols-9 items-center justify-items-center gap-3 bg-secondary p-3 text-center font-bold leading-normal"
+              class="grid min-w-[1070px] grid-cols-9 items-center justify-items-center gap-3 bg-secondary p-3 text-center font-bold leading-normal"
             >
               <div class="col-span-1">編號</div>
               <div class="col-span-2">課程名稱</div>
               <div class="col-span-1">老師名稱</div>
               <div class="col-span-1">領域</div>
               <div class="col-span-1">年級</div>
-              <div class="col-span-2 vsm:col-span-1">上課地點</div>
+              <div class="col-span-2">上課地點</div>
               <div class="col-span-1">修改 / 刪除</div>
             </div>
           </div>
 
           <!-- 內容 -->
-          <div class="min-w-[700px]" v-for="(item, index) in classData" :key="item.uuid">
+          <div class="min-w-[1070px]" v-for="(item, index) in classData" :key="item.uuid">
             <!-- 課程清單 -->
             <!-- vsm:grid-cols-8 vsm:gap-2 -->
             <div
-              class="grid cursor-pointer grid-cols-9 place-items-stretch items-center gap-3 break-all border-b border-gray-300 p-3 hover:bg-primary"
+              class="grid w-full cursor-pointer grid-cols-9 place-items-stretch items-center gap-3 break-all border-b border-gray-300 p-3 hover:bg-primary"
               @click="toggleDetails(item)"
             >
               <div class="col-span-1 text-center">{{ index + 1 }}</div>
@@ -153,7 +153,7 @@ const gradeColor = (grade) => {
                 </span>
               </div>
               <div class="col-span-2 text-center vsm:col-span-1">{{ item.address }}</div>
-              <div class="flex justify-center gap-3 sm:flex-wrap">
+              <div class="flex justify-center gap-3">
                 <!-- 修改 -->
                 <div
                   class="flex h-7 w-7 transform items-center justify-center rounded-md p-1 transition-all hover:bg-secondary active:scale-90"
@@ -175,7 +175,7 @@ const gradeColor = (grade) => {
               </div>
             </div>
             <!-- 詳細內容 -->
-            <div v-if="item.showDetails">
+            <div v-if="item.showDetails" class="">
               <div class="flex flex-col gap-5 border-b-2 bg-zinc-50 px-6 py-3">
                 <div class="text-left">
                   <p class="font-bold">課程內容：</p>
@@ -224,10 +224,22 @@ const gradeColor = (grade) => {
   </div>
 </template>
 
-<style>
+<style scoped>
 /* 捲軸本體顏色 */
-#style1::-webkit-scrollbar-thumb {
-  background-color: rgb(241, 13, 13);
-  border: 1px solid slategrey;
+::-webkit-scrollbar-thumb {
+  background-color: #fed7aa;
 }
+
+/* 一定要寫寬!!!!!!!!!!!!! */
+::-webkit-scrollbar {
+  width: 2px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fffbeb;
+}
+
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #fb923c;
+} */
 </style>

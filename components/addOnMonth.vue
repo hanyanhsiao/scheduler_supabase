@@ -21,7 +21,7 @@ const props = defineProps({
   }
 })
 
-console.log('帶入啥', props.NewClass)
+// console.log('帶入啥', props.NewClass)
 // 關閉彈窗
 const close = () => {
   emits('closePopup')
@@ -35,7 +35,7 @@ const saveNewClass = () => {
   saveClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
   saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
   // saveClass.id = new Date() //用新增日期給新id
-  console.log('我是要新增的課程', saveClass)
+  // console.log('我是要新增的課程', saveClass)
 
   EventStore.addNewClass(saveClass)
   props.NewClass.course = ''

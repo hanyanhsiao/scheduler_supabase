@@ -11,7 +11,7 @@ const { eventData } = storeToRefs(EventStore)
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
   EventStore.getEventData()
-  console.log(eventData)
+  // console.log(eventData)
 })
 
 // ---------表格標題---------
@@ -68,7 +68,7 @@ const sortType = 'desc'
 
 // ---------排序---------
 function sortColums(what) {
-  console.log(what)
+  // console.log(what)
 }
 </script>
 

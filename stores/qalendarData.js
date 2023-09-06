@@ -20,7 +20,7 @@ export const useQalendarData = defineStore('qalendarData', {
     // API
     // 1 撈取所有已安排的課表
     async getEventData() {
-      // http://172.18.48.29:3000
+      // https://e6f4-60-248-2-19.ngrok-free.app/
       const response = await fetch(`${this.apiURL}/calendar`)
       const jsonResponse = await response.json()
       this.eventData = jsonResponse

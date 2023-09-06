@@ -17,11 +17,10 @@ onMounted(() => {
 // 定義父元件事件(關閉及儲存)
 const emits = defineEmits(['closePopup', 'save'])
 const close = () => {
-  console.log(Object.keys(inputClass.value).length)
-
   // Object.values() 取得所有 property value
   // some方法測試是否至少有一個元素通過測試，返回true
   const inputValue = Object.values(inputClass.value)
+  // console.log(inputValue)
   const isNotEmpty = inputValue.some((value) => value.trim() !== '')
   if (isNotEmpty) {
     const yes = confirm('內容尚未儲存，確定要離開嗎?')

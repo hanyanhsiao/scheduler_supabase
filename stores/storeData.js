@@ -2,22 +2,29 @@ import { defineStore } from 'pinia'
 
 export const useStoreData = defineStore('storeData', {
   // 初始狀態，使用箭頭函式
-  state: () => ({
-    classData: [],
-    subjectOptions: []
-  }),
+  state: () => {
+    const config = useRuntimeConfig()
+    const apiURL = config.public.apiBase
+    const classData = []
+    const subjectOptions = []
+    return {
+      classData,
+      subjectOptions,
+      apiURL
+    }
+  },
 
   // 定義使用到的函式，可以為同步和非同步，如同 method
   actions: {
     // API
     // 1 獲取所有課程
     async getClassData() {
-      // http://172.18.48.29:3000
-      const response = await fetch(`http://172.20.10.2:3000/course`)
+      // https://e6f4-60-248-2-19.ngrok-free.app/
+      const response = await fetch(`${this.apiURL}/course`)
       const jsonResponse = await response.json()
       this.classData = jsonResponse
 
-      // const { data } = await useFetch(`http://172.20.10.2:3000/course`)
+      // const { data } = await useFetch(`${this.apiURL}/course`)
       // console.log(data.value)
 
       // if (this.classData.length === 0) {
@@ -30,7 +37,7 @@ export const useStoreData = defineStore('storeData', {
     // 2 獲取領域
     async getSubject() {
       if (this.subjectOptions.length === 0) {
-        const subjectResponse = await fetch(`http://172.20.10.2:3000/subject`)
+        const subjectResponse = await fetch(`${this.apiURL}/subject`)
         const subjectjson = await subjectResponse.json()
         this.subjectOptions = subjectjson
         // console.log('pinia', this.subjectOptions)
@@ -39,7 +46,7 @@ export const useStoreData = defineStore('storeData', {
     // 3 修改課程
     async modifyClass(input) {
       // -----------API-------------
-      const res = await fetch(`http://172.20.10.2:3000/course/${input.id}`, {
+      const res = await fetch(`${this.apiURL}/course/${input.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(input)
@@ -51,7 +58,7 @@ export const useStoreData = defineStore('storeData', {
       if (res) {
         this.classData[input.indexx] = input
       }
-      // const response = await fetch(`http://172.20.10.2:3000/`)
+      // const response = await fetch(`${this.apiURL}/`)
       // const jsonResponse = await response.json()
       // this.classData = jsonResponse
     },
@@ -71,7 +78,7 @@ export const useStoreData = defineStore('storeData', {
         imageUrl: ''
       }
 
-      await fetch(`http://172.20.10.2:3000/course/`, {
+      await fetch(`${this.apiURL}/course/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(apiData)
@@ -87,7 +94,7 @@ export const useStoreData = defineStore('storeData', {
       const yes = confirm('確定刪除嗎?')
       if (yes) {
         // -----------API-------------
-        await fetch(`http://172.20.10.2:3000/course/${input.id}`, {
+        await fetch(`${this.apiURL}/course/${input.id}`, {
           method: 'DELETE'
         }).then((res) => {
           return res.json()
