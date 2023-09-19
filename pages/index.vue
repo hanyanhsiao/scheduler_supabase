@@ -1,4 +1,6 @@
 <script setup>
+import { useUserStore } from '../stores/user'
+const store = useUserStore()
 import dayjs from 'dayjs'
 
 // ---------pinia---------
@@ -11,12 +13,8 @@ const { classData } = storeToRefs(classStore)
 // ---------撈資料---------
 onMounted(() => {
   classStore.getClassData()
+  console.log(store.id)
 })
-
-// ---------顯示課程內容toggle--------
-const toggleDetails = (item) => {
-  item.showDetails = !item.showDetails
-}
 
 // ---------修改課程--------
 // 彈窗
@@ -29,15 +27,19 @@ const currentClass = ref({})
 // const classTitle = ref('新增課程')
 
 // 修改課程
-const editClass = (item, indexx) => {
+const editClass = (item) => {
+  console.log('修改課程', item)
   // classTitle.value = '修改課程'
   togglePopup.value = true
   const applyClass = { ...item }
   // console.log('修改原黨', applyClass)
   currentClass.value = applyClass
-  currentClass.value.indexx = indexx
+  // currentClass.value.indexx = indexx
 }
-
+// ---------顯示課程內容toggle--------
+const toggleDetails = (item) => {
+  item.showDetails = !item.showDetails
+}
 // ---------新增課程--------
 // 彈窗
 const toggleAddPopup = ref(false)
@@ -64,8 +66,10 @@ const save = () => {
 }
 
 // ---------刪除課程---------
-const deleteClass = (input, index) => {
-  classStore.deleteClass(input, index)
+const deleteClass = async (input, index) => {
+  await classStore.deleteClass(input, index)
+  // 刪除完撈出全部課程
+  classStore.getClassData()
 }
 
 // ---------年級顏色---------
@@ -119,7 +123,7 @@ const gradeColor = (grade) => {
               <div class="col-span-1">編號</div>
               <div class="col-span-2">課程名稱</div>
               <div class="col-span-1">老師名稱</div>
-              <div class="col-span-1">領域</div>
+              <!-- <div class="col-span-1">領域</div> -->
               <div class="col-span-1">年級</div>
               <div class="col-span-2">上課地點</div>
               <div class="col-span-1">修改 / 刪除</div>
@@ -142,7 +146,7 @@ const gradeColor = (grade) => {
               <div class="text-center">
                 {{ item.teacher }}
               </div>
-              <div class="text-center">{{ item.subject.name }}</div>
+              <!-- <div class="text-center">{{ item.subject.name }}</div> -->
               <div class="py-3 text-center">
                 <!-- sm:px-0 sm:py-3 sm:[writing-mode:vertical-lr] -->
                 <span
@@ -184,7 +188,7 @@ const gradeColor = (grade) => {
                 <div class="text-left">
                   <p class="font-bold">建立日期：</p>
                   <p class="text-justify text-third">
-                    {{ dayjs(item.create_time).format('YYYY-MM-DD') }}
+                    {{ dayjs(item.created_at).format('YYYY-MM-DD') }}
                   </p>
                 </div>
               </div>

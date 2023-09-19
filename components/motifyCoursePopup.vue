@@ -28,7 +28,7 @@ const props = defineProps({
     grade: String,
     address: String,
     content: String,
-    indexx: Number,
+    // indexx: Number,
     create_time: String,
     subject: {
       id: String,
@@ -50,7 +50,7 @@ const save = async () => {
 
   // 打API修改
   await classStore.modifyClass(props.currentClass)
-  // console.log('修改完的課', props.currentClass)
+  console.log('修改完的課', props.currentClass)
 
   // 修改完撈出全部課程
   classStore.getClassData()
@@ -131,13 +131,13 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
       <!-- 領域&年級 -->
       <div class="mb-6 flex justify-between gap-6 vsm:flex-wrap">
         <!-- 領域 -->
+        <!-- v-model="props.currentClass.subject.name" -->
+
         <div class="w-full">
           <label for="subject" class="mb-2 block">領域</label>
           <select
             id="subject"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
-            v-model="props.currentClass.subject.name"
-            required
           >
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}

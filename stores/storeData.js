@@ -1,4 +1,10 @@
 import { defineStore } from 'pinia'
+// -----------------supabase-------------------
+import { createClient } from '@supabase/supabase-js'
+const supabase = createClient(
+  'https://jjbirjsxkllscyhxlogk.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYmlyanN4a2xsc2N5aHhsb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwMjEzMjQsImV4cCI6MjAxMDU5NzMyNH0.j-uusDVc-NbySoKe92ZeSKpMMrCTMKx_gjJvp8Ys370'
+)
 
 export const useStoreData = defineStore('storeData', {
   // 初始狀態，使用箭頭函式
@@ -19,89 +25,63 @@ export const useStoreData = defineStore('storeData', {
     // API
     // 1 獲取所有課程
     async getClassData() {
-      // https://e6f4-60-248-2-19.ngrok-free.app/
-      const response = await fetch(`${this.apiURL}/course`)
-      const jsonResponse = await response.json()
-      this.classData = jsonResponse
+      const { data: todos, error } = await supabase.from('course').select('*')
+      console.log(todos)
+      this.classData = todos
 
-      // const { data } = await useFetch(`${this.apiURL}/course`)
-      // console.log(data.value)
-
-      // if (this.classData.length === 0) {
-      //   const response = await fetch('/data/class.json')
-      //   const jsonResponse = await response.json()
-      //   this.classData = jsonResponse.class
-      //   console.log(this.classData)
-      // }
+      // ----------supabase APIURL 方法-------------------
+      // const response = await fetch('https://jjbirjsxkllscyhxlogk.supabase.co/rest/v1/course', {
+      //   method: 'GET',
+      //   headers: {
+      //     apikey:
+      //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYmlyanN4a2xsc2N5aHhsb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwMjEzMjQsImV4cCI6MjAxMDU5NzMyNH0.j-uusDVc-NbySoKe92ZeSKpMMrCTMKx_gjJvp8Ys370'
+      //   }
+      // })
+      // const jsonResponse = await response.json()
+      // this.classData = jsonResponse
+      // console.log(jsonResponse)
     },
     // 2 獲取領域
     async getSubject() {
-      if (this.subjectOptions.length === 0) {
-        const subjectResponse = await fetch(`${this.apiURL}/subject`)
-        const subjectjson = await subjectResponse.json()
-        this.subjectOptions = subjectjson
-        // console.log('pinia', this.subjectOptions)
-      }
+      // if (this.subjectOptions.length === 0) {
+      //   const subjectResponse = await fetch(`${this.apiURL}/subject`)
+      //   const subjectjson = await subjectResponse.json()
+      //   this.subjectOptions = subjectjson
+      //   // console.log('pinia', this.subjectOptions)
+      // }
     },
     // 3 修改課程
     async modifyClass(input) {
-      // -----------API-------------
-      const res = await fetch(`${this.apiURL}/course/${input.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(input)
-      }).then((res) => {
-        return res.json()
-      })
-
-      // -----------local-------------
-      if (res) {
-        this.classData[input.indexx] = input
-      }
-      // const response = await fetch(`${this.apiURL}/`)
-      // const jsonResponse = await response.json()
-      // this.classData = jsonResponse
-    },
-    // 4 新增課程
-    async addClass(input) {
-      console.log('新增的課', input)
-
-      // -----------API-------------
-      // 要新增的資料
+      // console.log(input)
       const apiData = {
         className: input.className,
         teacher: input.teacher,
-        subject_id: input.subject.id,
+        // subject_id: input.subject.id,
         grade: input.grade,
         address: input.address,
-        content: input.content,
-        imageUrl: ''
+        content: input.content
       }
+      const { data, error } = await supabase.from('course').update(apiData).eq('id', input.id)
+    },
+    // 4 新增課程
+    async addClass(input) {
+      const apiData = {
+        className: input.className,
+        teacher: input.teacher,
+        // subject_id: input.subject.id,
+        grade: input.grade,
+        address: input.address,
+        content: input.content
+      }
+      // console.log(apiData)
 
-      await fetch(`${this.apiURL}/course/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(apiData)
-      }).then((res) => {
-        return res.json()
-      })
-
-      // -----------local-------------
-      this.classData.push(input)
+      const { error } = await supabase.from('course').insert(apiData)
     },
     // 5 刪除課程
     async deleteClass(input, index) {
       const yes = confirm('確定刪除嗎?')
       if (yes) {
-        // -----------API-------------
-        await fetch(`${this.apiURL}/course/${input.id}`, {
-          method: 'DELETE'
-        }).then((res) => {
-          return res.json()
-        })
-
-        // -----------local-------------
-        this.classData.splice(index, 1)
+        const { error } = await supabase.from('course').delete().eq('id', input.id)
       }
     }
   },

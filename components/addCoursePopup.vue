@@ -132,7 +132,6 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
             id="subject"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="inputClass.subject"
-            required
           >
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}
