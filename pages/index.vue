@@ -28,7 +28,7 @@ const currentClass = ref({})
 
 // 修改課程
 const editClass = (item) => {
-  console.log('修改課程', item)
+  // console.log('修改課程', item)
   // classTitle.value = '修改課程'
   togglePopup.value = true
   const applyClass = { ...item }
@@ -91,6 +91,25 @@ const gradeColor = (grade) => {
       return 'bg-black text-white'
   }
 }
+
+// ==========================================
+// 串接實時更新
+import { supabase } from '../composable/supabaseClinet'
+
+supabase
+  .channel('course')
+  .on(
+    'postgres_changes',
+    {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'course'
+    },
+    (event) => {
+      console.log('訂閱course資料表的修改', event)
+    }
+  )
+  .subscribe()
 </script>
 
 <template>

@@ -1,19 +1,19 @@
 <script setup>
-const router = useRouter()
+import { supabase } from '../composable/supabaseClinet'
+import { useUserStore } from '../stores/user'
 
-import { createClient } from '@supabase/supabase-js'
-const supabase = createClient(
-  'https://jjbirjsxkllscyhxlogk.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYmlyanN4a2xsc2N5aHhsb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwMjEzMjQsImV4cCI6MjAxMDU5NzMyNH0.j-uusDVc-NbySoKe92ZeSKpMMrCTMKx_gjJvp8Ys370'
-)
+const router = useRouter()
 // ------------------------------------------------
-// 註冊
+// ----------------註冊----------------
+
+// 定義資料
 const signupData = reactive({
   email: '',
   password: ''
 })
 const err = ref(false)
 const result = ref(null)
+
 const handlerSignup = async () => {
   const { data, error } = await supabase.auth.signUp({
     email: signupData.email,
@@ -23,19 +23,11 @@ const handlerSignup = async () => {
     err.value = true
     alert('註冊失敗')
   } else {
-    alert('註冊成功')
     result.value = data.user
-
+    alert('註冊成功')
     router.push('/')
   }
 }
-onMounted(async () => {
-  supabase.auth.onAuthStateChange((_, session) => {
-    if (session === null) return
-    store.id = session.user.id
-    store.email = session.user.email
-  })
-})
 </script>
 
 <template>
@@ -47,14 +39,6 @@ onMounted(async () => {
     <div class="w-10/12 bg-neutral-200 p-6">
       <h2 class="mb-8 bg-secondary text-center text-2xl font-bold leading-loose">註冊</h2>
       <div class="mx-auto w-5/6 max-w-lg">
-        <!-- <div class=" text-center mb-4">
-      <button :disabled="loading" type="button" @click="loginFB()">
-        <div class="bg-[#4267B2] inline-block align-middle rounded text-center text-white text-4xl">
-          <IconFacebook />
-        </div>
-        <span class="ml-2 inline-block align-middle">用FB登入</span>
-      </button>
-    </div> -->
         <form class="mb-4" @submit.prevent="handlerSignup">
           <p class="mb-4">
             <input
