@@ -1,6 +1,7 @@
 import { useUserStore } from '../stores/user'
-import supabase from '../supabase'
+import { supabase } from '../composable/supabaseClinet'
 
+// 登入
 const useLogin = () => {
   const err = ref(false)
   const loading = ref(false)
@@ -17,6 +18,8 @@ const useLogin = () => {
     if (error) {
       err.value = true
     } else {
+      alert('登入成功')
+
       result.value = data.user
     }
     loading.value = false
@@ -29,6 +32,7 @@ const useLogin = () => {
   }
 }
 
+// 註冊
 const useSignUp = () => {
   const error = ref(false)
   const loading = ref(false)
@@ -43,6 +47,7 @@ const useSignUp = () => {
     })
     if (data.user) {
       success.value = data.user
+      alert('註冊成功')
     } else {
       error.value = true
     }
@@ -56,6 +61,7 @@ const useSignUp = () => {
   }
 }
 
+// FB登入?
 const useFBLogin = () => {
   const path = location.origin + '/callback/'
 
@@ -73,6 +79,7 @@ const useFBLogin = () => {
   }
 }
 
+// 忘記密碼
 const useForgotPsd = () => {
   const loading = ref(false)
   const success = ref(false)
@@ -97,6 +104,7 @@ const useForgotPsd = () => {
   }
 }
 
+// 更新密碼
 const useUpdateUser = () => {
   const loading = ref(false)
   const success = ref(false)
@@ -107,7 +115,9 @@ const useUpdateUser = () => {
       email,
       password
     })
-    success.value = res.error ? false : true
+    // success.value = res.error ? false : true
+    success.value = true
+
     loading.value = false
   }
   return {
@@ -117,6 +127,7 @@ const useUpdateUser = () => {
   }
 }
 
+// 取得使用者
 const useGetUser = () => {
   const user = ref({})
   const loading = ref(false)
@@ -139,6 +150,7 @@ const useGetUser = () => {
   }
 }
 
+// 登出
 const useLogout = () => {
   const loading = ref(false)
   const logout = async () => {

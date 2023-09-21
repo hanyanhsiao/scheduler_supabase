@@ -78,7 +78,7 @@ function sortColums(what) {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="w-10/12 bg-neutral-200 p-6" v-if="eventData[0]">
+    <div class="w-10/12 bg-neutral-200 p-6">
       <!-- 上方搜尋 -->
       <section class="mb-5 flex gap-3 sm:flex-wrap">
         <div class="w-full">

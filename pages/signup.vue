@@ -1,33 +1,29 @@
 <script setup>
+import { useSignUp } from '../composable/useAuth'
+
 import { supabase } from '../composable/supabaseClinet'
 import { useUserStore } from '../stores/user'
-
-const router = useRouter()
 // ------------------------------------------------
-// ----------------註冊----------------
+const store = useUserStore()
 
-// 定義資料
+// const router = useRouter()
+
+const { loading, signup, error, success } = useSignUp()
 const signupData = reactive({
   email: '',
   password: ''
 })
-const err = ref(false)
-const result = ref(null)
 
-const handlerSignup = async () => {
-  const { data, error } = await supabase.auth.signUp({
+const handlerSignup = () => {
+  signup({
     email: signupData.email,
     password: signupData.password
   })
-  if (error) {
-    err.value = true
-    alert('註冊失敗')
-  } else {
-    result.value = data.user
-    alert('註冊成功')
-    router.push('/')
-  }
 }
+watch(success, (user) => {
+  store.id = user.id
+  // router.push('/profile')
+})
 </script>
 
 <template>
