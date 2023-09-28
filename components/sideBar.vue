@@ -26,6 +26,7 @@ const signOut = async () => {
     store.email = ''
   }
 }
+
 // ---------pinia---------
 import { useQalendarData } from '../stores/qalendarData'
 import { storeToRefs } from 'pinia'
@@ -69,12 +70,22 @@ const getNewEventsData = () => {
       @click="getNewEventsData"
       >表格呈現</NuxtLink
     >
-    <NuxtLink
-      to="/signup"
-      :class="{ 'active-link': $route.path === '/signup' }"
-      class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
-      >註冊/登入</NuxtLink
-    >
+    <div>
+      <NuxtLink
+        v-if="store.id"
+        to="/profile"
+        :class="{ 'active-link': $route.path === '/profile' }"
+        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
+        >會員專區</NuxtLink
+      >
+      <NuxtLink
+        v-else
+        to="/signup"
+        :class="{ 'active-link': $route.path === '/signup' }"
+        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
+        >註冊/登入</NuxtLink
+      >
+    </div>
     <button
       v-if="store.id"
       class="rounded-md bg-secondary p-3 hover:bg-third hover:underline"

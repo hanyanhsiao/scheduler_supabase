@@ -1,5 +1,6 @@
 import { useUserStore } from '../stores/user'
 import { supabase } from '../composable/supabaseClinet'
+const store = useUserStore()
 
 // 登入
 const useLogin = () => {
@@ -11,9 +12,18 @@ const useLogin = () => {
     loading.value = true
     err.value = false
     result.value = null
+    const photo = async () => {
+      const { data: todos, error } = await supabase
+        .from('profiles')
+        .select('avatar_url')
+        .eq('id', store.id)
+      console.log(todos)
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
-      password: password
+      password: password,
+      photo: photo()
     })
     if (error) {
       err.value = true

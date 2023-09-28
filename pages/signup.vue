@@ -1,5 +1,6 @@
 <script setup>
 import { useSignUp } from '../composable/useAuth'
+// import { useSignUp } from useAuth()
 
 import { supabase } from '../composable/supabaseClinet'
 import { useUserStore } from '../stores/user'

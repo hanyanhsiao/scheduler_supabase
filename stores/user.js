@@ -4,6 +4,7 @@ export const useUserStore = defineStore({
   id: 'user',
   state: () => ({
     id: '',
-    email: ''
+    email: '',
+    photo: ''
   })
 })

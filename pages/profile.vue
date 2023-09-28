@@ -1,0 +1,72 @@
+<script setup>
+import { supabase } from '../composable/supabaseClinet'
+import { useUserStore } from '../stores/user'
+
+const store = useUserStore()
+const avatarUrl = ref(store.photo)
+const uniqueFilename = `avatar_${Date.now()}.png`
+// 取得儲存桶
+const bucket = supabase.storage.from('avatars')
+//大頭貼
+const Upload = async ($event) => {
+  const avatarFile = $event.target.files[0]
+
+  // 上傳檔案
+  const { data, error } = await bucket.upload(`public/${uniqueFilename}`, avatarFile)
+  if (error) {
+    console.error('上傳失敗：', error)
+  } else {
+    // createSignedUrl就能夠把檔案完成上傳至儲存空間，並且產生一個限時可瀏覽的連結
+    const { data, error } = await bucket.createSignedUrl(`public/${uniqueFilename}`, 60)
+
+    // console.log('可顯示的url', data.signedUrl)
+    // alert('上傳成功')
+
+    // 顯示圖片
+    avatarUrl.value = data.signedUrl
+    // 存入pinia
+    store.photo = data.signedUrl
+    console.log('id', store.id)
+    console.log('圖片', avatarUrl.value)
+
+    // 連結存入資料庫
+    await supabase
+      .from('profiles')
+      .update({ avatar_url: avatarUrl.value }) // 更新操作，將 avatar_url 更新為新的圖片 URL
+      .eq('id', store.id) // 指定要更新的特定行，假設您有一個 id 來識別用戶
+  }
+}
+
+// const download = async () => {
+//   const { data, error } = await bucket.getPublicUrl('avatar_1695344796416.png', {
+//     transform: {
+//       width: 500,
+//       height: 600
+//     }
+//   })
+//   if (data) {
+//     console.log(data.publicUrl)
+//   } else {
+//     // 處理錯誤
+//     console.error(error)
+//   }
+// }
+</script>
+
+<template>
+  <div class="flex w-full">
+    <!-- 側邊欄 -->
+    <sideBar />
+
+    <!-- 右側 -->
+    <div class="w-10/12 bg-neutral-200 p-6">
+      <!-- 顯示大頭貼 -->
+      <div class="flex-col items-center justify-center">
+        <img :src="avatarUrl" class="mb-4 h-24 w-24 rounded-full bg-slate-300" />
+        <!-- 通常應該使用 @change 事件，因為文件選擇應該在文件選擇時觸發，而不是單擊時。 -->
+        <input type="file" @change="Upload($event)" />
+        <!-- <button @click="download">按我</button> -->
+      </div>
+    </div>
+  </div>
+</template>
