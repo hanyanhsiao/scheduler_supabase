@@ -30,10 +30,11 @@ const props = defineProps({
     content: String,
     // indexx: Number,
     create_time: String,
-    subject: {
-      id: String,
-      name: String
-    }
+    subject: String
+    // subject: {
+    //   id: String,
+    //   name: String
+    // }
   }
 })
 
@@ -41,12 +42,12 @@ const props = defineProps({
 const save = async () => {
   emits('save')
 
-  // 用subject.name找正確的subject
-  const updatedSubject = subjectOptions.value.find(
-    (each) => each.name == props.currentClass.subject.name
-  )
+  // // 用subject.name找正確的subject
+  // const updatedSubject = subjectOptions.value.find(
+  //   (each) => each.name == props.currentClass.subject.name
+  // )
   // console.log('我是正確的領域嗎?拜託是', updatedSubject)
-  props.currentClass.subject = updatedSubject
+  // props.currentClass.subject = updatedSubject
 
   // 打API修改
   await classStore.modifyClass(props.currentClass)
@@ -68,24 +69,6 @@ const clearForm = () => {
 
 // 年級
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
-// API
-// const subjectOptions = [
-//   {
-//     id: 2,
-//     name: '科技',
-//     delete_time: null
-//   },
-//   {
-//     id: 3,
-//     name: '語言',
-//     delete_time: null
-//   },
-//   {
-//     id: 4,
-//     name: '才藝',
-//     delete_time: null
-//   }
-// ]
 </script>
 
 <template>
@@ -138,6 +121,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
           <select
             id="subject"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            v-model="props.currentClass.subject"
           >
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}

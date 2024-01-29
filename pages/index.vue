@@ -132,7 +132,11 @@ supabase
 
       <!-- 下方列表 -->
       <div class="flex items-center rounded-lg">
-        <div id="style1" class="my-6 w-full overflow-x-auto bg-white shadow-md" v-if="classData[0]">
+        <div
+          id="style1"
+          class="my-6 w-full overflow-x-auto bg-white shadow-md"
+          v-if="classData && classData[0]"
+        >
           <!-- 標題 -->
           <div>
             <!-- vsm:grid-cols-8 -->
@@ -142,7 +146,7 @@ supabase
               <div class="col-span-1">編號</div>
               <div class="col-span-2">課程名稱</div>
               <div class="col-span-1">老師名稱</div>
-              <!-- <div class="col-span-1">領域</div> -->
+              <div class="col-span-1">領域</div>
               <div class="col-span-1">年級</div>
               <div class="col-span-2">上課地點</div>
               <div class="col-span-1">修改 / 刪除</div>
@@ -166,6 +170,7 @@ supabase
                 {{ item.teacher }}
               </div>
               <!-- <div class="text-center">{{ item.subject.name }}</div> -->
+              <div class="text-center">{{ item.subject }}</div>
               <div class="py-3 text-center">
                 <!-- sm:px-0 sm:py-3 sm:[writing-mode:vertical-lr] -->
                 <span

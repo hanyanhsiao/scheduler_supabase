@@ -5,75 +5,77 @@ import { supabase } from '../composable/supabaseClinet'
 export const useStoreData = defineStore('storeData', {
   // 初始狀態，使用箭頭函式
   state: () => {
-    const config = useRuntimeConfig()
-    const apiURL = config.public.apiBase
+    // const config = useRuntimeConfig()
+    // const apiURL = config.public.apiBase
+    const apiBase = 'https://jjbirjsxkllscyhxlogk.supabase.co/rest/v1'
+    const apiKey =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYmlyanN4a2xsc2N5aHhsb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwMjEzMjQsImV4cCI6MjAxMDU5NzMyNH0.j-uusDVc-NbySoKe92ZeSKpMMrCTMKx_gjJvp8Ys370'
     const classData = []
     const subjectOptions = []
     return {
       classData,
       subjectOptions,
-      apiURL
+      apiBase,
+      apiKey
     }
   },
 
   // 定義使用到的函式，可以為同步和非同步，如同 method
   actions: {
-    // API
-    // 1 獲取所有課程
+    // APIURL 方法
+    async fetchData(endpoint, method = 'GET') {
+      const response = await fetch(`${this.apiBase}/${endpoint}`, {
+        method,
+        headers: {
+          apikey: this.apiKey
+        }
+      })
+      return await response.json()
+    },
+    // ----------1 獲取所有課程----------
     async getClassData() {
-      const { data: todos, error } = await supabase.from('course').select('*')
-      // console.log(todos)
-      this.classData = todos
+      this.classData = await this.fetchData('course', 'GET')
+      // console.log('classData: ', this.classData)
+    },
+    // supabase SQL 方法
+    // const { data: todos, error } = await supabase.from('course').select('*')
+    // // console.log(todos)
+    // this.classData = todos
 
-      // ----------supabase APIURL 方法-------------------
-      // const response = await fetch('https://jjbirjsxkllscyhxlogk.supabase.co/rest/v1/course', {
-      //   method: 'GET',
-      //   headers: {
-      //     apikey:
-      //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYmlyanN4a2xsc2N5aHhsb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwMjEzMjQsImV4cCI6MjAxMDU5NzMyNH0.j-uusDVc-NbySoKe92ZeSKpMMrCTMKx_gjJvp8Ys370'
-      //   }
-      // })
-      // const jsonResponse = await response.json()
-      // this.classData = jsonResponse
-      // console.log(jsonResponse)
-    },
-    // 2 獲取領域
+    // ----------2 獲取領域----------
     async getSubject() {
-      // if (this.subjectOptions.length === 0) {
-      //   const subjectResponse = await fetch(`${this.apiURL}/subject`)
-      //   const subjectjson = await subjectResponse.json()
-      //   this.subjectOptions = subjectjson
-      //   // console.log('pinia', this.subjectOptions)
-      // }
+      this.subjectOptions = await this.fetchData('subject', 'GET')
+      // console.log('subjectOptions', this.subjectOptions)
     },
-    // 3 修改課程
+
+    // ----------3 修改課程----------
     async modifyClass(input) {
       // console.log(input)
       const apiData = {
         className: input.className,
         teacher: input.teacher,
-        // subject_id: input.subject.id,
+        subject: input.subject,
         grade: input.grade,
         address: input.address,
         content: input.content
       }
       const { data, error } = await supabase.from('course').update(apiData).eq('id', input.id)
     },
-    // 4 新增課程
+    // ----------4 新增課程----------
     async addClass(input) {
       const apiData = {
         className: input.className,
         teacher: input.teacher,
-        // subject_id: input.subject.id,
+        subject: input.subject,
         grade: input.grade,
         address: input.address,
         content: input.content
       }
-      // console.log(apiData)
+      console.log(apiData)
 
       const { error } = await supabase.from('course').insert(apiData)
     },
-    // 5 刪除課程
+    // ----------5 刪除課程----------
     async deleteClass(input, index) {
       const yes = confirm('確定刪除嗎?')
       if (yes) {

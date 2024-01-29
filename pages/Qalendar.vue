@@ -11,6 +11,7 @@ const { subjectOptions } = storeToRefs(classStore)
 
 const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
+// console.log('已安排的課程', eventData.value)
 
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
@@ -39,28 +40,18 @@ function search() {
   }
 
   // 若沒有選value==='0'就回傳全部
-  const teacher =
-    isSelectedTeacher.value === '0'
+  const filterData = (selectedValue, property) => {
+    return selectedValue === '0'
       ? eventData.value
       : eventData.value.filter((eachCourse) => {
-          return eachCourse.course.teacher.includes(isSelectedTeacher.value)
+          return eachCourse[property].includes(selectedValue)
         })
+  }
 
-  const subject =
-    isSelectedSubject.value === '0'
-      ? eventData.value
-      : eventData.value.filter((eachCourse) => {
-          return eachCourse.course.subject.name.includes(isSelectedSubject.value)
-        })
-
-  const grade =
-    isSelectedGrade.value === '0'
-      ? eventData.value
-      : eventData.value.filter((eachCourse) => {
-          return eachCourse.course.grade.includes(isSelectedGrade.value)
-        })
-
-  // console.log('老師', teacher)
+  const teacher = filterData(isSelectedTeacher.value, 'teacher')
+  const subject = filterData(isSelectedSubject.value, 'subject')
+  const grade = filterData(isSelectedGrade.value, 'grade')
+  // console.log('老師:', teacher)
   // console.log('領域', subject)
   // console.log('年級', grade)
 
@@ -87,15 +78,15 @@ const events = computed(() => {
   // 篩選
   if (results.value.length > 0) {
     results.value.forEach((eachEvent) => {
-      const colorScheme = getColorScheme(eachEvent.course.grade)
+      const colorScheme = getColorScheme(eachEvent.grade)
       // 賦值給Qalendar屬性
       updatedEvents.value.push({
         id: eachEvent.id,
-        title: eachEvent.course.className,
-        with: eachEvent.course.teacher,
-        location: eachEvent.course.address,
-        description: eachEvent.course.content,
-        topic: eachEvent.course.subject.name,
+        title: eachEvent.className,
+        with: eachEvent.teacher,
+        location: eachEvent.address,
+        description: eachEvent.content,
+        topic: eachEvent.subject,
         time: { start: eachEvent.startTime, end: eachEvent.endTime },
         colorScheme: colorScheme,
         isEditable: true
@@ -105,15 +96,15 @@ const events = computed(() => {
   // 全部
   else {
     eventData.value.forEach((eachEvent) => {
-      const colorScheme = getColorScheme(eachEvent.course.grade)
+      const colorScheme = getColorScheme(eachEvent.grade)
       // 賦值給Qalendar屬性
       updatedEvents.value.push({
         id: eachEvent.id,
-        title: eachEvent.course.className,
-        with: eachEvent.course.teacher,
-        location: eachEvent.course.address,
-        description: eachEvent.course.content,
-        topic: eachEvent.course.subject.name,
+        title: eachEvent.className,
+        with: eachEvent.teacher,
+        location: eachEvent.address,
+        description: eachEvent.content,
+        topic: eachEvent.subject,
         time: { start: eachEvent.startTime, end: eachEvent.endTime },
         colorScheme: colorScheme,
         isEditable: true

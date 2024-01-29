@@ -6,6 +6,7 @@ import { useStoreData } from '../stores/storeData'
 import { storeToRefs } from 'pinia'
 const classStore = useStoreData()
 // API
+// 獲取領域
 const { subjectOptions } = storeToRefs(classStore)
 
 // ---------撈領域資料---------
@@ -40,10 +41,13 @@ const save = async () => {
   emits('save')
 
   // 用subject.name找正確的subject
-  const subjectName = inputClass.value.subject
-  const updatedSubject = subjectOptions.value.find((each) => each.name === subjectName)
-  // console.log('我是正確的領域嗎?拜託是', updatedSubject)
-  inputClass.value.subject = updatedSubject
+  // const subjectName = inputClass.value.subject
+  // const updatedSubject = subjectOptions.value.find((each) => each.name === subjectName)
+  // console.log('我是正確的領域嗎?', updatedSubject)
+  // inputClass.value.subject = updatedSubject
+  // console.log('輸入的內容', inputClass.value)
+
+  // -----------------supabase-------------------
   console.log('輸入的內容', inputClass.value)
 
   // 打API新增
@@ -63,24 +67,6 @@ const clearForm = () => {
 
 // 年級
 const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
-// API
-// const subjectOptions = [
-//   {
-//     id: 2,
-//     name: '科技',
-//     delete_time: null
-//   },
-//   {
-//     id: 3,
-//     name: '語言',
-//     delete_time: null
-//   },
-//   {
-//     id: 4,
-//     name: '才藝',
-//     delete_time: null
-//   }
-// ]
 </script>
 
 <template>
@@ -132,6 +118,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
             id="subject"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="inputClass.subject"
+            required
           >
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}
@@ -147,6 +134,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
             id="grade"
             class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
             v-model="inputClass.grade"
+            @change="validateGrade"
             required
           >
             <option v-for="(gradeValue, index) in gradeOptions" :key="index" :value="gradeValue">

@@ -33,14 +33,14 @@ eventData.value.forEach((eachEvent) => {
   // 賦值給table屬性
   items.value.push({
     // id: eachEvent.id,
-    className: eachEvent.course.className,
-    teacher: eachEvent.course.teacher,
-    grade: eachEvent.course.grade,
-    subject: eachEvent.course.subject.name, //{ id: eachEvent.subject.id, name: eachEvent.subject.name },
-    address: eachEvent.course.address,
+    className: eachEvent.className,
+    teacher: eachEvent.teacher,
+    grade: eachEvent.grade,
+    subject: eachEvent.subject, //{ id: eachEvent.subject.id, name: eachEvent.subject.name },
+    address: eachEvent.address,
     startTime: eachEvent.startTime,
     endTime: eachEvent.endTime,
-    content: eachEvent.course.content,
+    content: eachEvent.content,
     duration: duration()
   })
 

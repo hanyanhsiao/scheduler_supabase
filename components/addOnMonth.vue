@@ -29,13 +29,19 @@ const close = () => {
 
 // ---------修改內容存檔---------
 const saveNewClass = () => {
-  // const saveClass = { ...props.NewClass.course }
-  const saveClass = {}
-  saveClass.course = props.NewClass.course //透過v-model帶進來的整個課程資料
-  saveClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
-  saveClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
+  // console.log('props.NewClass.course', props.NewClass.course)
+
+  // props.NewClass.course是透過v-model帶進來的整個課程資料
+  // 將id改名為courseID，並將其他資料解構出來
+  let { id: courseID, ...ClassInfo } = props.NewClass.course
+  const saveClass = {
+    ...ClassInfo,
+    courseID,
+    startTime: dayjs(range.value.start).format('YYYY-MM-DD HH:mm'),
+    endTime: dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
+  }
   // saveClass.id = new Date() //用新增日期給新id
-  // console.log('我是要新增的課程', saveClass)
+  console.log('我是要新增的課程', saveClass)
 
   EventStore.addNewClass(saveClass)
   props.NewClass.course = ''
