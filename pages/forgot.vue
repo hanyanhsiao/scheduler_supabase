@@ -28,7 +28,7 @@ watch(success, (value) => {
               :disabled="loading"
               v-model="email"
               required
-              class="block w-full rounded-full px-6 py-3 text-xl text-stone-700 ring-secondary focus:ring-2 disabled:text-stone-400"
+              class="block w-full rounded-full px-6 py-3 text-xl text-stone-700 ring-secondary focus:ring-1 disabled:text-stone-400"
               placeholder="請輸入電子信箱"
               type="email"
             />

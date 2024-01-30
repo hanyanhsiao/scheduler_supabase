@@ -42,7 +42,7 @@ const resetPsd = async () => {
             <input
               v-model="password"
               required
-              class="block w-full rounded-full px-6 py-3 text-xl text-stone-700 ring-secondary focus:ring-2 disabled:text-stone-400"
+              class="block w-full rounded-full px-6 py-3 text-xl text-stone-700 ring-secondary focus:ring-1 disabled:text-stone-400"
               placeholder="新密碼"
               type="password"
             />
@@ -51,7 +51,7 @@ const resetPsd = async () => {
             <input
               v-model="confirmPassword"
               required
-              class="block w-full rounded-full px-6 py-3 text-xl text-stone-700 ring-secondary focus:ring-2 disabled:text-stone-400"
+              class="block w-full rounded-full px-6 py-3 text-xl text-stone-700 ring-secondary focus:ring-1 disabled:text-stone-400"
               placeholder="新密碼確認"
               type="password"
             />

@@ -275,7 +275,7 @@ function resizedTime(event) {
           <label for="grade" class="mb-2 block">選擇老師</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="isSelectedTeacher"
           >
             <option value="0" selected>--請選擇--</option>
@@ -290,7 +290,7 @@ function resizedTime(event) {
           <label for="grade" class="mb-2 block">選擇領域</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="isSelectedSubject"
           >
             <option value="0" selected>--請選擇--</option>
@@ -305,7 +305,7 @@ function resizedTime(event) {
           <label for="grade" class="mb-2 block">選擇年級</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="isSelectedGrade"
           >
             <option value="0" selected>--請選擇--</option>

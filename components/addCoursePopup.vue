@@ -92,7 +92,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
           type="text"
           id="className"
           name="className"
-          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
           required
           v-model="inputClass.className"
         />
@@ -104,7 +104,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
           type="text"
           id="teacher"
           name="teacher"
-          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
           required
           v-model="inputClass.teacher"
         />
@@ -116,7 +116,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
           <label for="subject" class="mb-2 block">領域</label>
           <select
             id="subject"
-            class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="inputClass.subject"
             required
           >
@@ -132,7 +132,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
           <label for="grade" class="mb-2 block">年級</label>
           <select
             id="grade"
-            class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+            class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="inputClass.grade"
             @change="validateGrade"
             required
@@ -151,7 +151,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
           type="text"
           id="address"
           name="address"
-          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
           required
           v-model="inputClass.address"
         />
@@ -162,7 +162,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         <textarea
           id="content"
           rows="3"
-          class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+          class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
           required
           v-model="inputClass.content"
         ></textarea>

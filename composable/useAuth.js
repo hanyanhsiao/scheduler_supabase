@@ -1,8 +1,7 @@
 import { useUserStore } from '../stores/user'
 import { supabase } from '../composable/supabaseClinet'
-const store = useUserStore()
 
-// 登入
+// ------------登入------------
 const useLogin = () => {
   const err = ref(false)
   const loading = ref(false)
@@ -12,25 +11,34 @@ const useLogin = () => {
     loading.value = true
     err.value = false
     result.value = null
-    const photo = async () => {
-      const { data: todos, error } = await supabase
-        .from('profiles')
-        .select('avatar_url')
-        .eq('id', store.id)
-      console.log(todos)
-    }
+    // const photo = async () => {
+    //   const { data: todos, error } = await supabase
+    //     .from('profiles')
+    //     .select('avatar_url')
+    //     .eq('id', store.id)
+    //   console.log(todos)
+    // }
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
-      password: password,
-      photo: photo()
+      password: password
+      // photo: photo()
     })
     if (error) {
       err.value = true
     } else {
       alert('登入成功')
+      console.log('data.user', data.user)
 
-      result.value = data.user
+      // 登入資訊寫入store
+      const store = useUserStore()
+      store.id = data.user.id
+      store.email = data.user.email
+      store.name = data.user.user_metadata?.name
+      // console.log('store', store)
+
+      //登入成功後導向會員專區頁
+      location.href = '/profile'
     }
     loading.value = false
   }
@@ -42,27 +50,36 @@ const useLogin = () => {
   }
 }
 
-// 註冊
+// ------------註冊------------
 const useSignUp = () => {
   const error = ref(false)
   const loading = ref(false)
   const success = ref(null)
-  const doSignUp = async ({ email, password }) => {
+
+  const doSignUp = async ({ name, email, password }) => {
     loading.value = true
     // error.value = false
     success.value = null
     const { data, error } = await supabase.auth.signUp({
       email: email,
-      password: password
+      password: password,
+      options: {
+        data: { name: name }
+      }
     })
     if (data.user) {
-      success.value = data.user
+      // success.value = data.user
       alert('註冊成功')
+      // console.log('data.user', data.user)
+      // 註冊成功後導向會員專區頁
+      location.href = '/profile'
     } else {
+      alert('註冊失敗')
       error.value = true
     }
     loading.value = false
   }
+
   return {
     loading,
     error,
@@ -71,25 +88,7 @@ const useSignUp = () => {
   }
 }
 
-// FB登入?
-const useFBLogin = () => {
-  const path = location.origin + '/callback/'
-
-  const doFetch = async () => {
-    const { data } = await supabase.auth.signInWithOAuth({
-      provider: 'facebook',
-      options: {
-        redirectTo: path
-      }
-    })
-  }
-
-  return {
-    loginFB: doFetch
-  }
-}
-
-// 忘記密碼
+// ------------忘記密碼------------
 const useForgotPsd = () => {
   const loading = ref(false)
   const success = ref(false)
@@ -114,7 +113,7 @@ const useForgotPsd = () => {
   }
 }
 
-// 更新密碼
+// ------------更新密碼------------
 const useUpdateUser = () => {
   const loading = ref(false)
   const success = ref(false)
@@ -137,7 +136,7 @@ const useUpdateUser = () => {
   }
 }
 
-// 取得使用者
+// ------------取得使用者------------
 const useGetUser = () => {
   const user = ref({})
   const loading = ref(false)
@@ -160,12 +159,26 @@ const useGetUser = () => {
   }
 }
 
-// 登出
+// ------------登出------------
 const useLogout = () => {
   const loading = ref(false)
   const logout = async () => {
     loading.value = true
     const { error } = await supabase.auth.signOut()
+    if (error) {
+      alert('登出失敗')
+    } else {
+      alert('登出成功')
+
+      // 登出後清空store
+      const store = useUserStore()
+      store.id = ''
+      store.email = ''
+      store.name = ''
+      store.photo = ''
+      // 回到首頁
+      location.href = '/'
+    }
     loading.value = false
   }
 
@@ -174,4 +187,4 @@ const useLogout = () => {
   }
 }
 
-export { useFBLogin, useLogin, useSignUp, useForgotPsd, useUpdateUser, useGetUser, useLogout }
+export { useLogin, useSignUp, useForgotPsd, useUpdateUser, useGetUser, useLogout }

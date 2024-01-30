@@ -14,7 +14,8 @@ module.exports = {
         primary: '#fffbeb',
         secondary: '#fed7aa',
         third: '#fb923c',
-        fourth: '#e9d8fd'
+        fourth: '#e9d8fd',
+        error: '#FF0000'
       },
       screens: {
         sm: { max: '768px' },

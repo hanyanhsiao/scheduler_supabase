@@ -13,7 +13,7 @@ const { classData } = storeToRefs(classStore)
 // ---------撈資料---------
 onMounted(() => {
   classStore.getClassData()
-  console.log(store.id)
+  // console.log(store.id)
 })
 
 // ---------修改課程--------

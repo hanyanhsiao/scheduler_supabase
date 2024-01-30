@@ -108,7 +108,7 @@ onMounted(() => {
         <label for="course" class="mb-2 block">選擇課程</label>
         <select
           id="course"
-          class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-2 focus:ring-third"
+          class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
           required
           v-model="props.NewClass.course"
         >

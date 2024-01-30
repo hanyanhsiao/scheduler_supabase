@@ -8,8 +8,7 @@ export const useStoreData = defineStore('storeData', {
     // const config = useRuntimeConfig()
     // const apiURL = config.public.apiBase
     const apiBase = 'https://jjbirjsxkllscyhxlogk.supabase.co/rest/v1'
-    const apiKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYmlyanN4a2xsc2N5aHhsb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwMjEzMjQsImV4cCI6MjAxMDU5NzMyNH0.j-uusDVc-NbySoKe92ZeSKpMMrCTMKx_gjJvp8Ys370'
+    const apiKey = process.env.APIKEY
     const classData = []
     const subjectOptions = []
     return {

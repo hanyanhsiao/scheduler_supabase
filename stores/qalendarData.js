@@ -10,8 +10,7 @@ export const useQalendarData = defineStore('qalendarData', {
     // const config = useRuntimeConfig()
     // const apiURL = config.public.apiBase
     const apiBase = 'https://jjbirjsxkllscyhxlogk.supabase.co/rest/v1'
-    const apiKey =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpqYmlyanN4a2xsc2N5aHhsb2drIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTUwMjEzMjQsImV4cCI6MjAxMDU5NzMyNH0.j-uusDVc-NbySoKe92ZeSKpMMrCTMKx_gjJvp8Ys370'
+    const apiKey = process.env.APIKEY
     const eventData = []
     return {
       eventData,
@@ -52,9 +51,9 @@ export const useQalendarData = defineStore('qalendarData', {
       const res = await this.getData('calendar', 'GET')
       // 遍歷res，找出startTime跟endTime不為null的資料
       const setCourse = res.filter((item) => item.startTime !== null && item.endTime !== null)
-      console.log('已安排的課表: ', setCourse)
+      // console.log('已安排的課表: ', setCourse)
       this.eventData = setCourse
-      console.log('this.eventData: ', this.eventData)
+      // console.log('this.eventData: ', this.eventData)
 
       // const response = await fetch(`${this.apiURL}/calendar`)
       // const jsonResponse = await response.json()

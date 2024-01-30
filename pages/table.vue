@@ -12,6 +12,7 @@ const { eventData } = storeToRefs(EventStore)
 onMounted(() => {
   EventStore.getEventData()
   // console.log(eventData)
+  getDataForTable()
 })
 
 // ---------表格標題---------
@@ -29,33 +30,35 @@ const headers = ref([
 // ---------表格內容---------
 const items = ref([])
 
-eventData.value.forEach((eachEvent) => {
-  // 賦值給table屬性
-  items.value.push({
-    // id: eachEvent.id,
-    className: eachEvent.className,
-    teacher: eachEvent.teacher,
-    grade: eachEvent.grade,
-    subject: eachEvent.subject, //{ id: eachEvent.subject.id, name: eachEvent.subject.name },
-    address: eachEvent.address,
-    startTime: eachEvent.startTime,
-    endTime: eachEvent.endTime,
-    content: eachEvent.content,
-    duration: duration()
-  })
+const getDataForTable = () => {
+  eventData.value.forEach((eachEvent) => {
+    // 賦值給table屬性
+    items.value.push({
+      // id: eachEvent.id,
+      className: eachEvent.className,
+      teacher: eachEvent.teacher,
+      grade: eachEvent.grade,
+      subject: eachEvent.subject, //{ id: eachEvent.subject.id, name: eachEvent.subject.name },
+      address: eachEvent.address,
+      startTime: eachEvent.startTime,
+      endTime: eachEvent.endTime,
+      content: eachEvent.content,
+      duration: duration()
+    })
 
-  // 時長計算
-  function duration() {
-    const startTimeStamp = new Date(eachEvent.startTime).getTime()
-    const endTimeStamp = new Date(eachEvent.endTime).getTime()
-    const duration = new Date(endTimeStamp - startTimeStamp)
-    const hours = duration.getUTCHours()
-    const minutes = duration.getUTCMinutes()
-    return `${hours} 小時 ${minutes} 分`
-    // hours * 60 + minutes
-    // console.log(`差：${hours} 小時 ${minutes} 分鐘`)
-  }
-})
+    // 時長計算
+    function duration() {
+      const startTimeStamp = new Date(eachEvent.startTime).getTime()
+      const endTimeStamp = new Date(eachEvent.endTime).getTime()
+      const duration = new Date(endTimeStamp - startTimeStamp)
+      const hours = duration.getUTCHours()
+      const minutes = duration.getUTCMinutes()
+      return `${hours} 小時 ${minutes} 分`
+      // hours * 60 + minutes
+      // console.log(`差：${hours} 小時 ${minutes} 分鐘`)
+    }
+  })
+}
 
 // const itemsSelected: Item[] = ref([])
 // const itemsSelected = ref<Item[]>([])
@@ -84,7 +87,7 @@ function sortColums(what) {
         <div class="w-full">
           <label class="mb-3 mr-5 sm:mb-2">請選擇搜尋欄位</label>
           <select
-            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third sm:w-full"
+            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
             v-model="searchField"
           >
             <option value="" selected>--請選擇--</option>
@@ -103,7 +106,7 @@ function sortColums(what) {
           <label class="mr-5">請輸入搜尋內容</label>
           <input
             type="text"
-            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-2 focus:ring-third sm:w-full"
+            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
             placeholder="請輸入搜尋內容"
             v-model="searchValue"
           />
@@ -118,7 +121,7 @@ function sortColums(what) {
         alternating
         border-cell
         buttons-pagination
-        theme-color="#fb923c"
+        theme-color="#fed7aa"
         table-class-name="customize-table"
         header-text-direction="center"
         body-text-direction="center"
@@ -150,14 +153,14 @@ function sortColums(what) {
 .customize-table {
   --easy-table-header-font-size: 14px;
   --easy-table-body-row-font-size: 14px;
-  --easy-table-header-background-color: #fb923c;
+  --easy-table-header-background-color: #fed7aa;
   --easy-table-header-font-color: black;
   --easy-table-header-height: 40px;
   --easy-table-body-row-hover-background-color: #fffbeb;
   --easy-table-body-item-padding: 5px 5px;
   --easy-table-footer-height: 50px;
   --easy-table-scrollbar-track-color: #fffbeb;
-  --easy-table-scrollbar-thumb-color: #fb923c;
+  --easy-table-scrollbar-thumb-color: #fed7aa;
   --easy-table-loading-mask-background-color: #2d3a4f;
 }
 </style>
