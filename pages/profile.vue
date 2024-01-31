@@ -3,6 +3,9 @@ import { supabase } from '../composable/supabaseClinet'
 import { useUserStore } from '../stores/user'
 
 const store = useUserStore()
+// console.log('store', store)
+// console.log('store', store.photo)
+
 const avatarUrl = ref(store.photo)
 const uniqueFilename = `avatar_${Date.now()}.png`
 // 取得儲存桶
@@ -62,9 +65,16 @@ const Upload = async ($event) => {
     <div class="w-10/12 bg-neutral-200 p-6">
       <!-- 顯示大頭貼 -->
       <div class="flex-col items-center justify-center">
-        <img :src="avatarUrl" class="mb-4 h-24 w-24 rounded-full bg-slate-300" />
+        <div v-if="avatarUrl">
+          <img :src="avatarUrl" class="mb-4 h-24 w-24 rounded-full" />
+        </div>
+        <div v-else class="relative mb-4 h-24 w-24 rounded-full bg-slate-300">
+          <p class="absolute left-0 top-0 flex h-full w-full items-center justify-center">
+            尚無大頭貼
+          </p>
+        </div>
         <!-- 通常應該使用 @change 事件，因為文件選擇應該在文件選擇時觸發，而不是單擊時。 -->
-        <input type="file" @change="Upload($event)" />
+        <!-- <input type="file" @change="Upload($event)" /> -->
         <!-- <button @click="download">按我</button> -->
       </div>
     </div>

@@ -11,8 +11,7 @@ const { eventData } = storeToRefs(EventStore)
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
   EventStore.getEventData()
-  // console.log(eventData)
-  getDataForTable()
+  console.log(eventData)
 })
 
 // ---------表格標題---------
@@ -28,12 +27,21 @@ const headers = ref([
 ])
 
 // ---------表格內容---------
-const items = ref([])
 
-const getDataForTable = () => {
-  eventData.value.forEach((eachEvent) => {
+const items = computed(() => {
+  return eventData.value.map((eachEvent) => {
+    // 時長計算
+    function duration() {
+      const startTimeStamp = new Date(eachEvent.startTime).getTime()
+      const endTimeStamp = new Date(eachEvent.endTime).getTime()
+      const duration = new Date(endTimeStamp - startTimeStamp)
+      const hours = duration.getUTCHours()
+      const minutes = duration.getUTCMinutes()
+      return `${hours} 小時 ${minutes} 分`
+    }
+
     // 賦值給table屬性
-    items.value.push({
+    return {
       // id: eachEvent.id,
       className: eachEvent.className,
       teacher: eachEvent.teacher,
@@ -44,21 +52,9 @@ const getDataForTable = () => {
       endTime: eachEvent.endTime,
       content: eachEvent.content,
       duration: duration()
-    })
-
-    // 時長計算
-    function duration() {
-      const startTimeStamp = new Date(eachEvent.startTime).getTime()
-      const endTimeStamp = new Date(eachEvent.endTime).getTime()
-      const duration = new Date(endTimeStamp - startTimeStamp)
-      const hours = duration.getUTCHours()
-      const minutes = duration.getUTCMinutes()
-      return `${hours} 小時 ${minutes} 分`
-      // hours * 60 + minutes
-      // console.log(`差：${hours} 小時 ${minutes} 分鐘`)
     }
   })
-}
+})
 
 // const itemsSelected: Item[] = ref([])
 // const itemsSelected = ref<Item[]>([])
@@ -83,11 +79,11 @@ function sortColums(what) {
     <!-- 右側 -->
     <div class="w-10/12 bg-neutral-200 p-6">
       <!-- 上方搜尋 -->
-      <section class="mb-5 flex gap-3 sm:flex-wrap">
-        <div class="w-full">
-          <label class="mb-3 mr-5 sm:mb-2">請選擇搜尋欄位</label>
+      <section class="mb-5 flex gap-10 sm:flex-wrap">
+        <div class="flex w-full flex-col">
+          <label class="mb-2">請選擇搜尋欄位</label>
           <select
-            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
+            class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
             v-model="searchField"
           >
             <option value="" selected>--請選擇--</option>
@@ -102,11 +98,11 @@ function sortColums(what) {
           </select>
         </div>
         <!-- border-4 border-indigo-500/100 -->
-        <div class="w-full">
-          <label class="mr-5">請輸入搜尋內容</label>
+        <div class="flex w-full flex-col">
+          <label class="mb-2">請輸入搜尋內容</label>
           <input
             type="text"
-            class="w-48 rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
+            class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
             placeholder="請輸入搜尋內容"
             v-model="searchValue"
           />

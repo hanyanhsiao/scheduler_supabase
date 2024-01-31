@@ -3,14 +3,11 @@ import { supabase } from '../composable/supabaseClinet'
 
 // ------------登入------------
 const useLogin = () => {
-  const err = ref(false)
+  const successLogin = ref(false)
   const loading = ref(false)
-  const result = ref(null)
 
   const doLogin = async ({ email, password }) => {
     loading.value = true
-    err.value = false
-    result.value = null
     // const photo = async () => {
     //   const { data: todos, error } = await supabase
     //     .from('profiles')
@@ -25,41 +22,36 @@ const useLogin = () => {
       // photo: photo()
     })
     if (error) {
-      err.value = true
+      successLogin.value = false
+      alert('登入失敗')
     } else {
       alert('登入成功')
       console.log('data.user', data.user)
-
+      successLogin.value = true
       // 登入資訊寫入store
       const store = useUserStore()
       store.id = data.user.id
       store.email = data.user.email
       store.name = data.user.user_metadata?.name
       // console.log('store', store)
-
-      //登入成功後導向會員專區頁
-      location.href = '/profile'
     }
     loading.value = false
   }
   return {
     loading,
-    err,
-    login: doLogin,
-    result
+    successLogin,
+    doLogin
   }
 }
 
 // ------------註冊------------
 const useSignUp = () => {
-  const error = ref(false)
+  const successSignUp = ref(false)
   const loading = ref(false)
-  const success = ref(null)
 
   const doSignUp = async ({ name, email, password }) => {
     loading.value = true
-    // error.value = false
-    success.value = null
+
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -68,23 +60,21 @@ const useSignUp = () => {
       }
     })
     if (data.user) {
-      // success.value = data.user
       alert('註冊成功')
       // console.log('data.user', data.user)
+      successSignUp.value = true
       // 註冊成功後導向會員專區頁
-      location.href = '/profile'
     } else {
       alert('註冊失敗')
-      error.value = true
+      successSignUp.value = false
     }
     loading.value = false
   }
 
   return {
     loading,
-    error,
-    signup: doSignUp,
-    success
+    doSignUp,
+    successSignUp
   }
 }
 
@@ -93,12 +83,13 @@ const useForgotPsd = () => {
   const loading = ref(false)
   const success = ref(false)
   const err = ref(null)
-  const path = location.origin + '/reset/'
+  // const path = location.origin + '/reset/'
   const doFetch = async (email) => {
     loading.value = true
     success.value = false
+    console.log('email????', email)
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: path
+      redirectTo: location.origin + '/login/'
     })
     loading.value = false
     success.value = true

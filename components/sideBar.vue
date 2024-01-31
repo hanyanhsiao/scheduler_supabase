@@ -12,12 +12,12 @@ onMounted(async () => {
     if (session === null) return
     const userData = session.user.user_metadata
     // console.log('session.user_metadata:', userData)
-    // console.log('store.id:', session.user.id)
+    // console.log('photo:', userData.avatar_url)
 
     store.id = session.user.id
     store.email = session.user.email
     store.name = userData.name
-    store.photo = userData.photo
+    store.photo = userData.avatar_url
   })
 })
 
@@ -89,10 +89,10 @@ const getNewEventsData = () => {
       >
       <NuxtLink
         v-else
-        to="/signup"
-        :class="{ 'active-link': $route.path === '/signup' }"
+        to="/login"
+        :class="{ 'active-link': $route.path === '/login' }"
         class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
-        >註冊 / 登入</NuxtLink
+        >登入 / 註冊</NuxtLink
       >
     </section>
 

@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     'nuxt-lazy-hydrate',
     '@vee-validate/nuxt'
   ],
-
   typescript: {
     typeCheck: true
   },
@@ -40,7 +39,7 @@ export default defineNuxtConfig({
       '@fortawesome/free-brands-svg-icons',
       'yup',
       '@vee-validate/rules'
-      // 'property-expr' 部署時要新增，但開發時不行加!
+      // 'property-expr' //部署時要新增，但開發時不行加!
     ]
   },
   runtimeConfig: {
@@ -49,7 +48,8 @@ export default defineNuxtConfig({
     // Public keys that are exposed to the client
     // 在伺服器端與客戶端都可以讀取得到
     public: {
-      apiBase: 'http://172.20.10.2:3000'
+      // apiBase: 'http://172.20.10.2:3000'
+      chatWsUrl: 'http://localhost:3000'
     }
   }
 })

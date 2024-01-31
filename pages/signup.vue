@@ -16,41 +16,41 @@ const signupData = reactive({
 const ValidationText = ref('')
 
 // 點擊註冊
-const handlerSignup = () => {
-  console.log('要註冊的資料', signupData)
-  if (ValidationText.value !== '') {
-    alert('請確認資料是否正確')
-  } else {
-    signup({
-      name: signupData.name,
-      email: signupData.email,
-      password: signupData.password
-    })
-  }
-}
+// const handlerSignup = () => {
+//   console.log('要註冊的資料', signupData)
+//   if (ValidationText.value !== '') {
+//     alert('請確認資料是否正確')
+//   } else {
+//     signup({
+//       name: signupData.name,
+//       email: signupData.email,
+//       password: signupData.password
+//     })
+//   }
+// }
 
 watch(success, (user) => {
   store.id = user.id
   // router.push('/profile')
 })
 
-// email欄位不可以為空，需做email格式驗證
-function validateEmail() {
-  if (signupData.email === '') {
-    ValidationText.value = 'Email 不能為空'
-  } else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(signupData.email)) {
-    ValidationText.value = 'Email 格式不正確'
-  } else {
-    ValidationText.value = ''
-  }
-}
-function validateName() {
-  if (signupData.name === '') {
-    ValidationText.value = '姓名 不能為空'
-  } else {
-    ValidationText.value = ''
-  }
-}
+// 欄位驗證
+// function validateEmail() {
+//   if (signupData.email === '') {
+//     ValidationText.value = 'Email 不能為空'
+//   } else if (!/^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(signupData.email)) {
+//     ValidationText.value = 'Email 格式不正確'
+//   } else {
+//     ValidationText.value = ''
+//   }
+// }
+// function validateName() {
+//   if (signupData.name === '') {
+//     ValidationText.value = '姓名 不能為空'
+//   } else {
+//     ValidationText.value = ''
+//   }
+// }
 </script>
 
 <template>
@@ -60,15 +60,9 @@ function validateName() {
 
     <!-- 右側 -->
     <!-- border border-blue-500 -->
-    <div class="flex w-10/12 flex-col items-center justify-center bg-neutral-200 p-6">
+    <div class="justify-star flex w-10/12 flex-col items-center bg-neutral-200 p-6">
       <div class="w-[500px]">
         <FormRegister />
-      </div>
-      <div class="mt-4 text-center">
-        <p class="text-stone-600">
-          有帳號了？
-          <router-link to="/login" replace class="underline">前往登入</router-link>
-        </p>
       </div>
       <!-- <h2 class="mb-6 text-center text-2xl font-bold leading-loose">註 冊</h2>
       <div class="mx-auto max-w-[400px]">
@@ -121,6 +115,12 @@ function validateName() {
           </p>
         </div>
       </div> -->
+      <div class="mt-4 text-center">
+        <p class="text-stone-600">
+          有帳號了？
+          <router-link to="/login" replace class="underline hover:font-bold">前往登入</router-link>
+        </p>
+      </div>
     </div>
   </div>
 </template>

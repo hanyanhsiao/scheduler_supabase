@@ -19,33 +19,38 @@ watch(success, (value) => {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="w-10/12 bg-neutral-200 p-6">
-      <h2 class="mb-8 bg-primary py-10 text-center text-3xl font-bold leading-loose">忘記密碼</h2>
-      <div class="mx-auto w-5/6 max-w-lg">
+    <div class="flex w-10/12 flex-col items-center justify-start bg-neutral-200 p-6">
+      <h2 class="mb-4 text-2xl font-bold">忘記密碼</h2>
+      <div class="mx-auto w-5/6 max-w-lg space-y-3">
         <form @submit.prevent="forgotPsd(email)">
-          <p class="mb-4">
-            <input
-              :disabled="loading"
-              v-model="email"
-              required
-              class="block w-full rounded-full px-6 py-3 text-xl text-stone-700 ring-secondary focus:ring-1 disabled:text-stone-400"
-              placeholder="請輸入電子信箱"
-              type="email"
-            />
-          </p>
-          <div class="flex items-center justify-center space-x-6">
+          <input
+            :disabled="loading"
+            v-model="email"
+            required
+            class="form-input my-5 w-full rounded-lg px-4 py-2 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
+            placeholder="請輸入電子信箱"
+            type="email"
+          />
+
+          <div class="my-4 flex items-center justify-center space-x-6">
             <button
               :disabled="loading"
-              class="text-md rounded-full bg-primary px-8 py-4 font-bold hover:opacity-80"
+              class="text-md my-2 w-28 rounded-lg bg-primary py-2 font-bold hover:cursor-pointer hover:bg-secondary"
               type="submit"
             >
               <span>送出email</span>
               <span><i class="bx bx-loader-alt bx-spin"></i></span>
             </button>
           </div>
-          <div v-if="success" class="flex items-center justify-center p-5">
-            Email已送出 請前往信箱重置密碼
+          <div v-if="success" class="flex items-center justify-center">
+            Email已送出，請前往信箱重置密碼
           </div>
+          <router-link
+            to="/login"
+            class="mt-4 flex justify-center text-stone-600 underline hover:font-bold"
+            type="button"
+            >回到登入</router-link
+          >
         </form>
       </div>
     </div>
