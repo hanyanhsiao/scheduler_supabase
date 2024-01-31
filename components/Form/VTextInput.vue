@@ -101,25 +101,27 @@ const emits = defineEmits(['handlePassword'])
               :disabled="disabled"
             />
             <!-- icon -->
-            <div class="absolute right-0 -mt-9 mr-3 w-fit">
-              <!-- <span class="is-left -ml-7">
+            <ClientOnly>
+              <div class="absolute right-0 -mt-9 mr-3 w-fit">
+                <!-- <span class="is-left -ml-7">
                                             <Icon :name="leftIcon" />
                                           </span> -->
-              <span
-                @click="emits('handlePassword', name)"
-                class="cursor-pointer text-third"
-                v-if="(name == 'password' || name == 'confirmed') && meta.touched"
-              >
-                <Icon v-if="type == 'password'" name="ri:eye-off-line" size="20px" />
-                <Icon v-else name="ri:eye-line" size="20px" />
-              </span>
-              <span class="text-error" v-else-if="!meta.valid && meta.touched">
-                <Icon name="material-symbols:info-rounded" size="20px" />
-              </span>
-              <span class="text-third" v-else>
-                <Icon :name="leftIcon" size="20px" />
-              </span>
-            </div>
+                <span
+                  @click="emits('handlePassword', name)"
+                  class="cursor-pointer text-third"
+                  v-if="(name == 'password' || name == 'confirmed') && meta.touched"
+                >
+                  <Icon v-if="type == 'password'" name="ri:eye-off-line" size="20px" />
+                  <Icon v-else name="ri:eye-line" size="20px" />
+                </span>
+                <span class="text-error" v-else-if="!meta.valid && meta.touched">
+                  <Icon name="material-symbols:info-rounded" size="20px" />
+                </span>
+                <span class="text-third" v-else>
+                  <Icon :name="leftIcon" size="20px" />
+                </span>
+              </div>
+            </ClientOnly>
           </div>
           <VErrorMessage
             v-if="error"
