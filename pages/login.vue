@@ -1,5 +1,6 @@
 <script setup>
 import { supabase } from '../composable/supabaseClinet'
+const router = useRouter()
 
 // import { useUserStore } from '../stores/user'
 // const store = useUserStore()
@@ -40,6 +41,7 @@ const loginGoogle = async () => {
     alert('登入失敗')
   } else {
     result.value = data.user
+    router.push('/profile')
     // alert('登入成功')
   }
 }

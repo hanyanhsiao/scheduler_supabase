@@ -33,8 +33,11 @@ export const useStoreData = defineStore('storeData', {
     },
     // ----------1 獲取所有課程----------
     async getClassData() {
-      this.classData = await this.fetchData('course', 'GET')
-      // console.log('classData: ', this.classData)
+      const totalCourse = await this.fetchData('course', 'GET')
+      //將獲取的資料用id排序由小到大
+      const sortedCourse = totalCourse.sort((a, b) => a.id - b.id)
+      // console.log('目前排序: ', sortedCourse)
+      this.classData = sortedCourse
     },
     // supabase SQL 方法
     // const { data: todos, error } = await supabase.from('course').select('*')
@@ -59,6 +62,10 @@ export const useStoreData = defineStore('storeData', {
         content: input.content
       }
       const { data, error } = await supabase.from('course').update(apiData).eq('id', input.id)
+      const { data2, error2 } = await supabase
+        .from('calendar')
+        .update(apiData)
+        .eq('courseID', input.id)
     },
     // ----------4 新增課程----------
     async addClass(input) {
@@ -79,6 +86,7 @@ export const useStoreData = defineStore('storeData', {
       const yes = confirm('確定刪除嗎?')
       if (yes) {
         const { error } = await supabase.from('course').delete().eq('id', input.id)
+        const { error2 } = await supabase.from('calendar').delete().eq('courseID', input.id)
       }
     }
   },
