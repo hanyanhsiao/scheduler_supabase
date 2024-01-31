@@ -51,7 +51,7 @@ const save = async () => {
 
   // 打API修改
   await classStore.modifyClass(props.currentClass)
-  console.log('修改完的課', props.currentClass)
+  // console.log('修改完的課', props.currentClass)
 
   // 修改完撈出全部課程
   classStore.getClassData()

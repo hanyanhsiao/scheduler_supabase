@@ -48,7 +48,7 @@ const save = async () => {
   // console.log('輸入的內容', inputClass.value)
 
   // -----------------supabase-------------------
-  console.log('輸入的內容', inputClass.value)
+  // console.log('輸入的內容', inputClass.value)
 
   // 打API新增
   await classStore.addClass(inputClass.value)

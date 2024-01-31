@@ -29,13 +29,13 @@ const close = () => {
 
 // ---------修改內容存檔---------
 const saveWeekClass = () => {
-  console.log(props.NewWeekClass)
+  // console.log(props.NewWeekClass)
 
   const saveWeekClass = {}
   saveWeekClass.course = props.NewWeekClass.course //透過v-model帶進來的整個課程資料
   saveWeekClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
   saveWeekClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
-  console.log('我是要新增的課程', saveWeekClass)
+  // console.log('我是要新增的課程', saveWeekClass)
 
   EventStore.addNewClass(saveWeekClass)
   props.NewWeekClass.course = ''

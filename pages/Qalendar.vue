@@ -189,7 +189,7 @@ const NewWeekClass = ref({})
 function datetimeClicked(clickTime) {
   weekDayPopup.value = true
   NewWeekClass.value.startTime = clickTime
-  console.log(NewWeekClass.value.startTime)
+  // console.log(NewWeekClass.value.startTime)
 }
 
 // ---------事件顏色(依年級)---------

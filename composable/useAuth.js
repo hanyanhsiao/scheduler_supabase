@@ -26,7 +26,7 @@ const useLogin = () => {
       alert('登入失敗')
     } else {
       alert('登入成功')
-      console.log('data.user', data.user)
+      // console.log('data.user', data.user)
       successLogin.value = true
       // 登入資訊寫入store
       const store = useUserStore()
@@ -87,7 +87,7 @@ const useForgotPsd = () => {
   const doFetch = async (email) => {
     loading.value = true
     success.value = false
-    console.log('email????', email)
+    // console.log('email????', email)
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: location.origin + '/login/'
     })

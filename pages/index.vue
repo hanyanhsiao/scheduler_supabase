@@ -106,7 +106,7 @@ supabase
       table: 'course'
     },
     (event) => {
-      console.log('訂閱course資料表的修改', event)
+      // console.log('訂閱course資料表的修改', event)
     }
   )
   .subscribe()

@@ -19,7 +19,7 @@ const { loading, doSignUp, successSignUp } = useSignUp()
 
 // 送出表單打API
 const handleSubmit = async (values, actions) => {
-  console.log('要註冊的資料', values)
+  // console.log('要註冊的資料', values)
   await doSignUp({
     name: values.name,
     email: values.email,

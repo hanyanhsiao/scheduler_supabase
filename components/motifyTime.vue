@@ -27,7 +27,7 @@ const close = () => {
 const save = () => {
   props.currentTime.startTime = range.value.start
   props.currentTime.endTime = range.value.end
-  console.log(props.currentTime)
+  // console.log(props.currentTime)
   EventStore.motifyTime(props.currentTime)
   emits('closePopup')
 }

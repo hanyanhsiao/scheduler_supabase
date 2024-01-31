@@ -77,7 +77,7 @@ export const useStoreData = defineStore('storeData', {
         address: input.address,
         content: input.content
       }
-      console.log(apiData)
+      // console.log(apiData)
 
       const { error } = await supabase.from('course').insert(apiData)
     },
