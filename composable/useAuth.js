@@ -28,6 +28,7 @@ const useLogin = () => {
       alert('登入成功')
       // console.log('data.user', data.user)
       successLogin.value = true
+
       // 登入資訊寫入store
       const store = useUserStore()
       store.id = data.user.id
@@ -63,7 +64,6 @@ const useSignUp = () => {
       alert('註冊成功')
       // console.log('data.user', data.user)
       successSignUp.value = true
-      // 註冊成功後導向會員專區頁
     } else {
       alert('註冊失敗')
       successSignUp.value = false

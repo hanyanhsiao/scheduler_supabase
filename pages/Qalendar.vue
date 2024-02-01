@@ -242,6 +242,10 @@ const config = {
       }
     }
   },
+  month: {
+    // Hide leading and trailing dates in the month view (defaults to true when not set)
+    showTrailingAndLeadingDates: false
+  },
   defaultMode: 'month',
   locale: 'zh-TW'
 }
@@ -259,6 +263,17 @@ function resizedTime(event) {
   console.log('拉大小回傳', event)
   EventStore.dragEvent(event)
 }
+//------------------------------
+// @wheel="handleWheel"
+// const handleWheel = (event) => {
+//   if (event.deltaY < 0) {
+//     // 滾輪向上滾動
+//     // 我想要向上滾動的時候，讓他回到上個月
+
+//   } else {
+//     // 滾輪向下滾動
+//   }
+// }
 </script>
 
 <!-- ------------------------【template】------------------------ -->

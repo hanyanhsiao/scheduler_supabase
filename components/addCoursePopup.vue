@@ -40,13 +40,6 @@ const inputClass = ref({})
 const save = async () => {
   emits('save')
 
-  // 用subject.name找正確的subject
-  // const subjectName = inputClass.value.subject
-  // const updatedSubject = subjectOptions.value.find((each) => each.name === subjectName)
-  // console.log('我是正確的領域嗎?', updatedSubject)
-  // inputClass.value.subject = updatedSubject
-  // console.log('輸入的內容', inputClass.value)
-
   // -----------------supabase-------------------
   // console.log('輸入的內容', inputClass.value)
 

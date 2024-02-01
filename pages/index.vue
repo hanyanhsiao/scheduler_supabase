@@ -65,6 +65,13 @@ const save = () => {
   toggleAddPopup.value = false
 }
 
+// 點擊遮罩關閉彈窗
+const closeIfMask = (event) => {
+  if (event.target === event.currentTarget) {
+    close()
+  }
+}
+
 // ---------刪除課程---------
 const deleteClass = async (input, index) => {
   await classStore.deleteClass(input, index)
@@ -120,15 +127,24 @@ supabase
     <!-- 右側 -->
     <section class="relative w-10/12 bg-neutral-200 p-6">
       <!-- 上方按鈕 -->
-      <button
-        class="flex w-32 transform items-center justify-center rounded-lg border border-third bg-primary px-4 py-2 font-bold transition-all hover:bg-secondary active:scale-90"
-        @click="addNewClass"
-      >
-        <span>新增課程 </span>
-        <ClientOnly>
-          <Icon name="clarity:add-line" />
-        </ClientOnly>
-      </button>
+      <div class="flex justify-between">
+        <p
+          class="text-3xl font-bold text-third"
+          style="text-shadow: 1px 1px 2px rgba(234, 110, 28, 0.3)"
+        >
+          課程清單
+        </p>
+
+        <button
+          class="flex w-32 transform items-center justify-center rounded-lg border border-third bg-primary px-4 py-2 font-bold transition-all hover:bg-secondary active:scale-90"
+          @click="addNewClass"
+        >
+          <span>新增課程 </span>
+          <ClientOnly>
+            <Icon name="clarity:add-line" />
+          </ClientOnly>
+        </button>
+      </div>
 
       <!-- 下方列表 -->
       <div class="flex items-center rounded-lg">
@@ -228,6 +244,7 @@ supabase
       <div
         class="absolute left-0 top-0 h-full w-full bg-black/30"
         v-if="togglePopup || toggleAddPopup"
+        @click="closeIfMask($event)"
       >
         <!-- 彈窗 -->
         <div class="z-50 rounded-md bg-white">

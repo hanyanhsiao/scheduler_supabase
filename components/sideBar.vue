@@ -11,7 +11,7 @@ onMounted(async () => {
   supabase.auth.onAuthStateChange((_, session) => {
     if (session === null) return
     const userData = session.user.user_metadata
-    // console.log('session.user_metadata:', userData)
+    // console.log('user資料:', session.user)
     // console.log('photo:', userData.avatar_url)
 
     store.id = session.user.id
@@ -60,6 +60,8 @@ const getNewEventsData = () => {
     style="height: 100vh"
   >
     <section class="flex flex-col gap-4">
+      <p class="text-3xl font-bold tracking-widest text-third">課程安排系統</p>
+      <hr class="h-px w-full" />
       <NuxtLink
         to="/"
         :class="{ 'active-link': $route.path === '/' }"
