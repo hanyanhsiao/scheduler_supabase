@@ -39,7 +39,7 @@ export default defineNuxtConfig({
       '@fortawesome/free-brands-svg-icons',
       'yup',
       '@vee-validate/rules'
-      // 'property-expr' //部署時要新增，但開發時不行加!
+      'property-expr' //部署時要新增，但開發時不行加!
     ]
   },
   runtimeConfig: {
