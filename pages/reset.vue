@@ -33,7 +33,7 @@ const resetPsd = async () => {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="w-10/12 bg-neutral-200 p-6">
+    <div class="w-10/12 bg-bgGray p-6">
       <h2 class="mb-8 bg-primary py-10 text-center text-3xl font-bold leading-loose">重設密碼</h2>
 
       <div class="mx-auto w-5/6 max-w-lg">

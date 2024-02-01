@@ -282,7 +282,7 @@ function resizedTime(event) {
     <sideBar />
 
     <!-- 右側日曆 -->
-    <section class="relative flex w-10/12 flex-col border bg-neutral-200 p-6">
+    <section class="relative flex w-10/12 flex-col border bg-bgGray p-6">
       <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6 sm:flex-wrap sm:gap-3" v-if="eventData">
         <!-- 選擇老師 -->

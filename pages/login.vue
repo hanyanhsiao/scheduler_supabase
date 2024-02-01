@@ -53,7 +53,7 @@ const loginGoogle = async () => {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="flex w-10/12 flex-col items-center justify-start bg-neutral-200 p-6">
+    <div class="flex w-10/12 flex-col items-center justify-start bg-bgGray p-6">
       <div class="w-[500px]">
         <FormLogin />
         <router-link

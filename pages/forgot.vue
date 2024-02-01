@@ -19,7 +19,7 @@ watch(success, (value) => {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="flex w-10/12 flex-col items-center justify-start bg-neutral-200 p-6">
+    <div class="flex w-10/12 flex-col items-center justify-start bg-bgGray p-6">
       <h2 class="mb-4 text-2xl font-bold">忘記密碼</h2>
       <div class="mx-auto w-5/6 max-w-lg space-y-3">
         <form @submit.prevent="forgotPsd(email)">

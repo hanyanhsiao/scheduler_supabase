@@ -60,7 +60,7 @@ watch(success, (user) => {
 
     <!-- 右側 -->
     <!-- border border-blue-500 -->
-    <div class="justify-star flex w-10/12 flex-col items-center bg-neutral-200 p-6">
+    <div class="justify-star flex w-10/12 flex-col items-center bg-bgGray p-6">
       <div class="w-[500px]">
         <FormRegister />
       </div>

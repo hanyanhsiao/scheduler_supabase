@@ -9,13 +9,14 @@ import { storeToRefs } from 'pinia'
 
 const classStore = useStoreData()
 const { classData } = storeToRefs(classStore)
+const isLoading = ref(true)
 
 // ---------撈資料---------
 onMounted(() => {
   classStore.getClassData()
+  isLoading.value = false
   // console.log(store.id)
 })
-
 // ---------修改課程--------
 // 彈窗
 const togglePopup = ref(false)
@@ -125,15 +126,10 @@ supabase
     <sideBar />
 
     <!-- 右側 -->
-    <section class="relative w-10/12 bg-neutral-200 p-6">
+    <section class="relative w-10/12 bg-bgGray p-6">
       <!-- 上方按鈕 -->
       <div class="flex justify-between">
-        <p
-          class="text-3xl font-bold text-third"
-          style="text-shadow: 1px 1px 2px rgba(234, 110, 28, 0.3)"
-        >
-          課程清單
-        </p>
+        <!-- <p class="text-2xl font-bold">課程清單</p> -->
 
         <button
           class="flex w-32 transform items-center justify-center rounded-lg border border-third bg-primary px-4 py-2 font-bold transition-all hover:bg-secondary active:scale-90"
@@ -145,14 +141,13 @@ supabase
           </ClientOnly>
         </button>
       </div>
+      <div v-if="isLoading" class="flex h-full items-center justify-center">
+        <Loading />
+      </div>
 
       <!-- 下方列表 -->
-      <div class="flex items-center rounded-lg">
-        <div
-          id="style1"
-          class="my-6 w-full overflow-x-auto bg-white shadow-md"
-          v-if="classData && classData[0]"
-        >
+      <div v-if="classData && classData[0]" class="flex items-center rounded-lg">
+        <div id="style1" class="my-6 w-full overflow-x-auto bg-white shadow-md">
           <!-- 標題 -->
           <div>
             <!-- vsm:grid-cols-8 -->
@@ -236,9 +231,6 @@ supabase
           </div>
         </div>
       </div>
-
-      <!-- 分頁器 -->
-      <!-- <paginationVue /> -->
 
       <!-- 遮罩 -->
       <div

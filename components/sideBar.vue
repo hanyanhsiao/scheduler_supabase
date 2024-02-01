@@ -60,7 +60,12 @@ const getNewEventsData = () => {
     style="height: 100vh"
   >
     <section class="flex flex-col gap-4">
-      <p class="text-3xl font-bold tracking-widest text-third">課程安排系統</p>
+      <p
+        class="text-3xl font-bold tracking-widest text-third"
+        style="text-shadow: 1px 1px 2px rgba(234, 110, 28, 0.3)"
+      >
+        課程安排系統
+      </p>
       <hr class="h-px w-full" />
       <NuxtLink
         to="/"
@@ -80,7 +85,7 @@ const getNewEventsData = () => {
         :class="{ 'active-link': $route.path === '/table' }"
         class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
         @click="getNewEventsData"
-        >表格總覽</NuxtLink
+        >已排課程總覽</NuxtLink
       >
       <NuxtLink
         v-if="store.id"

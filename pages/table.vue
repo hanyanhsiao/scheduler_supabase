@@ -77,13 +77,13 @@ function sortColums(what) {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="w-10/12 bg-neutral-200 p-6">
-      <p
+    <div class="w-10/12 bg-bgGray p-6">
+      <!-- <p
         class="mb-4 text-3xl font-bold text-third"
         style="text-shadow: 1px 1px 2px rgba(234, 110, 28, 0.3)"
       >
         已安排課程總覽
-      </p>
+      </p> -->
       <!-- 上方搜尋 -->
       <section class="mb-5 flex gap-10 sm:flex-wrap">
         <div class="flex w-full flex-col">
