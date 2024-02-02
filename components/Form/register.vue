@@ -128,7 +128,7 @@ const handlePassword = (name) => {
         {{ Object.values(formErrors)[0] }}
       </p>
       <button
-        class="text-md h mt-4 w-24 rounded-lg bg-primary py-2 font-bold hover:cursor-pointer hover:bg-secondary"
+        class="text-md h mt-4 w-24 rounded-lg bg-secondary py-2 font-bold hover:cursor-pointer hover:bg-third"
         :disabled="!formMeta.valid || submitPending"
         type="submit"
       >

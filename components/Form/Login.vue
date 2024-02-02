@@ -76,7 +76,7 @@ const handlePassword = (name) => {
         />
       </div>
       <Button
-        class="text-md my-2 w-24 rounded-lg bg-primary py-2 font-bold hover:cursor-pointer hover:bg-secondary"
+        class="text-md my-2 w-24 rounded-lg bg-secondary py-2 font-bold hover:cursor-pointer hover:bg-third"
         :disabled="!meta.valid"
         type="submit"
         >登入</Button

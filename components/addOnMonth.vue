@@ -15,9 +15,18 @@ const { eventData } = storeToRefs(EventStore)
 // ---------定義子元件事件及屬性---------
 const emits = defineEmits(['closePopup'])
 // 定義屬性
+// const props = defineProps({
+//   NewClass: {
+//     date: String
+//   }
+// })
 const props = defineProps({
   NewClass: {
-    date: String
+    type: Object,
+    default: () => ({
+      date: '',
+      course: '請選擇'
+    })
   }
 })
 
@@ -25,6 +34,7 @@ const props = defineProps({
 // 關閉彈窗
 const close = () => {
   emits('closePopup')
+  props.NewClass.course = ''
 }
 
 // ---------修改內容存檔---------
@@ -106,6 +116,7 @@ onMounted(() => {
       <!-- 選擇課程 -->
       <div class="mb-6" v-if="optionCourse">
         <label for="course" class="mb-2 block">選擇課程</label>
+
         <select
           id="course"
           class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
@@ -133,16 +144,16 @@ onMounted(() => {
       </div>
 
       <!-- 儲存/取消 -->
-      <div class="flex gap-3">
+      <div class="flex justify-between gap-6">
         <button
           type="submit"
-          class="mx-auto block w-32 rounded-lg bg-secondary py-2 transition-all hover:bg-third active:scale-90"
+          class="block w-40 rounded-lg bg-secondary py-2 transition-all hover:bg-third active:scale-90"
         >
           儲存
         </button>
         <button
           type="button"
-          class="mx-auto block w-32 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
+          class="block w-40 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
           @click="clearForm"
         >
           清除
