@@ -77,7 +77,7 @@ function sortColums(what) {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="w-10/12 bg-bgGray p-6">
+    <div class="h-screen w-10/12 overflow-y-auto bg-bgGray p-6">
       <!-- <p
         class="mb-4 text-3xl font-bold text-third"
         style="text-shadow: 1px 1px 2px rgba(234, 110, 28, 0.3)"

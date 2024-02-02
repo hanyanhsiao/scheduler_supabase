@@ -107,9 +107,9 @@ const getNewEventsData = () => {
       <div class="p=3 border-2 border-secondary p-3">
         登入資訊
         <p class="font-bold">Name:</p>
-        <span>{{ store.name }}</span>
+        <span class="text-third">{{ store.name }}</span>
         <p class="font-bold">Email:</p>
-        <p>{{ store.email }}</p>
+        <span class="text-third">{{ store.email }}</span>
       </div>
       <button
         v-if="store.id"

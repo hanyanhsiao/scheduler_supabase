@@ -61,7 +61,7 @@ watch(success, (user) => {
     <!-- 右側 -->
     <!-- border border-blue-500 -->
     <div class="justify-star flex w-10/12 flex-col items-center bg-bgGray p-6">
-      <div class="w-[500px]">
+      <div class="w-full max-w-[500px]">
         <FormRegister />
       </div>
       <!-- <h2 class="mb-6 text-center text-2xl font-bold leading-loose">註 冊</h2>

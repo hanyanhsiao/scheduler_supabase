@@ -54,7 +54,7 @@ const loginGoogle = async () => {
 
     <!-- 右側 -->
     <div class="flex w-10/12 flex-col items-center justify-start bg-bgGray p-6">
-      <div class="w-[500px]">
+      <div class="w-full max-w-[500px]">
         <FormLogin />
         <router-link
           to="/forgot"
@@ -66,7 +66,7 @@ const loginGoogle = async () => {
         <div class="flex justify-center">
           <button
             @click="loginGoogle"
-            class="mb-5 ml-2 flex w-full items-center justify-center gap-4 rounded-lg border border-stone-500 py-2 font-bold hover:bg-stone-500 hover:text-white"
+            class="mb-5 flex w-full items-center justify-center gap-4 rounded-lg border border-stone-500 py-2 font-bold hover:bg-stone-500 hover:text-white"
           >
             <ClientOnly>
               <Icon name="logos:google-icon" />
