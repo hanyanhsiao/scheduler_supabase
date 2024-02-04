@@ -126,7 +126,7 @@ supabase
     <sideBar />
 
     <!-- 右側 -->
-    <section class="relative w-10/12 bg-bgGray p-6">
+    <section class="relative h-screen w-10/12 overflow-y-auto bg-bgGray p-6">
       <!-- 上方按鈕 -->
       <div class="flex justify-between">
         <!-- <p class="text-2xl font-bold">課程清單</p> -->
