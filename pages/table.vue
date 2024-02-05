@@ -77,7 +77,7 @@ function sortColums(what) {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="h-screen w-10/12 overflow-y-auto bg-bgGray p-6">
+    <div class="h-screen w-full overflow-y-auto bg-bgGray p-6 sm:absolute">
       <!-- <p
         class="mb-4 text-3xl font-bold text-third"
         style="text-shadow: 1px 1px 2px rgba(234, 110, 28, 0.3)"
@@ -85,7 +85,7 @@ function sortColums(what) {
         已安排課程總覽
       </p> -->
       <!-- 上方搜尋 -->
-      <section class="mb-5 flex gap-10 sm:flex-wrap">
+      <section class="mb-5 flex gap-10 sm:mt-10 sm:flex-wrap">
         <div class="flex w-full flex-col">
           <label class="mb-2">請選擇搜尋欄位</label>
           <select

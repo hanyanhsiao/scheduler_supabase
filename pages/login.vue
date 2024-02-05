@@ -53,8 +53,8 @@ const loginGoogle = async () => {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="flex w-10/12 flex-col items-center justify-start bg-bgGray p-6">
-      <div class="w-full max-w-[500px]">
+    <div class="flex h-screen w-full justify-center overflow-y-auto bg-bgGray p-6 sm:absolute">
+      <div class="w-full max-w-[500px] sm:mt-10">
         <FormLogin />
         <router-link
           to="/forgot"
@@ -74,12 +74,14 @@ const loginGoogle = async () => {
             <p>Google登入</p>
           </button>
         </div>
-      </div>
-      <div class="text-center">
-        <p class="mb-4 text-stone-600">
-          還沒有帳號？
-          <router-link replace to="/signup" class="underline hover:font-bold">立刻註冊</router-link>
-        </p>
+        <div class="text-center">
+          <p class="mb-4 text-stone-600">
+            還沒有帳號？
+            <router-link replace to="/signup" class="underline hover:font-bold"
+              >立刻註冊</router-link
+            >
+          </p>
+        </div>
       </div>
     </div>
   </div>

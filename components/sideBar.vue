@@ -52,12 +52,42 @@ const getNewEventsData = () => {
   EventStore.getEventData()
   // console.log(eventData)
 }
+
+const isSidebarOpen = ref(false)
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value
+  console.log(isSidebarOpen.value)
+}
 </script>
 
-<template class="w-2/12">
+<template>
+  <button
+    type=" button"
+    class="absolute right-5 top-5 z-40 hidden items-center rounded-lg bg-primary p-2 text-sm text-third focus:outline-none focus:ring-2 focus:ring-third sm:inline-flex"
+    @click="toggleSidebar"
+  >
+    <svg
+      class="h-6 w-6"
+      aria-hidden="true"
+      fill="currentColor"
+      viewBox="0 0 20 20"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clip-rule="evenodd"
+        fill-rule="evenodd"
+        d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
+      ></path>
+    </svg>
+  </button>
+  <div
+    v-if="isSidebarOpen"
+    class="absolute left-0 top-0 z-10 h-full w-full bg-black/30"
+    @click="toggleSidebar"
+  ></div>
   <aside
-    class="text-m flex w-2/12 flex-col justify-between space-y-5 p-5 align-bottom sm:p-3"
-    style="height: 100vh"
+    class="z-20 flex h-screen min-w-[250px] translate-x-0 flex-col justify-between space-y-5 bg-white p-5 align-bottom transition-transform sm:-translate-x-full"
+    :class="{ ' sm:translate-x-0': isSidebarOpen }"
   >
     <section class="flex flex-col gap-4">
       <p

@@ -118,15 +118,18 @@ supabase
     }
   )
   .subscribe()
+
+// ==========================================
 </script>
 
 <template>
-  <div class="flex w-full">
+  <div class="relative flex">
     <!-- 側邊欄 -->
+
     <sideBar />
 
     <!-- 右側 -->
-    <section class="relative h-screen w-10/12 overflow-y-auto bg-bgGray p-6">
+    <section class="h-screen w-full overflow-y-auto bg-bgGray p-6 sm:absolute">
       <!-- 上方按鈕 -->
       <div class="flex justify-between">
         <!-- <p class="text-2xl font-bold">課程清單</p> -->

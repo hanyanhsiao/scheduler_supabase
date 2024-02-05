@@ -59,64 +59,10 @@ watch(success, (user) => {
     <sideBar />
 
     <!-- 右側 -->
-    <!-- border border-blue-500 -->
-    <div class="justify-star flex w-10/12 flex-col items-center bg-bgGray p-6">
-      <div class="w-full max-w-[500px]">
+    <div class="flex h-screen w-full justify-center overflow-y-auto bg-bgGray p-6 sm:absolute">
+      <div class="h-screen w-full max-w-[500px] sm:mt-10">
         <FormRegister />
-      </div>
-      <!-- <h2 class="mb-6 text-center text-2xl font-bold leading-loose">註 冊</h2>
-      <div class="mx-auto max-w-[400px]">
-        <form class="mb-6 flex flex-col gap-6" @submit.prevent="handlerSignup">
-          <input
-            :disabled="loading"
-            v-model="signupData.name"
-            required
-            class="block w-full rounded-lg px-4 py-3 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
-            placeholder="姓名"
-            type="name"
-            @blur="validateName"
-          />
-          <input
-            :disabled="loading"
-            v-model="signupData.email"
-            required
-            class="block w-full rounded-lg px-4 py-3 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
-            placeholder="信箱"
-            type="email"
-            @blur="validateEmail"
-          />
-
-          <input
-            :disabled="loading"
-            v-model="signupData.password"
-            required
-            class="block w-full rounded-lg px-4 py-3 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
-            placeholder="密碼"
-            type="password"
-          />
-          <div class="flex flex-col items-center justify-center text-center">
-            <span class="text-xl font-bold text-red-500" v-if="error">錯誤</span>
-            <p v-if="ValidationText" class="mb-2 text-red-500">
-              {{ ValidationText }}
-            </p>
-            <button
-              :disabled="loading"
-              class="text-md w-24 rounded-lg bg-secondary py-2 font-bold text-white hover:opacity-70"
-              type="submit"
-            >
-              <span :disabled="loading" class="text-stone-700">註冊</span>
-            </button>
-          </div>
-        </form>
-        <div class="text-center">
-          <p class="mb-4 text-stone-600">
-            有帳號了？
-            <router-link to="/login" replace class="underline">前往登入</router-link>
-          </p>
-        </div>
-      </div> -->
-      <div class="mt-4 text-center">
-        <p class="text-stone-600">
+        <p class="mt-6 text-center text-stone-600">
           有帳號了？
           <router-link to="/login" replace class="underline hover:font-bold">前往登入</router-link>
         </p>
