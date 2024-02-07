@@ -38,8 +38,8 @@ export default defineNuxtConfig({
       '@fortawesome/pro-light-svg-icons',
       '@fortawesome/free-brands-svg-icons',
       'yup',
-      '@vee-validate/rules'
-      // 'property-expr' //部署時要新增，但開發時不行加!
+      '@vee-validate/rules',
+      'property-expr' //部署時要新增，但開發時不行加!
     ]
   },
   runtimeConfig: {
