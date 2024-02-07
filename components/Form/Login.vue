@@ -17,7 +17,11 @@ const handlerLogin = async (values) => {
     password: values.password
   })
   // 登入成功後導向會員專區頁
-  router.push('/profile')
+  if (successLogin.value) {
+    router.push('/profile')
+  } else {
+    router.push('/login')
+  }
 }
 
 // const handleSubmit = async (values, actions) => {

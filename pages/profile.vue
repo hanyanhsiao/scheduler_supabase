@@ -62,7 +62,7 @@ const Upload = async ($event) => {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="w-10/12 bg-bgGray p-6">
+    <div class="flex h-screen w-full justify-center overflow-y-auto bg-bgGray p-6 sm:absolute">
       <!-- 顯示大頭貼 -->
       <div class="flex-col items-center justify-center">
         <div v-if="avatarUrl">

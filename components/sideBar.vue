@@ -56,11 +56,12 @@ const getNewEventsData = () => {
 const isSidebarOpen = ref(false)
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value
-  console.log(isSidebarOpen.value)
+  // console.log(isSidebarOpen.value)
 }
 </script>
 
 <template>
+  <!-- 按鈕 -->
   <button
     type=" button"
     class="absolute right-5 top-5 z-40 hidden items-center rounded-lg bg-primary p-2 text-sm text-third focus:outline-none focus:ring-2 focus:ring-third sm:inline-flex"
@@ -80,11 +81,15 @@ const toggleSidebar = () => {
       ></path>
     </svg>
   </button>
+
+  <!-- 遮罩 -->
   <div
     v-if="isSidebarOpen"
     class="absolute left-0 top-0 z-10 h-full w-full bg-black/30"
     @click="toggleSidebar"
   ></div>
+
+  <!-- 側邊欄 -->
   <aside
     class="z-20 flex h-screen min-w-[250px] translate-x-0 flex-col justify-between space-y-5 bg-white p-5 align-bottom transition-transform sm:-translate-x-full"
     :class="{ ' sm:translate-x-0': isSidebarOpen }"

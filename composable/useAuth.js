@@ -22,10 +22,11 @@ const useLogin = () => {
       // photo: photo()
     })
     if (error) {
-      successLogin.value = false
       alert('登入失敗')
+      successLogin.value = false
     } else {
       alert('登入成功')
+
       // console.log('data.user', data.user)
       successLogin.value = true
 

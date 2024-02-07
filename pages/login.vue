@@ -37,7 +37,7 @@ const loginGoogle = async () => {
 
   // const oAuthToken = data.session.provider_token // use to access provider API
   if (error) {
-    err.value = true
+    error.value = true
     alert('登入失敗')
   } else {
     result.value = data.user
