@@ -72,9 +72,9 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 </script>
 
 <template>
-  <div class="w-full max-w-xl rounded-lg bg-white p-6 shadow-lg sm:max-w-sm vsm:max-w-min">
+  <div class="w-full p-6 sm:p-4">
     <div class="flex items-center justify-between">
-      <h1 class="mb-6 text-2xl font-semibold text-third">修改課程</h1>
+      <h1 class="mb-6 text-2xl font-semibold text-third sm:mb-4">修改課程</h1>
       <!-- 關閉 -->
       <div
         class="mb-4 flex h-7 w-7 cursor-pointer self-start rounded-md p-1 text-xl transition-all hover:bg-secondary active:scale-90"
@@ -88,7 +88,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
     <form @submit.prevent="save">
       <!-- 課程名稱 -->
-      <div class="mb-6">
+      <div class="mb-6 sm:mb-4">
         <label for="className" class="mb-2 block">課程名稱</label>
         <input
           type="text"
@@ -100,7 +100,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         />
       </div>
       <!-- 老師名稱 -->
-      <div class="mb-6">
+      <div class="mb-6 sm:mb-4">
         <label for="teacher" class="mb-2 block">老師名稱</label>
         <input
           type="text"
@@ -112,7 +112,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         />
       </div>
       <!-- 領域&年級 -->
-      <div class="mb-6 flex justify-between gap-6 vsm:flex-wrap">
+      <div class="mb-6 flex justify-between gap-6 sm:mb-4 sm:gap-4 vsm:flex-wrap">
         <!-- 領域 -->
         <!-- v-model="props.currentClass.subject.name" -->
 
@@ -147,7 +147,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         </div>
       </div>
       <!-- 上課地點 -->
-      <div class="mb-6">
+      <div class="mb-6 sm:mb-4">
         <label for="content" class="mb-2 block">上課地點</label>
         <input
           type="text"
@@ -159,7 +159,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         />
       </div>
       <!-- 課程內容 -->
-      <div class="mb-6">
+      <div class="mb-6 sm:mb-4">
         <label for="content" class="mb-2 block">課程內容</label>
         <textarea
           id="content"

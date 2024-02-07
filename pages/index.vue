@@ -129,7 +129,7 @@ supabase
     <sideBar />
 
     <!-- 右側 -->
-    <section class="h-screen w-full overflow-y-auto bg-bgGray p-6 sm:absolute">
+    <section class="h-screen w-full overflow-y-auto bg-bgGray p-6 sm:absolute sm:z-0">
       <!-- 上方按鈕 -->
       <div class="flex justify-between">
         <!-- <p class="text-2xl font-bold">課程清單</p> -->
@@ -194,7 +194,7 @@ supabase
                   {{ item.grade }}
                 </span>
               </div>
-              <div class="col-span-2 text-center vsm:col-span-1">{{ item.address }}</div>
+              <div class="col-span-2 text-center">{{ item.address }}</div>
               <div class="flex justify-center gap-3">
                 <!-- 修改 -->
                 <div
@@ -237,28 +237,24 @@ supabase
 
       <!-- 遮罩 -->
       <div
-        class="absolute left-0 top-0 h-full w-full bg-black/30"
+        class="absolute left-0 top-0 z-10 h-screen w-full bg-black/30"
         v-if="togglePopup || toggleAddPopup"
         @click="closeIfMask($event)"
+      ></div>
+      <!-- 彈窗 -->
+      <div
+        class="fixed left-1/2 top-1/2 z-20 w-full max-w-[500px] -translate-x-1/4 -translate-y-1/2 rounded-md bg-white sm:w-full sm:max-w-[300px] sm:-translate-x-1/2"
       >
-        <!-- 彈窗 -->
-        <div class="z-50 rounded-md bg-white">
-          <!-- 修改課程 -->
-          <motifyCoursePopup
-            class="absolute left-1/2 top-5 -translate-x-1/2"
-            v-if="togglePopup"
-            @closePopup="close"
-            @save="save"
-            :currentClass="currentClass"
-          />
-          <!-- 新增課程 -->
-          <addCoursePopup
-            class="absolute left-1/2 top-5 -translate-x-1/2"
-            v-if="toggleAddPopup"
-            @closePopup="close"
-            @save="save"
-          />
-        </div>
+        <!-- 修改課程 -->
+        <motifyCoursePopup
+          class="w-full"
+          v-if="togglePopup"
+          @closePopup="close"
+          @save="save"
+          :currentClass="currentClass"
+        />
+        <!-- 新增課程 -->
+        <addCoursePopup class="w-full" v-if="toggleAddPopup" @closePopup="close" @save="save" />
       </div>
     </section>
   </div>
