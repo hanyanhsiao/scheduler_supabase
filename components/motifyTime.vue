@@ -40,9 +40,9 @@ const range = ref({
 })
 
 // ---------時間排列RWD---------
-const vsmLabel = ref(window.innerWidth < 680)
+const smLabel = ref(window.innerWidth < 768)
 const checkWindowSize = () => {
-  vsmLabel.value = window.innerWidth < 680
+  smLabel.value = window.innerWidth < 768
 }
 onMounted(() => {
   window.addEventListener('resize', checkWindowSize)
@@ -50,7 +50,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg">
+  <div class="w-full max-w-md rounded-lg bg-white p-6 shadow-lg sm:w-full sm:max-w-xs">
     <!-- 標題及關閉 -->
     <div class="flex items-center justify-between">
       <h1 class="mb-6 text-2xl font-semibold text-third">修改時間</h1>
@@ -68,11 +68,11 @@ onMounted(() => {
     <form @submit.prevent="save">
       <!-- 時間設定 -->
       <div class="mb-6 flex flex-col items-center justify-around py-3">
-        <div class="mb-3 flex justify-between gap-11" v-if="!vsmLabel">
+        <div class="mb-3 flex justify-between gap-11" v-if="!smLabel">
           <label for="appt" class="">起始時間：</label>
           <label for="appt" class="">結束時間：</label>
         </div>
-        <label for="appt" class="flex vsm:mb-3 vsm:justify-center" v-else
+        <label for="appt" class="flex sm:mb-3 sm:justify-center" v-else
           >選擇起始時間與結束時間：</label
         >
         <VDatePicker

@@ -88,7 +88,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
 
     <form @submit.prevent="save">
       <!-- 課程名稱 -->
-      <div class="mb-6 sm:mb-4">
+      <div class="mb-6 sm:mb-4 vsm:mb-2">
         <label for="className" class="mb-2 block">課程名稱</label>
         <input
           type="text"
@@ -100,7 +100,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         />
       </div>
       <!-- 老師名稱 -->
-      <div class="mb-6 sm:mb-4">
+      <div class="mb-6 sm:mb-4 vsm:mb-2">
         <label for="teacher" class="mb-2 block">老師名稱</label>
         <input
           type="text"
@@ -112,7 +112,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         />
       </div>
       <!-- 領域&年級 -->
-      <div class="mb-6 flex justify-between gap-6 sm:mb-4 sm:gap-4 vsm:flex-wrap">
+      <div class="mb-6 flex justify-between gap-6 sm:mb-4 sm:gap-4 vsm:mb-2 vsm:flex-wrap">
         <!-- 領域 -->
         <!-- v-model="props.currentClass.subject.name" -->
 
@@ -147,7 +147,7 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
         </div>
       </div>
       <!-- 上課地點 -->
-      <div class="mb-6 sm:mb-4">
+      <div class="mb-6 sm:mb-4 vsm:mb-2">
         <label for="content" class="mb-2 block">上課地點</label>
         <input
           type="text"

@@ -87,9 +87,9 @@ const optionCourse = classData.value
 // console.log('可以加的課程選項', optionCourse)
 
 // ---------時間排列RWD---------
-const vsmLabel = ref(window.innerWidth < 414)
+const smLabel = ref(window.innerWidth < 768)
 const checkWindowSize = () => {
-  vsmLabel.value = window.innerWidth < 414
+  smLabel.value = window.innerWidth < 768
 }
 onMounted(() => {
   window.addEventListener('resize', checkWindowSize)
@@ -97,7 +97,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full max-w-sm rounded-lg bg-white p-6 shadow-lg">
+  <div class="max-w-sm rounded-lg bg-white p-6 shadow-lg sm:w-full sm:max-w-xs">
     <!-- 標題及關閉 -->
     <div class="flex items-center justify-between">
       <h1 class="mb-6 text-2xl font-semibold text-third">新增課程</h1>
@@ -130,12 +130,12 @@ onMounted(() => {
       </div>
 
       <!-- 時間設定 -->
-      <div class="vsm: mb-6 flex w-full flex-col justify-center py-3 vsm:py-0">
-        <div class="mb-2 flex justify-start gap-14" v-if="!vsmLabel">
-          <label for="appt" class="ml-6 vsm:ml-0">選擇起始時間：</label>
+      <div class="mb-6 flex w-full flex-col justify-center py-3 sm:py-0">
+        <div class="mb-2 flex justify-start gap-14" v-if="!smLabel">
+          <label for="appt" class="ml-6 sm:ml-0">選擇起始時間：</label>
           <label for="appt" class="">選擇結束時間：</label>
         </div>
-        <label for="appt" class="flex vsm:mb-3 vsm:justify-center" v-else
+        <label for="appt" class="flex sm:mb-3 sm:justify-center" v-else
           >選擇起始時間與結束時間：</label
         >
 

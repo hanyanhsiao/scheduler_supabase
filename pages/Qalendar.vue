@@ -139,6 +139,13 @@ const close = () => {
   weekDayPopup.value = false
 }
 
+// 點擊遮罩關閉彈窗
+const closeIfMask = (event) => {
+  if (event.target === event.currentTarget) {
+    close()
+  }
+}
+
 // 點擊的課程的時間
 const currentTime = ref({})
 
@@ -277,12 +284,13 @@ function resizedTime(event) {
 </script>
 
 <!-- ------------------------【template】------------------------ -->
+<!-- border-2 border-red-500 -->
 <template>
   <div class="flex w-full">
     <sideBar />
 
     <!-- 右側日曆 -->
-    <section class="h-screen w-full overflow-y-auto bg-bgGray p-6 sm:absolute">
+    <section class="relative w-full overflow-y-auto bg-bgGray p-6 sm:absolute">
       <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6 sm:mt-10 sm:flex-wrap sm:gap-3" v-if="eventData">
         <!-- 選擇老師 -->
@@ -341,7 +349,7 @@ function resizedTime(event) {
 
       <!-- 下方日曆 -->
       <Qalendar
-        class="rounded-lg bg-white shadow-md"
+        class="h-full rounded-lg bg-white shadow-md"
         :events="events"
         :config="config"
         @event-was-dragged="dragEvent"
@@ -356,13 +364,14 @@ function resizedTime(event) {
 
       <!-- 遮罩 -->
       <div
-        class="absolute left-0 top-0 h-full w-full bg-black/30"
+        class="absolute bottom-0 left-0 top-0 h-full w-full bg-black/30"
         v-if="togglePopup || toggleAddClassPopup || weekDayPopup"
+        @click="closeIfMask($event)"
       >
         <!-- 修改時間彈窗 -->
         <div class="z-50 rounded-md bg-white" v-if="togglePopup">
           <motifyTime
-            class="fixed left-1/2 top-1/2 -translate-x-1/4 -translate-y-1/2 sm:max-w-fit"
+            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             @closePopup="close"
             :currentTime="currentTime"
           />
