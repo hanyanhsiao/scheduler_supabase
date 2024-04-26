@@ -1,63 +1,10 @@
-# Nuxt 3 Minimal Starter
+# 課程安排系統
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+https://scheduler-supabase-frmm.vercel.app/
 
-## Setup
+### 【使用說明】
+1. `課程清單`：提供使用者瀏覽、新增、刪除、修改課程資訊
 
-Make sure to install the dependencies:
+2. `安排時間與日期`：集成行事曆功能，使用者可透過直觀的界面點擊加入日期與時間，並支援拖曳操作以輕鬆調整安排
 
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+3. `已安排課程總覽`：以表格形式呈現所有課程安排，使用者可透過搜尋欄位快速尋找特定課程，或依據起始時間與結束時間排序以方便查閱。
