@@ -13,12 +13,16 @@ const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
 // console.log('已安排的課程', eventData.value)
 
+const subjects = ref([])
+subjects.value = [...subjectOptions.value]
+subjects.value.unshift({ id: 0, name: '--請選擇--' })
+console.log('領域', subjects.value)
+
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
   classStore.getClassData()
   classStore.getSubject()
   EventStore.getEventData()
-  // console.log(eventData)
 })
 
 // -------------篩選課程-------------
@@ -283,8 +287,6 @@ function resizedTime(event) {
 // }
 </script>
 
-<!-- ------------------------【template】------------------------ -->
-<!-- border-2 border-red-500 -->
 <template>
   <div class="flex w-full">
     <sideBar />
@@ -311,7 +313,16 @@ function resizedTime(event) {
         <!-- 選擇領域 -->
         <div class="w-full">
           <label for="grade" class="mb-2 block">選擇領域</label>
-          <select
+          <!-- {{ subjects }} -->
+          <SelectDropdown
+            :identity-list="subjects"
+            @send="
+              async (res) => {
+                isSelectedSubject = res?.name
+              }
+            "
+          />
+          <!-- <select
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="isSelectedSubject"
@@ -320,7 +331,7 @@ function resizedTime(event) {
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}
             </option>
-          </select>
+          </select> -->
         </div>
 
         <!-- 選擇年級 -->

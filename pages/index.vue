@@ -18,29 +18,25 @@ onMounted(() => {
   // console.log(store.id)
 })
 // ---------修改課程--------
-// 彈窗
 const togglePopup = ref(false)
 
 // 點擊的課程
 const currentClass = ref({})
 
-// 彈窗標題
-// const classTitle = ref('新增課程')
-
 // 修改課程
 const editClass = (item) => {
-  // console.log('修改課程', item)
-  // classTitle.value = '修改課程'
   togglePopup.value = true
   const applyClass = { ...item }
   // console.log('修改原黨', applyClass)
   currentClass.value = applyClass
   // currentClass.value.indexx = indexx
 }
+
 // ---------顯示課程內容toggle--------
 const toggleDetails = (item) => {
   item.showDetails = !item.showDetails
 }
+
 // ---------新增課程--------
 // 彈窗
 const toggleAddPopup = ref(false)
@@ -86,40 +82,40 @@ const gradeColor = (grade) => {
     case '小一':
       return 'bg-secondary text-orange-800'
     case '小二':
-      return 'bg-purple-200 text-purple-800'
+      return 'bg-purple-100 text-purple-800'
     case '小三':
-      return 'bg-green-200 text-green-600'
+      return 'bg-green-100 text-green-800'
     case '小四':
-      return 'bg-yellow-200 text-yellow-600'
+      return 'bg-yellow-100 text-yellow-800'
     case '小五':
-      return 'bg-red-200 text-red-600'
+      return 'bg-red-100 text-red-800'
     case '小六':
-      return 'bg-indigo-200 text-indigo-800'
+      return 'bg-indigo-100 text-indigo-800'
     default:
       return 'bg-black text-white'
   }
 }
 
-// ==========================================
-// 串接實時更新
-import { supabase } from '../composable/supabaseClinet'
+// // ==========================================
+// // 串接實時更新
+// import { supabase } from '../composable/supabaseClinet'
 
-supabase
-  .channel('course')
-  .on(
-    'postgres_changes',
-    {
-      event: 'UPDATE',
-      schema: 'public',
-      table: 'course'
-    },
-    (event) => {
-      // console.log('訂閱course資料表的修改', event)
-    }
-  )
-  .subscribe()
+// supabase
+//   .channel('course')
+//   .on(
+//     'postgres_changes',
+//     {
+//       event: 'UPDATE',
+//       schema: 'public',
+//       table: 'course'
+//     },
+//     (event) => {
+//       // console.log('訂閱course資料表的修改', event)
+//     }
+//   )
+//   .subscribe()
 
-// ==========================================
+// // ==========================================
 </script>
 
 <template>

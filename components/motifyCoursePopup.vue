@@ -3,23 +3,29 @@
 import { useStoreData } from '../stores/storeData'
 import { storeToRefs } from 'pinia'
 const classStore = useStoreData()
-// API
 const { subjectOptions } = storeToRefs(classStore)
 
-// ---------撈領域資料---------
-onMounted(() => {
-  classStore.getSubject()
-  // console.log('修改，原課程', props.currentClass)
-})
+// ---------------------
 
-// 定義事件
+// 年級
+const gradeOptions = [
+  { id: 1, name: '小一' },
+  { id: 2, name: '小二' },
+  { id: 3, name: '小三' },
+  { id: 4, name: '小四' },
+  { id: 5, name: '小五' },
+  { id: 6, name: '小六' }
+]
+
+const subject = ref('')
+const grade = ref('')
+
 const emits = defineEmits(['closePopup', 'save'])
 const close = () => {
   // clearForm()
   emits('closePopup')
 }
 
-// 定義currentClass屬性
 const props = defineProps({
   currentClass: {
     id: String,
@@ -28,7 +34,6 @@ const props = defineProps({
     grade: String,
     address: String,
     content: String,
-    // indexx: Number,
     create_time: String,
     subject: String
     // subject: {
@@ -38,20 +43,21 @@ const props = defineProps({
   }
 })
 
+// ---------API---------
+onMounted(() => {
+  classStore.getSubject()
+  // console.log('修改前原課程', props.currentClass)
+})
+
 // 修改內容存檔
 const save = async () => {
   emits('save')
-
-  // // 用subject.name找正確的subject
-  // const updatedSubject = subjectOptions.value.find(
-  //   (each) => each.name == props.currentClass.subject.name
-  // )
-  // console.log('我是正確的領域嗎?拜託是', updatedSubject)
-  // props.currentClass.subject = updatedSubject
+  props.currentClass.subject = subject.value
+  props.currentClass.grade = grade.value
+  // console.log('修改後課程內容', props.currentClass)
 
   // 打API修改
   await classStore.modifyClass(props.currentClass)
-  // console.log('修改完的課', props.currentClass)
 
   // 修改完撈出全部課程
   classStore.getClassData()
@@ -62,13 +68,10 @@ const clearForm = () => {
   props.currentClass.className = ''
   props.currentClass.teacher = ''
   props.currentClass.subject = {}
-  props.currentClass.grade = ''
+  props.currentClass.grade = {}
   props.currentClass.address = ''
   props.currentClass.content = ''
 }
-
-// 年級
-const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
 </script>
 
 <template>
@@ -89,82 +92,99 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
     <form @submit.prevent="save">
       <!-- 課程名稱 -->
       <div class="mb-6 sm:mb-4 vsm:mb-2">
-        <label for="className" class="mb-2 block">課程名稱</label>
+        <label for="className" class="mb-1 block">課程名稱</label>
         <input
           type="text"
           id="className"
           name="className"
-          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
+          class="w-full rounded-md border bg-gray-50 p-2 text-sm focus:border-third focus:outline-none"
           required
           v-model="props.currentClass.className"
         />
       </div>
       <!-- 老師名稱 -->
       <div class="mb-6 sm:mb-4 vsm:mb-2">
-        <label for="teacher" class="mb-2 block">老師名稱</label>
+        <label for="teacher" class="mb-1 block">老師名稱</label>
         <input
           type="text"
           id="teacher"
           name="teacher"
-          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
+          class="w-full rounded-md border bg-gray-50 p-2 text-sm focus:border-third focus:outline-none"
           required
           v-model="props.currentClass.teacher"
         />
       </div>
       <!-- 領域&年級 -->
-      <div class="mb-6 flex justify-between gap-6 sm:mb-4 sm:gap-4 vsm:mb-2 vsm:flex-wrap">
+      <!-- {{ props.currentClass.subject }} -->
+      <div class="sm:gap-4b mb-6 flex justify-between gap-6 sm:mb-4 vsm:mb-2 vsm:flex-wrap">
         <!-- 領域 -->
         <!-- v-model="props.currentClass.subject.name" -->
 
         <div class="w-full">
-          <label for="subject" class="mb-2 block">領域</label>
-          <select
+          <label for="subject" class="mb-1 block">領域</label>
+          <SelectDropdown
+            :identity-list="subjectOptions"
+            :origin-list="props.currentClass.subject"
+            @send="
+              async (res) => {
+                subject = res?.name
+              }
+            "
+          />
+          <!-- <select
             id="subject"
-            class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
+            class="block w-full rounded-md border bg-gray-50 p-2 focus:border-third focus:outline-none"
             v-model="props.currentClass.subject"
           >
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}
             </option>
-            <!-- :selected="props.currentClass.subject.name == subject.name" -->
-          </select>
+          </select> -->
         </div>
 
         <!-- 年級 -->
         <div class="w-full">
-          <label for="grade" class="mb-2 block">年級</label>
-          <select
+          <label for="grade" class="mb-1 block">年級</label>
+          <SelectDropdown
+            :identity-list="gradeOptions"
+            :origin-list="props.currentClass.grade"
+            @send="
+              async (res) => {
+                grade = res?.name
+              }
+            "
+          />
+          <!-- <select
             id="grade"
-            class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
+            class="block w-full rounded-md border bg-gray-50 p-2 focus:border-third focus:outline-none"
             v-model="props.currentClass.grade"
             required
           >
             <option v-for="(gradeValue, index) in gradeOptions" :key="index" :value="gradeValue">
               {{ gradeValue }}
             </option>
-            <!-- :selected="props.currentClass.grade == gradeValue" -->
-          </select>
+          </select> -->
         </div>
       </div>
       <!-- 上課地點 -->
       <div class="mb-6 sm:mb-4 vsm:mb-2">
-        <label for="content" class="mb-2 block">上課地點</label>
+        <label for="content" class="mb-1 block">上課地點</label>
         <input
           type="text"
           id="address"
           name="address"
-          class="w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
+          class="w-full rounded-md border bg-gray-50 p-2 text-sm focus:border-third focus:outline-none"
           required
           v-model="props.currentClass.address"
         />
       </div>
       <!-- 課程內容 -->
       <div class="mb-6 sm:mb-4">
-        <label for="content" class="mb-2 block">課程內容</label>
+        <label for="content" class="mb-1 block">課程內容</label>
         <textarea
           id="content"
           rows="3"
-          class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
+          class="block w-full resize-none rounded-md border bg-gray-50 p-2 text-sm focus:border-third focus:outline-none"
           required
           v-model="props.currentClass.content"
         ></textarea>
@@ -174,13 +194,13 @@ const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六'
       <div class="flex">
         <button
           type="submit"
-          class="mx-auto block w-32 rounded-lg bg-secondary py-2 transition-all hover:bg-third active:scale-90"
+          class="mx-auto block w-32 rounded-md bg-secondary py-2 transition-all hover:bg-third active:scale-90"
         >
           儲存
         </button>
         <button
           type="button"
-          class="mx-auto block w-32 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
+          class="mx-auto block w-32 rounded-md border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
           @click="clearForm"
         >
           清除
