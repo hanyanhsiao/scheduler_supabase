@@ -5,7 +5,8 @@
   // -->
 <script setup>
 import { ref } from 'vue'
-
+const router = useRouter()
+const route = useRoute()
 const dropdownRef = ref(null)
 
 const props = defineProps({
@@ -78,8 +79,14 @@ const closeDropdown = (event) => {
     <div class="relative w-full" @click="toggleShow">
       <p
         class="flex h-10 w-full items-center rounded-md border bg-gray-50 px-[14px] py-2 text-sm"
-        :class="[isShow ? 'border-1 border-third' : '', selectedValue ? '' : 'text-[#838383]']"
+        :class="[
+          isShow ? 'border-1 border-third' : '',
+          selectedValue ? '' : 'text-[#838383]',
+          route.path === '/Qalendar' ? 'bg-white' : ''
+        ]"
       >
+        <!-- {{ selectedValue ? selectedValue.name : route.path === '/Qalendar' ? '全部' : '請選擇' }} -->
+
         {{ selectedValue ? selectedValue.name : '請選擇' }}
       </p>
       <button class="absolute right-4 top-[18px] h-[4.63px] w-[7.8px]">
@@ -98,7 +105,7 @@ const closeDropdown = (event) => {
         class="flex h-[30px] items-center pl-[14px] text-left hover:bg-secondary active:bg-primary"
         @click="selectClick(index)"
       >
-        {{ option.nickName ? option.name + '  ' + option.nickName : option.name }}
+        {{ option.name ? option.name : option.text }}
         <p v-if="option.type" class="text-cmsDeepBlue ml-2"></p>
       </li>
     </ul>

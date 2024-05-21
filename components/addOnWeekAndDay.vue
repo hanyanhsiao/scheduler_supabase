@@ -91,7 +91,7 @@ onMounted(() => {
           v-model="props.NewWeekClass.course"
         >
           <option v-for="(course, index) in classData" :key="index" :value="course">
-            {{ course.className }}
+            {{ course.name }}
           </option>
         </select>
       </div>
@@ -110,7 +110,7 @@ onMounted(() => {
         <!-- :is24hr="true" -->
       </div>
 
-      <!-- 儲存/取消 -->
+      <!-- 儲存/取消zzzzz -->
       <div class="flex gap-3">
         <button
           type="submit"

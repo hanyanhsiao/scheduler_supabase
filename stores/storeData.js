@@ -54,7 +54,7 @@ export const useStoreData = defineStore('storeData', {
     async modifyClass(input) {
       // console.log(input)
       const apiData = {
-        className: input.className,
+        name: input.name,
         teacher: input.teacher,
         subject: input.subject,
         grade: input.grade,
@@ -70,7 +70,7 @@ export const useStoreData = defineStore('storeData', {
     // ----------4 新增課程----------
     async addClass(input) {
       const apiData = {
-        className: input.className,
+        name: input.name,
         teacher: input.teacher,
         subject: input.subject,
         grade: input.grade,

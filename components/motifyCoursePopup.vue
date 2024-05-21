@@ -29,7 +29,7 @@ const close = () => {
 const props = defineProps({
   currentClass: {
     id: String,
-    className: String,
+    name: String,
     teacher: String,
     grade: String,
     address: String,
@@ -65,7 +65,7 @@ const save = async () => {
 
 // 清除表單
 const clearForm = () => {
-  props.currentClass.className = ''
+  props.currentClass.name = ''
   props.currentClass.teacher = ''
   props.currentClass.subject = {}
   props.currentClass.grade = {}
@@ -92,14 +92,14 @@ const clearForm = () => {
     <form @submit.prevent="save">
       <!-- 課程名稱 -->
       <div class="mb-6 sm:mb-4 vsm:mb-2">
-        <label for="className" class="mb-1 block">課程名稱</label>
+        <label for="name" class="mb-1 block">課程名稱</label>
         <input
           type="text"
-          id="className"
-          name="className"
+          id="name"
+          name="name"
           class="w-full rounded-md border bg-gray-50 p-2 text-sm focus:border-third focus:outline-none"
           required
-          v-model="props.currentClass.className"
+          v-model="props.currentClass.name"
         />
       </div>
       <!-- 老師名稱 -->

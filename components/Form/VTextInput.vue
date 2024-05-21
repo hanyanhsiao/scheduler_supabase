@@ -62,7 +62,7 @@ const emits = defineEmits(['handlePassword'])
             <textarea
               v-if="type == 'textarea'"
               v-bind="field"
-              class="form-input w-full rounded-lg px-4 py-2 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
+              class="form-input w-full rounded-md px-4 py-2 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
               :class="{
                 'border-third': !(!meta.valid && meta.touched),
                 'is-success': meta.valid && meta.touched,
@@ -75,7 +75,7 @@ const emits = defineEmits(['handlePassword'])
             <input
               v-else-if="type == 'number'"
               v-bind="field"
-              class="form-input w-full rounded-lg px-4 py-2 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
+              class="form-input w-full rounded-md px-4 py-2 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
               :class="{
                 'border-third': !(!meta.valid && meta.touched),
                 'is-success': meta.valid && meta.touched,
@@ -89,7 +89,7 @@ const emits = defineEmits(['handlePassword'])
             <input
               v-else
               v-bind="field"
-              class="form-input w-full rounded-lg px-4 py-2 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
+              class="form-input w-full rounded-md px-4 py-2 text-stone-700 ring-secondary focus:outline-none focus:ring-1 focus:ring-third"
               :class="{
                 'border-third': !(!meta.valid && meta.touched),
                 'is-success': meta.valid && meta.touched,

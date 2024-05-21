@@ -16,7 +16,7 @@ onMounted(() => {
 
 // ---------表格標題---------
 const headers = ref([
-  { text: '課程名稱', value: 'className', width: 200 },
+  { text: '課程名稱', value: 'name', width: 200 },
   { text: '老師', value: 'teacher' },
   { text: '領域', value: 'subject' },
   { text: '年級', value: 'grade' },
@@ -43,7 +43,7 @@ const items = computed(() => {
     // 賦值給table屬性
     return {
       // id: eachEvent.id,
-      className: eachEvent.className,
+      name: eachEvent.name,
       teacher: eachEvent.teacher,
       grade: eachEvent.grade,
       subject: eachEvent.subject, //{ id: eachEvent.subject.id, name: eachEvent.subject.name },
@@ -64,6 +64,15 @@ const searchValue = ref()
 const sortBy = ref(['startTime', 'endTime'])
 const sortType = 'desc'
 // ASC由小至大排列，DESC由大至小排列
+
+let headerId
+const headerList = headers.value.map((header) => {
+  return {
+    id: headerId++,
+    name: header.text
+  }
+})
+headerList.unshift({ id: 0, name: '全部' })
 
 // ---------排序---------
 function sortColums(what) {
@@ -88,7 +97,16 @@ function sortColums(what) {
       <section class="mb-5 flex gap-10 sm:mt-10 sm:flex-wrap">
         <div class="flex w-full flex-col">
           <label class="mb-2">請選擇搜尋欄位</label>
-          <select
+          <SelectDropdown
+            :identity-list="headerList"
+            @send="
+              async (res) => {
+                console.log('選擇搜尋欄位', res)
+                searchField = res?.value
+              }
+            "
+          />
+          <!-- <select
             class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
             v-model="searchField"
           >
@@ -101,14 +119,14 @@ function sortColums(what) {
             >
               {{ header.text }}
             </option>
-          </select>
+          </select> -->
         </div>
         <!-- border-4 border-indigo-500/100 -->
         <div class="flex w-full flex-col">
           <label class="mb-2">請輸入搜尋內容</label>
           <input
             type="text"
-            class="w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third sm:w-full"
+            class="h-10 w-full rounded-md border bg-gray-50 p-2 text-sm focus:border-third focus:outline-none sm:w-full"
             placeholder="請輸入搜尋內容"
             v-model="searchValue"
           />

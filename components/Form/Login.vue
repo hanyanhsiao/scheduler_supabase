@@ -80,7 +80,7 @@ const handlePassword = (name) => {
         />
       </div>
       <Button
-        class="text-md my-2 w-24 rounded-lg bg-secondary py-2 font-bold hover:cursor-pointer hover:bg-third"
+        class="text-md my-2 w-32 rounded-md bg-secondary py-2 hover:cursor-pointer hover:bg-third hover:text-white"
         :disabled="!meta.valid"
         type="submit"
         >登入</Button

@@ -171,9 +171,10 @@ const gradeColor = (grade) => {
               class="grid w-full cursor-pointer grid-cols-9 place-items-stretch items-center gap-3 break-all border-b border-gray-300 p-3 hover:bg-primary"
               @click="toggleDetails(item)"
             >
+              <!-- {{ item }} -->
               <div class="col-span-1 text-center">{{ index + 1 }}</div>
               <div class="col-span-2 text-left">
-                {{ item.className }}
+                {{ item.name }}
               </div>
               <!-- vsm:[text-orientation:upright] vsm:[writing-mode:vertical-lr] -->
               <div class="text-center">

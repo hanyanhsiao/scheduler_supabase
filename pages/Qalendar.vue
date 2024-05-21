@@ -13,10 +13,34 @@ const EventStore = useQalendarData()
 const { eventData } = storeToRefs(EventStore)
 // console.log('已安排的課程', eventData.value)
 
+// ---------下拉選單---------
+// 老師
+const set = new Set()
+let id = 0
+const teacherList = classData.value
+  .filter((course) => (set.has(course.teacher) ? false : set.add(course.teacher)))
+  .map((course) => {
+    return { id: id++, name: course.teacher }
+  })
+teacherList.unshift({ id: 0, name: '全部' })
+// console.log('teacherList: ', teacherList)
+
+// 領域
 const subjects = ref([])
 subjects.value = [...subjectOptions.value]
-subjects.value.unshift({ id: 0, name: '--請選擇--' })
-console.log('領域', subjects.value)
+subjects.value.unshift({ id: 0, name: '全部' })
+// console.log('領域: ', subjects.value)
+
+// 年級
+const gradeOptions = [
+  { id: 0, name: '全部' },
+  { id: 1, name: '小一' },
+  { id: 2, name: '小二' },
+  { id: 3, name: '小三' },
+  { id: 4, name: '小四' },
+  { id: 5, name: '小五' },
+  { id: 6, name: '小六' }
+]
 
 // ---------首次撈取已安排的課表---------
 onMounted(() => {
@@ -26,26 +50,30 @@ onMounted(() => {
 })
 
 // -------------篩選課程-------------
-const isSelectedTeacher = ref('0')
-const isSelectedSubject = ref('0')
-const isSelectedGrade = ref('0')
+const isSelectedTeacher = ref('全部')
+const isSelectedSubject = ref('全部')
+const isSelectedGrade = ref('全部')
+
 // 篩選後顯示的陣列
 const results = ref([])
 
-function search() {
-  // 在三個都是--請選擇--的狀態下是預設全撈，可以做新增刪除修改
+const search = () => {
+  console.log('選的老師:', isSelectedTeacher.value)
+  console.log('選的領域:', isSelectedSubject.value)
+  console.log('選的年級:', isSelectedGrade.value)
+
+  // 在三個都是全部的狀態下是預設全撈
   if (
-    isSelectedTeacher.value === '0' &&
-    isSelectedSubject.value === '0' &&
-    isSelectedGrade.value === '0'
+    isSelectedTeacher.value === '全部' &&
+    isSelectedSubject.value === '全部' &&
+    isSelectedGrade.value === '全部'
   ) {
     results.value = []
     return
   }
 
-  // 若沒有選value==='0'就回傳全部
   const filterData = (selectedValue, property) => {
-    return selectedValue === '0'
+    return selectedValue === '全部'
       ? eventData.value
       : eventData.value.filter((eachCourse) => {
           return eachCourse[property].includes(selectedValue)
@@ -55,23 +83,16 @@ function search() {
   const teacher = filterData(isSelectedTeacher.value, 'teacher')
   const subject = filterData(isSelectedSubject.value, 'subject')
   const grade = filterData(isSelectedGrade.value, 'grade')
-  // console.log('老師:', teacher)
-  // console.log('領域', subject)
-  // console.log('年級', grade)
 
   // 賦值給results.value顯示在日曆上
   results.value = teacher.filter((course) => subject.includes(course) && grade.includes(course))
 
   // 條件沒符合時
+  console.log('results.value', results.value)
+
   if (results.value.length === 0) {
     alert('沒有符合篩選條件的課程')
-    // select回到"請選擇"
-    isSelectedTeacher.value = '0'
-    isSelectedSubject.value = '0'
-    isSelectedGrade.value = '0'
   }
-
-  // console.log('我選了啥?', results.value)
 }
 
 // ---------日曆上事件，定義computed，同時更新events(Qalendar的參數)---------
@@ -86,7 +107,7 @@ const events = computed(() => {
       // 賦值給Qalendar屬性
       updatedEvents.value.push({
         id: eachEvent.id,
-        title: eachEvent.className,
+        title: eachEvent.name,
         with: eachEvent.teacher,
         location: eachEvent.address,
         description: eachEvent.content,
@@ -104,7 +125,7 @@ const events = computed(() => {
       // 賦值給Qalendar屬性
       updatedEvents.value.push({
         id: eachEvent.id,
-        title: eachEvent.className,
+        title: eachEvent.name,
         with: eachEvent.teacher,
         location: eachEvent.address,
         description: eachEvent.content,
@@ -260,31 +281,12 @@ const config = {
   defaultMode: 'month',
   locale: 'zh-TW'
 }
-// ---------老師/年級下拉選單---------
-const set = new Set()
-const setTeacher = classData.value.filter((course) =>
-  set.has(course.teacher) ? false : set.add(course.teacher)
-)
-// console.log(setTeacher)
-// console.log('不重複的所有老師陣列', setTeacher)
-const gradeOptions = ['小一', '小二', '小三', '小四', '小五', '小六']
 
 // ---------週 & 日拉大小調整時間---------
 function resizedTime(event) {
-  console.log('拉大小回傳', event)
+  // console.log('拉大小回傳', event)
   EventStore.dragEvent(event)
 }
-//------------------------------
-// @wheel="handleWheel"
-// const handleWheel = (event) => {
-//   if (event.deltaY < 0) {
-//     // 滾輪向上滾動
-//     // 我想要向上滾動的時候，讓他回到上個月
-
-//   } else {
-//     // 滾輪向下滾動
-//   }
-// }
 </script>
 
 <template>
@@ -298,22 +300,29 @@ function resizedTime(event) {
         <!-- 選擇老師 -->
         <div class="w-full">
           <label for="grade" class="mb-2 block">選擇老師</label>
-          <select
+          <SelectDropdown
+            :identity-list="teacherList"
+            @send="
+              async (res) => {
+                isSelectedTeacher = res?.name
+              }
+            "
+          />
+          <!-- <select
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="isSelectedTeacher"
           >
-            <option value="0" selected>--請選擇--</option>
+            <option value="0" selected>全部</option>
             <option v-for="course in setTeacher" :key="course.id" :value="course.teacher">
               {{ course.teacher }}
             </option>
-          </select>
+          </select> -->
         </div>
 
         <!-- 選擇領域 -->
         <div class="w-full">
           <label for="grade" class="mb-2 block">選擇領域</label>
-          <!-- {{ subjects }} -->
           <SelectDropdown
             :identity-list="subjects"
             @send="
@@ -327,7 +336,7 @@ function resizedTime(event) {
             class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="isSelectedSubject"
           >
-            <option value="0" selected>--請選擇--</option>
+            <option value="0" selected>全部</option>
             <option v-for="subject in subjectOptions" :key="subject.id" :value="subject.name">
               {{ subject.name }}
             </option>
@@ -337,16 +346,24 @@ function resizedTime(event) {
         <!-- 選擇年級 -->
         <div class="w-full">
           <label for="grade" class="mb-2 block">選擇年級</label>
-          <select
+          <SelectDropdown
+            :identity-list="gradeOptions"
+            @send="
+              async (res) => {
+                isSelectedGrade = res?.name
+              }
+            "
+          />
+          <!-- <select
             id="grade"
             class="block w-full rounded-lg border border-gray-300 p-2 focus:outline-none focus:ring-1 focus:ring-third"
             v-model="isSelectedGrade"
           >
-            <option value="0" selected>--請選擇--</option>
+            <option value="0" selected>全部</option>
             <option v-for="(gradeValue, index) in gradeOptions" :key="index" :value="gradeValue">
               {{ gradeValue }}
             </option>
-          </select>
+          </select> -->
         </div>
 
         <button

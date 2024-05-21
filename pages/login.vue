@@ -62,11 +62,11 @@ const loginGoogle = async () => {
           type="button"
           >忘記密碼</router-link
         >
-        <hr class="mb-5 mt-4 h-0.5 w-full bg-stone-500" />
+        <hr class="mb-5 mt-4 h-0.5 w-full bg-stone-300" />
         <div class="flex justify-center">
           <button
             @click="loginGoogle"
-            class="mb-5 flex w-full items-center justify-center gap-4 rounded-lg border border-stone-500 py-2 font-bold hover:bg-stone-500 hover:text-white"
+            class="mb-5 flex w-full items-center justify-center gap-4 rounded-md border border-stone-500 py-2 font-bold hover:bg-stone-300"
           >
             <ClientOnly>
               <Icon name="logos:google-icon" />
