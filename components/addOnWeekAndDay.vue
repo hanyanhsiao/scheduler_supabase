@@ -27,18 +27,22 @@ const close = () => {
   emits('closePopup')
 }
 
-// ---------修改內容存檔---------
+// ---------新增課程---------
+const newCourse = ref()
+
 const saveWeekClass = () => {
-  // console.log(props.NewWeekClass)
+  // console.log('新增課程', newCourse.value)
 
-  const saveWeekClass = {}
-  saveWeekClass.course = props.NewWeekClass.course //透過v-model帶進來的整個課程資料
-  saveWeekClass.startTime = dayjs(range.value.start).format('YYYY-MM-DD HH:mm')
-  saveWeekClass.endTime = dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
-  // console.log('我是要新增的課程', saveWeekClass)
+  let { id: courseID, ...classInfo } = newCourse.value
+  const saveClass = {
+    ...classInfo,
+    courseID,
+    startTime: dayjs(range.value.start).format('YYYY-MM-DD HH:mm'),
+    endTime: dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
+  }
+  // console.log('我是要新增的課程(week)', saveClass)
 
-  EventStore.addNewClass(saveWeekClass)
-  props.NewWeekClass.course = ''
+  EventStore.addNewClass(saveClass)
   emits('closePopup')
 }
 
@@ -84,7 +88,15 @@ onMounted(() => {
       <!-- 選擇課程 -->
       <div class="mb-6" v-if="classData">
         <label for="course" class="mb-2 block">選擇課程</label>
-        <select
+        <SelectDropdown
+          :identity-list="classData"
+          @send="
+            async (res) => {
+              newCourse = res
+            }
+          "
+        />
+        <!-- <select
           id="course"
           class="block w-full rounded-lg border bg-gray-50 p-2 focus:outline-none focus:ring-1 focus:ring-third"
           required
@@ -93,7 +105,7 @@ onMounted(() => {
           <option v-for="(course, index) in classData" :key="index" :value="course">
             {{ course.name }}
           </option>
-        </select>
+        </select> -->
       </div>
 
       <!-- 時間設定 -->
@@ -110,20 +122,13 @@ onMounted(() => {
         <!-- :is24hr="true" -->
       </div>
 
-      <!-- 儲存/取消zzzzz -->
+      <!-- 儲存 -->
       <div class="flex gap-3">
         <button
           type="submit"
           class="mx-auto block w-32 rounded-lg bg-secondary py-2 transition-all hover:bg-third active:scale-90"
         >
           儲存
-        </button>
-        <button
-          type="button"
-          class="mx-auto block w-32 rounded-lg border-2 border-secondary py-2 transition-all hover:bg-third active:scale-90"
-          @click="clearForm"
-        >
-          清除
         </button>
       </div>
     </form>

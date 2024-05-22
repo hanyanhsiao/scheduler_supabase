@@ -78,7 +78,7 @@ const saveNewClass = () => {
     startTime: dayjs(range.value.start).format('YYYY-MM-DD HH:mm'),
     endTime: dayjs(range.value.end).format('YYYY-MM-DD HH:mm')
   }
-  // console.log('我是要新增的課程', saveClass)
+  // console.log('我是要新增的課程(月)', saveClass)
 
   EventStore.addNewClass(saveClass)
   emits('closePopup')

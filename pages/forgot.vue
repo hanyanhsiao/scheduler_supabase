@@ -60,7 +60,7 @@ const validateEmail = () => {
             <div class="my-4 flex flex-col items-center justify-center gap-4">
               <button
                 :disabled="loading || emailValidation !== ''"
-                class="text-md my-2 w-28 rounded-lg bg-secondary py-2 font-bold hover:cursor-pointer hover:bg-third"
+                class="text-md my-2 w-32 rounded-md bg-secondary py-2 hover:cursor-pointer hover:bg-third hover:text-white"
                 type="submit"
               >
                 <span>送出email</span>

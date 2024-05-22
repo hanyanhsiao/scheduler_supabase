@@ -105,20 +105,20 @@ const toggleSidebar = () => {
       <NuxtLink
         to="/"
         :class="{ 'active-link': $route.path === '/' }"
-        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
+        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary active:scale-90 sm:text-center"
         >課程清單</NuxtLink
       >
       <NuxtLink
         to="/Qalendar"
         :class="{ 'active-link': $route.path === '/Qalendar' }"
-        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
+        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary active:scale-90 sm:text-center"
         @click="getNewEventsData"
         >安排日期與時間</NuxtLink
       >
       <NuxtLink
         to="/table"
         :class="{ 'active-link': $route.path === '/table' }"
-        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
+        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary active:scale-90 sm:text-center"
         @click="getNewEventsData"
         >已排課程總覽</NuxtLink
       >
@@ -126,14 +126,14 @@ const toggleSidebar = () => {
         v-if="store.id"
         to="/profile"
         :class="{ 'active-link': $route.path === '/profile' }"
-        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
+        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary active:scale-90 sm:text-center"
         >會員專區</NuxtLink
       >
       <NuxtLink
         v-else
         to="/login"
         :class="{ 'active-link': $route.path === '/login' }"
-        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary hover:text-third active:scale-90 sm:text-center"
+        class="flex transform rounded-md px-2 py-3 transition-all hover:bg-primary active:scale-90 sm:text-center"
         >登入 / 註冊</NuxtLink
       >
     </section>
@@ -148,7 +148,7 @@ const toggleSidebar = () => {
       </div>
       <button
         v-if="store.id"
-        class="w-full rounded-md bg-secondary p-2 hover:bg-third"
+        class="w-full rounded-md bg-secondary p-2 hover:bg-third hover:text-white"
         @click="signOut"
       >
         登出

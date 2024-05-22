@@ -368,7 +368,7 @@ function resizedTime(event) {
 
         <button
           type="submit"
-          class="h-10 w-48 self-end rounded-lg border border-third bg-primary px-2 font-bold transition-all hover:bg-secondary active:scale-90 sm:mt-2 sm:w-full"
+          class="h-10 w-48 self-end rounded-md border border-third bg-primary px-2 transition-all hover:bg-secondary active:scale-90 sm:mt-2 sm:w-full"
           @click="search"
         >
           篩選
