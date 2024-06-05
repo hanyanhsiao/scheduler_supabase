@@ -95,14 +95,14 @@ onMounted(async () => {
         <!-- <input type="file" @change="Upload($event)" /> -->
         <!-- <button @click="download">按我</button> -->
       </div>
-      <div class="flex flex-col items-center justify-center gap-5">
-        <div class="w-full max-w-[400px] items-center justify-center">
-          <p class="font-bold">Name:</p>
-          <span class="text-third">{{ store.name }}</span>
+      <div class="mt-5 flex flex-col items-center justify-center gap-5">
+        <div class="flex w-full max-w-[300px] items-center justify-start">
+          <p class="flex">Name:</p>
+          <span class="flex font-bold text-third">&nbsp; {{ store.name }}</span>
         </div>
-        <div class="w-full max-w-[400px] items-center justify-center">
-          <p class="font-bold">Email:</p>
-          <span class="text-third">{{ store.email }}</span>
+        <div class="flex w-full max-w-[300px] items-center justify-start">
+          <p class="flex">Email:&nbsp;</p>
+          <span class="font-bold text-third">&nbsp; {{ store.email }}</span>
         </div>
       </div>
     </div>
