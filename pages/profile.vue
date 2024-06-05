@@ -97,11 +97,11 @@ onMounted(async () => {
       </div>
       <div class="mt-5 flex flex-col items-center justify-center gap-5">
         <div class="flex w-full max-w-[300px] items-center justify-start">
-          <p class="flex">Name:</p>
+          <p class="flex">Name：</p>
           <span class="flex font-bold text-third">&nbsp; {{ store.name }}</span>
         </div>
         <div class="flex w-full max-w-[300px] items-center justify-start">
-          <p class="flex">Email:&nbsp;</p>
+          <p class="flex">Email：&nbsp;</p>
           <span class="font-bold text-third">&nbsp; {{ store.email }}</span>
         </div>
       </div>

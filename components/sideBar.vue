@@ -138,14 +138,14 @@ const toggleSidebar = () => {
       >
     </section>
 
-    <!-- <section class="flex flex-col gap-4">
-      <div class="border-2 border-secondary p-3">
+    <section class="flex flex-col gap-4">
+      <!-- <div class="border-2 border-secondary p-3">
         登入資訊
         <p class="font-bold">Name:</p>
         <span class="text-third">{{ store.name }}</span>
         <p class="font-bold">Email:</p>
         <span class="text-third">{{ store.email }}</span>
-      </div>
+      </div> -->
       <button
         v-if="store.id"
         class="w-full rounded-md bg-secondary p-2 hover:bg-third hover:text-white"
@@ -153,7 +153,7 @@ const toggleSidebar = () => {
       >
         登出
       </button>
-    </section> -->
+    </section>
   </aside>
 </template>
 <style scoped>
