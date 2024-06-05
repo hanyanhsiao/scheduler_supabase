@@ -2,14 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 捲軸本體顏色 */
+::-webkit-scrollbar-thumb {
+  background-color: #fed7aa;
+}
 
+/* 一定要寫寬!!!!!!!!!!!!! */
+::-webkit-scrollbar {
+  width: 2px;
+}
 
+::-webkit-scrollbar-track {
+  background: #fffbeb;
+}
 
-
-
-/* 
-@layer utilities{
-  .vc-time-picker{
-    padding: 8px 40px ;
-  }
+/* ::-webkit-scrollbar-thumb:hover {
+  background: #fb923c;
 } */

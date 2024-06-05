@@ -257,22 +257,4 @@ const gradeColor = (grade) => {
   </div>
 </template>
 
-<style scoped>
-/* 捲軸本體顏色 */
-::-webkit-scrollbar-thumb {
-  background-color: #fed7aa;
-}
-
-/* 一定要寫寬!!!!!!!!!!!!! */
-::-webkit-scrollbar {
-  width: 2px;
-}
-
-::-webkit-scrollbar-track {
-  background: #fffbeb;
-}
-
-/* ::-webkit-scrollbar-thumb:hover {
-  background: #fb923c;
-} */
-</style>
+<style></style>

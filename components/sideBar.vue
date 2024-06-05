@@ -91,7 +91,7 @@ const toggleSidebar = () => {
 
   <!-- 側邊欄 -->
   <aside
-    class="z-20 flex h-screen min-w-[250px] translate-x-0 flex-col justify-between space-y-5 bg-white p-5 align-bottom transition-transform sm:-translate-x-full"
+    class="flex h-screen min-w-[250px] translate-x-0 flex-col justify-between space-y-5 bg-white p-5 align-bottom transition-transform sm:z-20 sm:-translate-x-full"
     :class="{ ' sm:translate-x-0': isSidebarOpen }"
   >
     <section class="flex flex-col gap-4">
@@ -138,8 +138,8 @@ const toggleSidebar = () => {
       >
     </section>
 
-    <section class="flex flex-col gap-4">
-      <div class="p=3 border-2 border-secondary p-3">
+    <!-- <section class="flex flex-col gap-4">
+      <div class="border-2 border-secondary p-3">
         登入資訊
         <p class="font-bold">Name:</p>
         <span class="text-third">{{ store.name }}</span>
@@ -153,7 +153,7 @@ const toggleSidebar = () => {
       >
         登出
       </button>
-    </section>
+    </section> -->
   </aside>
 </template>
 <style scoped>

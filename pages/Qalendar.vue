@@ -290,11 +290,11 @@ function resizedTime(event) {
 </script>
 
 <template>
-  <div class="flex w-full">
+  <div class="relative flex h-screen w-full overflow-y-hidden">
     <sideBar />
 
     <!-- 右側日曆 -->
-    <section class="relative w-full overflow-y-auto bg-bgGray p-6 sm:absolute">
+    <section class="h-full w-full overflow-y-auto bg-bgGray p-6 sm:absolute">
       <!-- 上方篩選 -->
       <div class="mb-6 flex gap-6 sm:mt-10 sm:flex-wrap sm:gap-3" v-if="eventData">
         <!-- 選擇老師 -->
@@ -389,41 +389,41 @@ function resizedTime(event) {
         @event-was-resized="resizedTime"
       >
       </Qalendar>
-
-      <!-- 遮罩 -->
-      <div
-        class="absolute bottom-0 left-0 top-0 h-full w-full bg-black/30"
-        v-if="togglePopup || toggleAddClassPopup || weekDayPopup"
-        @click="closeIfMask($event)"
-      >
-        <!-- 修改時間彈窗 -->
-        <div class="z-50 rounded-md bg-white" v-if="togglePopup">
-          <motifyTime
-            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            @closePopup="close"
-            :currentTime="currentTime"
-          />
-        </div>
-
-        <!-- 新增課程至日曆彈窗(月) -->
-        <div class="z-50 rounded-md bg-white" v-if="toggleAddClassPopup">
-          <addOnMonth
-            class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-            @closePopup="close"
-            :NewClass="NewClass"
-          />
-        </div>
-
-        <!-- 新增課程至日曆彈窗(週跟日) -->
-        <div class="z-50 rounded-md" v-if="weekDayPopup">
-          <addOnWeekAndDay
-            class="fixed left-1/2 top-1/2 -translate-x-1/4 -translate-y-1/2 sm:absolute sm:top-1/4 sm:-translate-x-1/2"
-            @closePopup="close"
-            :NewWeekClass="NewWeekClass"
-          />
-        </div>
-      </div>
     </section>
+
+    <!-- 遮罩 -->
+    <div
+      class="absolute bottom-0 left-0 top-0 h-full w-full border-2 border-black bg-black/30"
+      v-if="togglePopup || toggleAddClassPopup || weekDayPopup"
+      @click="closeIfMask($event)"
+    >
+      <!-- 修改時間彈窗 -->
+      <div class="z-50 rounded-md bg-white" v-if="togglePopup">
+        <motifyTime
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          @closePopup="close"
+          :currentTime="currentTime"
+        />
+      </div>
+
+      <!-- 新增課程至日曆彈窗(月) -->
+      <div class="z-50 rounded-md bg-white" v-if="toggleAddClassPopup">
+        <addOnMonth
+          class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+          @closePopup="close"
+          :NewClass="NewClass"
+        />
+      </div>
+
+      <!-- 新增課程至日曆彈窗(週跟日) -->
+      <div class="z-50 rounded-md" v-if="weekDayPopup">
+        <addOnWeekAndDay
+          class="fixed left-1/2 top-1/2 -translate-x-1/4 -translate-y-1/2 sm:absolute sm:top-1/4 sm:-translate-x-1/2"
+          @closePopup="close"
+          :NewWeekClass="NewWeekClass"
+        />
+      </div>
+    </div>
   </div>
 </template>
 

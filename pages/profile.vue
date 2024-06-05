@@ -54,6 +54,22 @@ const Upload = async ($event) => {
 //     console.error(error)
 //   }
 // }
+
+onMounted(async () => {
+  // 用戶狀態變更事件
+  // 第一個參數是事件名稱，第二個參數則是重要的登入狀態session
+  supabase.auth.onAuthStateChange((_, session) => {
+    if (session === null) return
+    const userData = session.user.user_metadata
+    // console.log('user資料:', session.user)
+    // console.log('photo:', userData.avatar_url)
+
+    store.id = session.user.id
+    store.email = session.user.email
+    store.name = userData.name
+    store.photo = userData.avatar_url
+  })
+})
 </script>
 
 <template>
@@ -62,9 +78,11 @@ const Upload = async ($event) => {
     <sideBar />
 
     <!-- 右側 -->
-    <div class="flex h-screen w-full justify-center overflow-y-auto bg-bgGray p-6 sm:absolute">
-      <!-- 顯示大頭貼 -->
-      <div class="flex-col items-center justify-center">
+    <div
+      class="it flex h-screen w-full flex-col justify-start overflow-y-auto bg-bgGray p-6 sm:absolute"
+    >
+      <!-- 大頭貼 -->
+      <div class="flex items-center justify-center">
         <div v-if="avatarUrl">
           <img :src="avatarUrl" class="mb-4 h-24 w-24 rounded-full" />
         </div>
@@ -76,6 +94,16 @@ const Upload = async ($event) => {
         <!-- 通常應該使用 @change 事件，因為文件選擇應該在文件選擇時觸發，而不是單擊時。 -->
         <!-- <input type="file" @change="Upload($event)" /> -->
         <!-- <button @click="download">按我</button> -->
+      </div>
+      <div class="flex flex-col items-center justify-center gap-5">
+        <div class="w-full max-w-[400px] items-center justify-center">
+          <p class="font-bold">Name:</p>
+          <span class="text-third">{{ store.name }}</span>
+        </div>
+        <div class="w-full max-w-[400px] items-center justify-center">
+          <p class="font-bold">Email:</p>
+          <span class="text-third">{{ store.email }}</span>
+        </div>
       </div>
     </div>
   </div>
