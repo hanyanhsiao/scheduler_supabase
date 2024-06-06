@@ -69,7 +69,8 @@ let headerId
 const headerList = headers.value.map((header) => {
   return {
     id: headerId++,
-    name: header.text
+    name: header.text,
+    value: header.value
   }
 })
 headerList.unshift({ id: 0, name: '全部' })
@@ -101,7 +102,6 @@ function sortColums(what) {
             :identity-list="headerList"
             @send="
               async (res) => {
-                console.log('選擇搜尋欄位', res)
                 searchField = res?.value
               }
             "
