@@ -393,7 +393,7 @@ function resizedTime(event) {
 
     <!-- 遮罩 -->
     <div
-      class="absolute bottom-0 left-0 top-0 h-full w-full border-2 border-black bg-black/30"
+      class="absolute bottom-0 left-0 top-0 h-full w-full bg-black/30"
       v-if="togglePopup || toggleAddClassPopup || weekDayPopup"
       @click="closeIfMask($event)"
     >
