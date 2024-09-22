@@ -10,7 +10,7 @@ export const useQalendarData = defineStore('qalendarData', {
     // const config = useRuntimeConfig()
     // const apiURL = config.public.apiBase
     const apiBase = 'https://jjbirjsxkllscyhxlogk.supabase.co/rest/v1'
-    const apiKey = process.env.APIKEY
+    const apiKey = process.env.API_KEY
     const eventData = []
     return {
       eventData,
